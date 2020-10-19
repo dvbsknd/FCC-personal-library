@@ -8,7 +8,7 @@ module.exports = {
   mode: 'development',
   devServer: {
     historyApiFallback: true,
-    contentBase: path.resolve(__dirname, './public'),
+    contentBase: path.resolve(__dirname, './public/build'),
     publicPath: '/',
     open: true,
     compress: true,
@@ -19,38 +19,17 @@ module.exports = {
     site: path.resolve(__dirname, './client/index.js')
   },
   output: {
-    path: path.resolve(__dirname, './public'),
+    path: path.resolve(__dirname, './public/build'),
     filename: '[name].bundle.js'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       title: 'Macro Tracker',
-      template: path.resolve(__dirname, './client/template.html'),
+      template: path.resolve(__dirname, './client/index.html'),
       filename: 'index.html'
     }),
-    new CleanWebpackPlugin(),
-    new ImageMinimizerPlugin({
-      minimizerOptions: {
-        // Lossless optimization with custom option
-        // Feel free to experiment with options for better result for you
-        plugins: [
-          ['gifsicle', { interlaced: true }],
-          ['jpegtran', { progressive: true }],
-          ['optipng', { optimizationLevel: 5 }],
-          [
-            'svgo',
-            {
-              plugins: [
-                {
-                  removeViewBox: false,
-                },
-              ],
-            },
-          ],
-        ],
-      },
-    })
+    new CleanWebpackPlugin()
   ],
   module: {
     rules: [
@@ -63,7 +42,7 @@ module.exports = {
       // CSS, PostCSS, and Sass
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       // Images
       {
