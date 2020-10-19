@@ -7,24 +7,20 @@ const helmet = require('helmet');
 const router = require('./routes');
 
 // Common middleware
-app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
-  directives:{
-    defaultSrc:["'self'"],
-    scriptSrc:["'self'",'code.jquery.com','maxcdn.bootstrapcdn.com','cdnjs.cloudflare.com'],
-    styleSrc:["'self'",'maxcdn.bootstrapcdn.com'],
-    fontSrc:["'self'",'maxcdn.bootstrapcdn.com']}}));
+  directives: { 
+    scriptSrc: ['unsafe-eval'],
+    imageSrc: ["'self'", "data:"],
+    defaultSrc: ["'self'"]
+  }
+}));
 app.use(express.urlencoded({ extended: true }));
 
-// View engine (app-wide)
-app.set('views', __dirname + '/views/');
-app.set('view engine', 'ejs');
-
 // Static assets
-app.use(express.static('public'));
+app.use(express.static('public/build'));
 
 // Client and API Routers
-app.use('/', router);
+// app.use('/', router);
 
 const listener = app.listen(port || 3000, () => {
   console.log("Listening on port", listener.address().port);

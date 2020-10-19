@@ -44,11 +44,12 @@ Development steps are documented here for tracking and articulating progress:
 1. Getting set-up with and learning Webpack basics
 1. Setting up a [Webpack dev server](https://github.com/webpack/webpack-dev-server)
 1. Add a `dev:client` script to start the Webpack dev server
+1. Get rid of PostCSS and other redundant Webpack configs
+1. Serve an emoji favicon
+1. Get rid of the EJS static page renders and Bootstrap
 
 ### Todo
 
-1. Get rid of PostCSS and other redundant Webpack configs
-1. Get rid of the EJS static page renders and Bootstrap
 1. Set-up the API development environment
 1. Configure Express to serve the static client files when required
 1. Create an API `dev:api` script to run client and API in parallel
