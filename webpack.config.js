@@ -25,7 +25,7 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Macro Tracker',
+      title: 'Personal Library',
       template: path.resolve(__dirname, './client/index.html'),
       filename: 'index.html'
     }),
@@ -53,7 +53,7 @@ module.exports = {
       {
         test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
         type: 'asset/inline',
-      }
+      },
     ]
   }
 }
