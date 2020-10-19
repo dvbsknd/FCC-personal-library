@@ -1,10 +1,6 @@
-# Macro Tracker
+# Personal Library
 
-This is a personal project which I've decided to undertake in lieu of the three final challenges for freeCodeCamp's [Quality Assurance Projects](https://www.freecodecamp.org/learn/quality-assurance/quality-assurance-projects/issue-tracker) certification. 
-
-I would ideally like to complete the modules as presented, however their quality is really poor and I can't quite bring myself to walk through them just for the sake of getting the tick of approval. Instead, I've decided to build something using the same concepts and tools they are intended to teach, but it'll be something I'm actually likely to use and I'll push things further to build a more full-featured solution. 
-
-I _will_ submit this project as to freeCodeCamp in order to receive the qualification, which at the time of writing can be done by supplying literally any URL at all—not exactly rigorous.
+This is a project/challenage from freeCodeCamp's [Quality Assurance Projects](https://www.freecodecamp.org/learn/quality-assurance/quality-assurance-projects/issue-tracker) certification. 
 
 ## Services & Architecture
 
@@ -12,7 +8,7 @@ The project depends on a remotely-visible instance of the app to be served to su
 
 A key focus of the freeCodeCamp module is testing, so thorough unit and integration tests will be written along the way.
 
-As with the challenge [preceding this one](https://github.com/dvbsknd/FCC-issue-tracker) I'll try and work towards an MVC-ish architecture, with controllers being Express- and MongoDB-agnostic. Unlike with that challenge, I'll be using `Promises` rather than callbacks wherever possible. In future challenges I'll move to `async/await`.
+As with the challenge [preceding this one](https://github.com/dvbsknd/FCC-issue-tracker) I'll try and work towards an MVC-ish architecture, with controllers being Express- and MongoDB-agnostic. Unlike with that challenge, I'll be using `Promises` rather than callbacks wherever possible. In future challenges I'll move to `async/await`. I'll also build the front-end with React in order to get some exposure to that and it's build-chain using [Webpack](https://webpack.js.org/).
 
 ## Local Development
 
@@ -47,6 +43,7 @@ Development steps are documented here for tracking and articulating progress:
 1. Initialise the repo and add some basic framework
 1. Getting set-up with and learning Webpack basics
 1. Setting up a [Webpack dev server](https://github.com/webpack/webpack-dev-server)
+1. Add a `dev:client` script to start the Webpack dev server
 
 ### Todo
 
