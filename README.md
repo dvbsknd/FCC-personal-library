@@ -47,6 +47,7 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Get rid of PostCSS and other redundant Webpack configs
 1. Get rid of the EJS static page renders and Bootstrap
 1. Set-up the API development environment
 1. Configure Express to serve the static client files when required
