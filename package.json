@@ -4,11 +4,11 @@
   "description": "A simple macro/food logger for personal use.",
   "main": "server.js",
   "scripts": {
+    "test": "export $(cat .env | xargs) && NODE_ENV=test npx mocha tests",
     "start": "node server.js",
     "dev:api": "export $(cat .env | xargs) && npx nodemon server.js",
-    "dev:client": "webpack serve",
-    "test": "export $(cat .env | xargs) && NODE_ENV=test npx mocha tests",
-    "build": "webpack"
+    "dev:client": "webpack serve --mode development",
+    "build:client": "webpack --mode production"
   },
   "repository": {
     "type": "git",

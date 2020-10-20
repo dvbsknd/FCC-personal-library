@@ -5,7 +5,6 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-  mode: 'development',
   devServer: {
     historyApiFallback: true,
     contentBase: path.resolve(__dirname, './public/build'),
