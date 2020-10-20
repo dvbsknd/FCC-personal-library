@@ -56,6 +56,7 @@ Development steps are documented here for tracking and articulating progress:
 ### Todo
 
 1. Add functional and unit tests for the API
+1. Make tests add/remove dummy data to the database
 1. Document the local development environment and scripts
 1. Document the deployment process
 1. Find out how to test React components
