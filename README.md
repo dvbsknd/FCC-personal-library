@@ -47,10 +47,11 @@ Development steps are documented here for tracking and articulating progress:
 1. Get rid of PostCSS and other redundant Webpack configs
 1. Serve an emoji favicon
 1. Get rid of the EJS static page renders and Bootstrap
+1. Set up a production build script for webpack
+1. Solve various CSP/Helmet issues
+1. Set-up the API development environment
 
 ### Todo
 
-1. Set-up the API development environment
-1. Configure Express to serve the static client files when required
 1. Create an API `dev:api` script to run client and API in parallel
 1. Stub out an API get endpoint to give data to the SPA

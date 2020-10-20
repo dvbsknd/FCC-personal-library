@@ -2,15 +2,18 @@
 
 const express = require('express');
 const router = express.Router();
+const {
+  booksController
+} = require('../controllers');
 
-// Index page
-router.get('/', (req, res) => {
-  res.render('index', { err: false, data: 'Hello world' });
-});
+router.route('/books')
+  .get((req, res, next) => {
+    booksController.list().then(res.json).catch(next);
+  });
 
 // Unmatched routes
 router.use((req, res) => {
-  res.resolve('Unknown route');
+  res.json({ error: 'Unknown route'});
 });
 
 module.exports = router;

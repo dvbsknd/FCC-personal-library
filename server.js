@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public/build'));
 
 // Client and API Routers
-// app.use('/', router);
+app.use('/api', router);
 
 const listener = app.listen(port || 3000, () => {
   console.log("Listening on port", listener.address().port);
