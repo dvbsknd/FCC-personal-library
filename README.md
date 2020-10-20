@@ -50,8 +50,10 @@ Development steps are documented here for tracking and articulating progress:
 1. Set up a production build script for webpack
 1. Solve various CSP/Helmet issues
 1. Set-up the API development environment
+1. Add some basic error handling for the API
 
 ### Todo
 
+1. Add a database and a Books model
 1. Create an API `dev:api` script to run client and API in parallel
 1. Stub out an API get endpoint to give data to the SPA
