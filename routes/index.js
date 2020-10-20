@@ -17,12 +17,14 @@ router.use((req, res, next) => {
 
 router.route('/books')
   .get((req, res, next) => {
-    booksController.list().then(res.json).catch(res.error);
+    booksController.list()
+      .then(result => res.json(result))
+      .catch(res.error);
   });
 
 // Unmatched routes
 router.use((req, res) => {
-  res.json({ error: 'Unknown route'});
+  res.error({ error: 'Unknown route'});
 });
 
 module.exports = router;
