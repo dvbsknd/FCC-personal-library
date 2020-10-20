@@ -7,9 +7,8 @@ module.exports.booksController = {
   list: function () {
     return new Promise((resolve, reject) => {
       books.get()
-        .then(collection => {
-          collection.find().toArray().then(resolve);
-        })
+        .then(collection => collection.find().toArray())
+        .then(resolve)
         .catch(reject);
     });
   }

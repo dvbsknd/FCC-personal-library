@@ -18,7 +18,9 @@ router.use((req, res, next) => {
 router.route('/books')
   .get((req, res, next) => {
     booksController.list()
-      .then(result => res.json(result))
+      .then(result => {
+        res.json(result);
+      })
       .catch(res.error);
   });
 
