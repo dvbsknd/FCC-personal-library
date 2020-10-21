@@ -52,10 +52,11 @@ Development steps are documented here for tracking and articulating progress:
 1. Set-up the API development environment
 1. Add some basic error handling for the API
 1. Add a database and a Books model
+1. Add a "create" endpoint
+1. Add functional and unit tests for the API
 
 ### Todo
 
-1. Add functional and unit tests for the API
 1. Make tests add/remove dummy data to the database
 1. Document the local development environment and scripts
 1. Document the deployment process

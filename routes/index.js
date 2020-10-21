@@ -15,12 +15,17 @@ router.use((req, res, next) => {
   next();
 });
 
+router.use(express.json());
+
 router.route('/books')
   .get((req, res, next) => {
     booksController.list()
-      .then(result => {
-        res.json(result);
-      })
+      .then(result => res.json(result))
+      .catch(res.error);
+  })
+  .post((req, res, next) => {
+    booksController.add(req.body.title, req.body.author)
+      .then(result => res.json(result))
       .catch(res.error);
   });
 
