@@ -57,6 +57,10 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Create a front-end for adding books
+1. Use [Semantic UI](https://react.semantic-ui.com/elements/input/) to style the components
+1. Allow adding of comments to a specific book
+1. Return a comment count for each book
 1. Make tests add/remove dummy data to the database
 1. Document the local development environment and scripts
 1. Document the deployment process
