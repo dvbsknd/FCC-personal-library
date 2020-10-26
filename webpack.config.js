@@ -18,7 +18,10 @@ module.exports = {
     }
   },
   entry: {
-    site: path.resolve(__dirname, './client/index.js')
+    site: [
+      './client/index.js',
+      './client/index.scss'
+    ]
   },
   output: {
     path: path.resolve(__dirname, './public/build'),

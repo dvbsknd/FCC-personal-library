@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from 'semantic-ui-react';
-import './styles.scss';
+import { Container, Header } from 'semantic-ui-react';
 import BookList from '../BookList'
 
 export default function App() {
@@ -18,6 +17,7 @@ export default function App() {
 
   return (
     <Container>
+      <Header as='h1'>My Books</Header>
       { loading ? (<p>Loading...</p>) : (<BookList books={data} />) }
     </Container>
   );
