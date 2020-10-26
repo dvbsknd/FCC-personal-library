@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container } from 'semantic-ui-react';
 import './styles.scss';
 import BookList from '../BookList'
 
@@ -16,8 +17,8 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <Container>
       { loading ? (<p>Loading...</p>) : (<BookList books={data} />) }
-    </>
+    </Container>
   );
 };

@@ -33,7 +33,9 @@
     "helmet": "^4.1.1",
     "mongodb": "^3.6.2",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.1",
