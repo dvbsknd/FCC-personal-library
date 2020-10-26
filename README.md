@@ -54,11 +54,12 @@ Development steps are documented here for tracking and articulating progress:
 1. Add a database and a Books model
 1. Add a "create" endpoint
 1. Add functional and unit tests for the API
+1. Render books from the API
 
 ### Todo
 
-1. Create a front-end for adding books
 1. Use [Semantic UI](https://react.semantic-ui.com/elements/input/) to style the components
+1. Create a front-end for adding books
 1. Allow adding of comments to a specific book
 1. Return a comment count for each book
 1. Make tests add/remove dummy data to the database

@@ -1,7 +1,15 @@
-$font-size: 1.2rem;
-$font-color: #009;
+// Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
 
+// Font Variables
+$body-font: 'Inconsolata', monospace;
+
+// Styles
 html {
-  font-size: $font-size;
-  color: $font-color;
+  font-family: $body-font;
+  font-weight: 400;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: $body-font;
+  font-weight: 700;
 }
