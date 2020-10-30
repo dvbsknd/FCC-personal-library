@@ -33,7 +33,6 @@ describe('<App>', () => {
       ReactDOM.render(<App />, container);
     });
 
-    console.log(container);
     const header = container.querySelector('h1.header');
     expect(header.textContent).to.equal('My Books');
   });
