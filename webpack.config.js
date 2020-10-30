@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -34,7 +34,11 @@ module.exports = {
       template: path.resolve(__dirname, './client/index.html'),
       filename: 'index.html'
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    }),
   ],
   module: {
     rules: [
@@ -44,10 +48,16 @@ module.exports = {
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
-      // CSS, PostCSS, and Sass
+      // SASS
       {
-        test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.s?css$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader,
+            options: { publicPath: '' },
+          },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
+        ],
       },
       // Images
       {
