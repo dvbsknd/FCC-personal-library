@@ -1,7 +1,7 @@
 {
-  "name": "macro-tracker",
+  "name": "personal-library",
   "version": "1.0.0",
-  "description": "A simple macro/food logger for personal use.",
+  "description": "A freeCodeCamp project",
   "main": "server.js",
   "scripts": {
     "test": "npm run test:client && npm run test:api",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dvbsknd/macro-tracker.git"
+    "url": "git+https://github.com/dvbsknd/FCC-personal-library.git"
   },
   "keywords": [
     "react",
@@ -26,9 +26,9 @@
   "author": "@dvbsknd",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dvbsknd/macro-tracker/issues"
+    "url": "https://github.com/dvbsknd/FCC-personal-library/issues"
   },
-  "homepage": "https://github.com/dvbsknd/macro-tracker#readme",
+  "homepage": "https://github.com/dvbsknd/FCC-personal-library#readme",
   "dependencies": {
     "ejs": "^3.1.5",
     "express": "^4.17.1",
@@ -51,6 +51,7 @@
     "css-loader": "^5.0.0",
     "eslint": "^7.10.0",
     "eslint-plugin-ejs": "0.0.2",
+    "fetch-mock": "^9.10.7",
     "html-loader": "^1.3.2",
     "html-webpack-plugin": "^4.5.0",
     "image-minimizer-webpack-plugin": "^1.0.0",
@@ -60,6 +61,7 @@
     "imagemin-svgo": "^8.0.0",
     "jsdom": "^16.4.0",
     "mocha": "^8.1.3",
+    "node-fetch": "^2.6.1",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
     "postcss-loader": "^4.0.4",
