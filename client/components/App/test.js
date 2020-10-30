@@ -4,8 +4,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const { act } = require('react-dom/test-utils');
 const { JSDOM } = require("jsdom");
-const dom = new JSDOM(``);
-const fetch = require('node-fetch');
+const dom = new JSDOM(``, { url: "https://test.dev/", });
 const fetchMock = require('fetch-mock');
 const expect = require('chai').expect;
 import App from './';
@@ -14,18 +13,18 @@ describe('<App>', () => {
 
   let container;
   global.window = dom.window;
-  let document = window.document;
-  global.fetch = fetch;
 
   beforeEach(() => {
-    container = document.createElement('div');
+    fetchMock.mock('/api/books', [{ _id: '^69^', title: 'Test', author: 'me'}]);
+    container = dom.window.document.createElement('div');
     container.setAttribute('id', 'root');
-    document.body.appendChild(container);
+    dom.window.document.body.appendChild(container);
   });
 
   afterEach(() => {
-    document.body.removeChild(container);
+    dom.window.document.body.removeChild(container);
     container = null;
+    fetchMock.restore();
   });
 
   it('Renders the main App component and site title',() => {
@@ -33,7 +32,9 @@ describe('<App>', () => {
     act(() => {
       ReactDOM.render(<App />, container);
     });
+
+    console.log(container);
     const header = container.querySelector('h1.header');
-    expect(header.textContent).toBe('My Books');
+    expect(header.textContent).to.equal('My Books');
   });
 });

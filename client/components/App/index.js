@@ -7,8 +7,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('HOST', window.location.host);
-    fetch(window.location.host + '/api/books')
+    fetch('/api/books')
       .then(response => response.json())
       .then(data => {
         setData(data);
