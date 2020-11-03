@@ -39,4 +39,6 @@ describe('<App>', () => {
     const header = container.querySelector('h1.header');
     expect(header.textContent).to.equal('My Books');
   });
+  it('Shows a loading indicator while waiting for data');
+  it('Shows the BookList component once data is fetched');
 });
