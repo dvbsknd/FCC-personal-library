@@ -52,11 +52,10 @@ module.exports = {
       {
         test: /\.s?css$/,
         use: [
-          { loader: MiniCssExtractPlugin.loader,
-            options: { publicPath: '' },
-          },
-          { loader: 'css-loader' },
-          { loader: 'sass-loader' },
+          // Fallback to style-loader in development
+          process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
         ],
       },
       // Images
