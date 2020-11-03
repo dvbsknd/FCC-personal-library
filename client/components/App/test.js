@@ -7,6 +7,9 @@ const { JSDOM } = require("jsdom");
 const dom = new JSDOM(``, { url: "https://test.dev/", });
 const fetchMock = require('fetch-mock');
 const expect = require('chai').expect;
+
+// We have to use an import because components are
+// exported using ES6 modules
 import App from './';
 
 describe('<App>', () => {
