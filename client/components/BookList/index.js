@@ -8,8 +8,8 @@ export default function BookList(props) {
         return (
           <Card key={book._id}>
             <Card.Content>
-              <Card.Header>{book.title}</Card.Header>
-              <Card.Meta>{book.author}</Card.Meta>
+              <Card.Header className='bookTitle'>{book.title}</Card.Header>
+              <Card.Meta className='bookAuthor'>{book.author}</Card.Meta>
             </Card.Content>
           </Card>
         )
