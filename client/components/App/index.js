@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Header, Loader } from 'semantic-ui-react';
+import {
+  Container,
+  Header,
+  Loader,
+  Divider } from 'semantic-ui-react';
 import BookList from '../BookList'
 import AddBookForm from '../AddBookForm'
 
@@ -20,6 +24,7 @@ export default function App() {
     <Container>
       <Header as='h1'>My Books</Header>
       { loading ? (<Loader active inline='centered' size='medium' />) : (<BookList books={data} />) }
+      <Divider hidden />
       <AddBookForm />
     </Container>
   );
