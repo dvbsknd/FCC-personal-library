@@ -18,7 +18,7 @@ describe('<App>', () => {
   global.window = dom.window;
 
   beforeEach(() => {
-    fetchMock.mock('/api/books', [{ _id: '^69^', title: 'Test', author: 'me'}]);
+    fetchMock.mock('/api/books', [{ _id: '5f8fa8dc74e0e8daa000ef56', title: 'Test', author: 'me'}]);
     container = dom.window.document.createElement('div');
     container.setAttribute('id', 'root');
     dom.window.document.body.appendChild(container);
