@@ -95,6 +95,7 @@ Development steps are documented here for tracking and articulating progress:
 1. Render books from the API
 1. Use [Semantic UI](https://react.semantic-ui.com/elements/input/) to style the components
 1. Set up a test framework for React components
+1. Create a form for adding new books
 
 ### Todo
 
