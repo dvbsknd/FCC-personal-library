@@ -10,6 +10,7 @@ import AddBookForm from '../AddBookForm'
 export default function App() {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
+  const formSubmit = (e) => console.log(e.target);
 
   useEffect(() => {
     fetch('/api/books')
@@ -25,7 +26,7 @@ export default function App() {
       <Header as='h1'>My Books</Header>
       { loading ? (<Loader active inline='centered' size='medium' />) : (<BookList books={data} />) }
       <Divider hidden />
-      <AddBookForm />
+      <AddBookForm data={data} setData={setData}/>
     </Container>
   );
 };
