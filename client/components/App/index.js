@@ -24,7 +24,7 @@ export default function App() {
   return (
     <Container>
       <Header as='h1'>My Books</Header>
-      { loading ? (<Loader active inline='centered' size='medium' />) : (<BookList books={data} />) }
+      { loading ? (<Loader active inline='centered' size='medium'>Fetching data...</Loader>) : (<BookList books={data} />) }
       <Divider hidden />
       <AddBookForm data={data} setData={setData} />
     </Container>
