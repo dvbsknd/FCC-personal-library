@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Header, Loader } from 'semantic-ui-react';
+import {
+  Container,
+  Header,
+  Loader,
+  Divider } from 'semantic-ui-react';
 import BookList from '../BookList'
 import AddBookForm from '../AddBookForm'
 
