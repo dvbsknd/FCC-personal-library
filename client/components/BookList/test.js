@@ -1,10 +1,7 @@
 'use strict';
 
 const React = require('react');
-const ReactDOM = require('react-dom');
-const { act } = require('react-dom/test-utils');
-const { JSDOM } = require("jsdom");
-const dom = new JSDOM(``, { url: "https://test.dev/", });
+const { render } = require('@testing-library/react');
 const expect = require('chai').expect;
 
 // We have to use an import because components are
@@ -13,35 +10,28 @@ import BookList from './';
 
 describe('<BookList>', () => {
 
-  let container;
-  global.window = dom.window;
-  const testData = [
-    { _id: '^67^', title: 'Test One', author: 'me'},
-    { _id: '^68^', title: 'Test Two', author: 'me'},
-    { _id: '^69^', title: 'Test Three', author: 'me'}
+  before(function () {
+    this.jsdom = require('jsdom-global')()
+  });
+
+  after(function () {
+    this.jsdom()
+  });
+
+  const data = [
+    { _id: 't30seuObeWGB1rYc0ZLNmrTq', title: 'Test One', author: 'Author One'},
+    { _id: 'gjpXf6jnAMFKll6XHFLKozS3', title: 'Test Two', author: 'Author Two'},
+    { _id: 'Sh3LpackRYOf1oSBxKKBtumI', title: 'Test Three', author: 'Author Three'}
   ];
 
-  beforeEach(() => {
-    container = dom.window.document.createElement('div');
-    container.setAttribute('id', 'root');
-    dom.window.document.body.appendChild(container);
-  });
-
-  afterEach(() => {
-    dom.window.document.body.removeChild(container);
-    container = null;
-  });
-
-  it('Renders a card for each book passed to it',() => {
-
-    act(() => {
-      ReactDOM.render(<BookList books={testData} />, container);
+  it('Renders a card for each book passed to it', (done) => {
+    const component = render(<BookList books={data} />);
+    data.forEach(book => {
+      const title = component.getByText(book.title);
+      const author = component.getByText(book.author);
+      expect(title.textContent).to.equal(book.title);
+      expect(author.textContent).to.equal(book.author);
     });
-
-    const cards = dom.window.document.querySelectorAll('.cards > .card > .content');
-    cards.forEach((card, idx) => {
-      expect(card.querySelector('.bookTitle').textContent).to.equal(testData[idx].title);
-      expect(card.querySelector('.bookAuthor').textContent).to.equal(testData[idx].author);
-    });
+    done();
   });
 });
