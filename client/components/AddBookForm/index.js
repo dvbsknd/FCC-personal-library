@@ -16,7 +16,6 @@ export default function AddBookForm(props) {
   const handleSubmit = (e) => {
     const { title, author } = values;
     const book = { title, author };
-    console.log(book);
     setButtonLoading(true);
     fetch('/api/books', {
       method: 'POST',
@@ -28,7 +27,6 @@ export default function AddBookForm(props) {
       .then(response => response.json())
       .then(data => {
         props.setData(current => {
-          console.log(data.document);
           return [...current].concat(data.document);
         });
         setButtonLoading(false);
