@@ -94,18 +94,17 @@ Development steps are documented here for tracking and articulating progress:
 1. Add functional and unit tests for the API
 1. Render books from the API
 1. Use [Semantic UI](https://react.semantic-ui.com/elements/input/) to style the components
+1. Create an API `dev:api` script to run client and API in parallel
+1. Find out how to test React components
 1. Set up a test framework for React components
-1. Create a form for adding new books
+1. Add a POST method to the API to add books
+1. Stub out a form for adding new books
 
 ### Todo
 
+1. Connect the "add books" form to the API
 1. Possibly restructure the Controllers so that DB connections close and tests finish
-1. Create a front-end for adding books
 1. Allow adding of comments to a specific book
 1. Return a comment count for each book
 1. Make tests add/remove dummy data to the database
-1. Document the local development environment and scripts
 1. Document the deployment process
-1. Find out how to test React components
-1. Create an API `dev:api` script to run client and API in parallel
-1. Stub out an API get endpoint to give data to the SPA
