@@ -18,8 +18,8 @@ module.exports.booksController = {
   add: function (title, author) {
     try {
       const book = new Book(title, author);
-    return books.get()
-      .then(collection => collection.insertOne(book, {}))
+      return books.get()
+        .then(collection => collection.insertOne(book, {}))
         .then(result => ({ success: true, message: 'Book added', document: result.ops[0] }));
     } catch (e) {
       return Promise.reject(e);
