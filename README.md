@@ -100,11 +100,13 @@ Development steps are documented here for tracking and articulating progress:
 1. Add a POST method to the API to add books
 1. Stub out a form for adding new books
 1. Connect the "add books" form to the API
+1. Clear inputs on submission of "Add" form
 
 ### Todo
 
-1. Clear inputs on submission of "Add" form
+1. Handle API errors on the front-end
 1. Add tests for the AddBookForm to confirm it works with API
+1. Allow deleting of a book
 1. Possibly restructure the Controllers so that DB connections close and tests finish
 1. Allow adding of comments to a specific book
 1. Return a comment count for each book
