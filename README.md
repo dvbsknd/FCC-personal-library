@@ -103,6 +103,7 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Clear inputs on submission of "Add" form
 1. Add tests for the AddBookForm to confirm it works with API
 1. Possibly restructure the Controllers so that DB connections close and tests finish
 1. Allow adding of comments to a specific book
