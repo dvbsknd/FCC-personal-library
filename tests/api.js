@@ -50,7 +50,7 @@ describe('API', () => {
         })
     });
     it('Returns a success message and the ID of the newly added book', (done) => {
-      expect(result.body).to.have.keys(['success', 'message','book_id']);
+      expect(result.body).to.have.keys(['success', 'message','document']);
       expect(result.body.success).to.be.equal(true);
       done();
     });

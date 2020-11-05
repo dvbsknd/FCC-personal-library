@@ -25,9 +25,9 @@ describe('Controllers', () => {
     it('Returns a success message and the ID of the newly added book', (done) => {
       booksController.add('White Fragility', 'Robin DiAngelo')
         .then(response => {
-          expect(response).to.have.keys(['success', 'message','book_id']);
+          expect(response).to.have.keys(['success', 'message','document']);
           expect(response.success).to.be.equal(true);
-          expect(response.book_id.toString()).to.have.lengthOf(24);
+          expect(response.document._id.toString()).to.have.lengthOf(24);
           done();
         })
         .catch(done);

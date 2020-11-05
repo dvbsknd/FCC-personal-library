@@ -104,9 +104,13 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Probably move client tests to the tests folder
+1. Probably flatten components into single files, not folders (for now)
+1. Move the API request to the BooksList component
 1. Handle API errors on the front-end
 1. Add tests for the AddBookForm to confirm it works with API
 1. Allow deleting of a book
+1. Show a message if no books found
 1. Possibly restructure the Controllers so that DB connections close and tests finish
 1. Allow adding of comments to a specific book
 1. Return a comment count for each book

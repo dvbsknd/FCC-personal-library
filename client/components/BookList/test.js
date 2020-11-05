@@ -23,7 +23,21 @@ describe('<BookList>', () => {
     { _id: 'gjpXf6jnAMFKll6XHFLKozS3', title: 'Test Two', author: 'Author Two'},
     { _id: 'Sh3LpackRYOf1oSBxKKBtumI', title: 'Test Three', author: 'Author Three'}
   ];
+  it('Shows a loading indicator while waiting for data',
 
+    /* The below will be refactored once the loading indicator
+     * has been moved to this component from the <App /> component
+     *
+    () => {
+    const component = render(<App />);
+    const loader = component.getByText('Fetching data...');
+    expect(loader).to.be.instanceOf(HTMLDivElement);
+    expect(loader.className).to.include('loader');
+    }
+    */
+
+  );
+  it('Shows the BookList component once data is fetched');
   it('Renders a card for each book passed to it', (done) => {
     const component = render(<BookList books={data} />);
     data.forEach(book => {

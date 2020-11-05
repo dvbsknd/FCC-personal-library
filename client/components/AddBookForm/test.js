@@ -31,5 +31,9 @@ describe('<AddBookForm>', () => {
   });
 
   it('Renders a form with field for Book and Title');
-  it('Has a submit button that will send data to the API');
+  it('Accepts input into the form fields');
+  it('Submits data to the API with click');
+  it('Submits data to the API with keypress (enter)');
+  it('Shows a loading indicator while waiting for the API');
+  it('Clears the input fields once data is received');
 });
