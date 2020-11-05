@@ -15,7 +15,7 @@ describe('Server', () => {
         .get('/')
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res).to.have.status(200);
+          expect(res, 'Did you build the front-end?').to.have.status(200);
           result = res;
           done();
         })

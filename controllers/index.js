@@ -4,7 +4,7 @@ const Collection = require('../database').Collection;
 const books = new Collection('books');
 
 function Book(title, author) {
-  if (!title|| !author) throw new Error('Missing title or author');
+  if (!title || !author) throw new Error('Missing title or author');
   else {
     this.title = title;
     this.author = author;
@@ -16,9 +16,13 @@ module.exports.booksController = {
     return books.get().then(collection => collection.find().toArray())
   },
   add: function (title, author) {
-    const book = new Book(title, author);
+    try {
+      const book = new Book(title, author);
     return books.get()
       .then(collection => collection.insertOne(book, {}))
-      .then(result => ({ success: true, message: 'Book added', book_id: result.insertedId }));
+        .then(result => ({ success: true, message: 'Book added', document: result.ops[0] }));
+    } catch (e) {
+      return Promise.reject(e);
+    };
   }
 }
