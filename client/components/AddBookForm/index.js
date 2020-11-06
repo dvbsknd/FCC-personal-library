@@ -47,12 +47,12 @@ export default function AddBookForm(props) {
       {error ? (<ErrorMessage label={'Something ain\'t right'}  message={error} />) : error}
       <Form onSubmit={handleSubmit}>
         <Form.Field>
-          <label>Book Title</label>
-          <input type='text' name='title' value={values.title} placeholder='Book title' onChange={handleInput} />
+          <label htmlFor='title'>Book Title</label>
+          <input type='text' id='title' name='title' value={values.title} placeholder='Book title' onChange={handleInput} />
         </Form.Field>
         <Form.Field>
-          <label>Author</label>
-          <input type='text' name='author' value={values.author} placeholder='Author name' onChange={handleInput} />
+          <label htmlFor='author'>Author</label>
+          <input type='text' id='author' name='author' value={values.author} placeholder='Author name' onChange={handleInput} />
         </Form.Field>
         {buttonLoading
           ? <Button loading>Loading</Button>
