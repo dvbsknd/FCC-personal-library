@@ -36,4 +36,6 @@ describe('<AddBookForm>', () => {
   it('Submits data to the API with keypress (enter)');
   it('Shows a loading indicator while waiting for the API');
   it('Clears the input fields once data is received');
+  it('Shows an API error if one is received');
+  it('Clears the error message if submission is retried');
 });

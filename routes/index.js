@@ -9,7 +9,7 @@ const {
 router.use((req, res, next) => {
   res.error = (error) => {
     console.log('[API Error]', error);
-    res.status(500);
+    res.status(400);
     res.json({ error: error.message });
   };
   next();

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'semantic-ui-react';
+import ErrorMessage from '../ErrorMessage'
 
 export default function AddBookForm(props) {
 
   const initialValues = { title: '', author: '' }
   const [values, setValues] = useState(initialValues);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -15,6 +17,7 @@ export default function AddBookForm(props) {
   };
 
   const handleSubmit = (e) => {
+    if (error) setError(null);
     setButtonLoading(true);
     fetch('/api/books', {
       method: 'POST',
@@ -25,28 +28,37 @@ export default function AddBookForm(props) {
     })
       .then(response => response.json())
       .then(data => {
-        props.setData(current => {
-          return [...current].concat(data.document);
-        });
-        setButtonLoading(false);
-        setValues(initialValues);
+        if (data.error) {
+          console.log('[API Error]', data);
+          setError(data.error);
+          setButtonLoading(false);
+        } else {
+          props.setData(current => {
+            return [...current].concat(data.document);
+          });
+          setButtonLoading(false);
+          setValues(initialValues);
+        }
       });
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Field>
-        <label>Book Title</label>
-        <input type='text' name='title' value={values.title} placeholder='Book title' onChange={handleInput} />
-      </Form.Field>
-      <Form.Field>
-        <label>Author</label>
-        <input type='text' name='author' value={values.author} placeholder='Author name' onChange={handleInput} />
-      </Form.Field>
-      {buttonLoading
-        ? <Button loading>Loading</Button>
-        : <Button type='submit'>Submit</Button>
-      }
-    </Form>
+    <>
+      {error ? (<ErrorMessage label={'Something ain\'t right'}  message={error} />) : error}
+      <Form onSubmit={handleSubmit}>
+        <Form.Field>
+          <label>Book Title</label>
+          <input type='text' name='title' value={values.title} placeholder='Book title' onChange={handleInput} />
+        </Form.Field>
+        <Form.Field>
+          <label>Author</label>
+          <input type='text' name='author' value={values.author} placeholder='Author name' onChange={handleInput} />
+        </Form.Field>
+        {buttonLoading
+          ? <Button loading>Loading</Button>
+          : <Button type='submit'>Submit</Button>
+        }
+      </Form>
+    </>
   );
 };
