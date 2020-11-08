@@ -116,3 +116,4 @@ Development steps are documented here for tracking and articulating progress:
 1. Return a comment count for each book
 1. Make tests add/remove dummy data to the database
 1. Document the deployment process
+1. Set-up deployments to an actual production environment
