@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run test:client && npm run test:api",
     "test:api": "export $(cat .env | xargs) && NODE_ENV=test npx mocha tests",
-    "test:client": "npx mocha -r @babel/register -recursive 'client/**/test.js'",
+    "test:client": "npx mocha -r jsdom-global/register-r @babel/register -r @babel/polyfill -recursive 'client/**/test.js'",
     "start": "node server.js",
     "dev:api": "export $(cat .env | xargs) && npx nodemon server.js",
     "dev:client": "webpack serve --mode development",
@@ -43,9 +43,12 @@
   "devDependencies": {
     "@babel/core": "^7.12.1",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
+    "@testing-library/dom": "^7.26.5",
     "@testing-library/react": "^11.1.1",
+    "@testing-library/user-event": "^12.2.0",
     "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",

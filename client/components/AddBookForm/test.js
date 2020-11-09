@@ -1,7 +1,8 @@
 'use strict';
 
 const React = require('react');
-const { render } = require('@testing-library/react');
+const { render, screen } = require('@testing-library/react');
+const { default: userEvent } = require('@testing-library/user-event');
 const fetchMock = require('fetch-mock');
 const expect = require('chai').expect;
 
@@ -21,25 +22,32 @@ describe('<AddBookForm>', () => {
     }
   };
 
+  const component = render(<AddBookForm />);
+
   before(function () {
-    this.jsdom = require('jsdom-global')()
     fetchMock.post('/api/books', mockResponse);
   })
 
   after(function () {
-    this.jsdom()
     fetchMock.restore();
   })
 
   it('Renders a form with field for Book and Title', () => {
-    const component = render(<AddBookForm />);
-    const title = component.getByLabelText('Book Title');
-    const author = component.getByLabelText('Author');
+    console.log(screen);
+    const title = screen.getByLabelText('Book Title');
+    const author = screen.getByLabelText('Author');
+    screen.debug();
     expect(title).to.be.instanceOf(HTMLInputElement);
     expect(author).to.be.instanceOf(HTMLInputElement);
   });
-  // https://testing-library.com/docs/dom-testing-library/api-events
-  it('Accepts input into the form fields');
+  it('Accepts input into the form fields', () => {
+    console.log(screen);
+    const title = screen.getByLabelText('Book Title');
+    const author = screen.getByLabelText('Author');
+    screen.debug();
+    expect(title).to.be.instanceOf(HTMLInputElement);
+    expect(author).to.be.instanceOf(HTMLInputElement);
+  });
   it('Submits data to the API with click');
   it('Submits data to the API with keypress (enter)');
   it('Shows a loading indicator while waiting for the API');
