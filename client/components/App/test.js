@@ -26,11 +26,4 @@ describe('<App>', () => {
     const title = component.getByText('My Books');
     expect(title).to.be.instanceOf(HTMLHeadingElement);
   });
-  it('Shows a loading indicator while waiting for data', () => {
-    const component = render(<App />);
-    const loader = component.getByText('Fetching data...');
-    expect(loader).to.be.instanceOf(HTMLDivElement);
-    expect(loader.className).to.include('loader');
-  });
-  it('Shows the BookList component once data is fetched');
 });

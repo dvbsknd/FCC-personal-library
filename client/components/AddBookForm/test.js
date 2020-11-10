@@ -1,10 +1,9 @@
 'use strict';
 
 const React = require('react');
-const ReactDOM = require('react-dom');
-const { act } = require('react-dom/test-utils');
-const { JSDOM } = require("jsdom");
-const dom = new JSDOM(``, { url: "https://test.dev/", });
+const { render, screen, waitFor } = require('@testing-library/react');
+const { default: userEvent } = require('@testing-library/user-event');
+const fetchMock = require('fetch-mock');
 const expect = require('chai').expect;
 
 // We have to use an import because components are
@@ -13,23 +12,78 @@ import AddBookForm from './';
 
 describe('<AddBookForm>', () => {
 
-  let container;
-  global.window = dom.window;
+  let component, title, author;
+
+  let books = [
+   {
+      "title": "Book One",
+      "author": "Avid Asking",
+      "_id": "5fa4f612c9ed1b404e0aed53"
+    },
+    {
+      "title": "Book Two",
+      "author": "Avid Asking",
+      "_id": "5fa4f612c9ed1b404e0aed53"
+    }
+  ];
+
+  const book = {
+      "title": "Book Three",
+      "author": "Avid Asking"
+  };
+
+  const response = {
+    "success": true,
+    "message": "Book added",
+    "document": book
+  };
+
+  const setData = (reducer) => {
+    books = reducer(books);
+  }
+
+  before(function () {
+    fetchMock.post('/api/books', response);
+  })
+
+  after(function () {
+    fetchMock.restore();
+  })
 
   beforeEach(() => {
-    container = dom.window.document.createElement('div');
-    container.setAttribute('id', 'root');
-    dom.window.document.body.appendChild(container);
-    act(() => {
-      ReactDOM.render(<AddBookForm />, container);
-    });
+    component = render(<AddBookForm setData={setData} />);
+    title = screen.getByLabelText('Book Title');
+    author = screen.getByLabelText('Author');
   });
 
-  afterEach(() => {
-    dom.window.document.body.removeChild(container);
-    container = null;
+  it('Renders a form with field for Book and Title', () => {
+    expect(title).to.be.instanceOf(HTMLInputElement);
+    expect(author).to.be.instanceOf(HTMLInputElement);
   });
 
-  it('Renders a form with field for Book and Title');
-  it('Has a submit button that will send data to the API');
+  it('Accepts input into the form fields', () => {
+    userEvent.type(title, response.document.title);
+    userEvent.type(author, response.document.author);
+    expect(title.value).to.equal(response.document.title);
+    expect(author.value).to.equal(response.document.author);
+  });
+
+  it('Submits data to the API with click', async () => {
+    userEvent.click(screen.getByText('Submit'));
+    await waitFor(() => screen.getByText('Submit'))
+    expect(books).to.have.length(3);
+    expect(books[2].title).to.equal(book.title);
+  });
+
+  it('Submits data to the API with keypress (enter)', async () => {
+    userEvent.type(title, book.title + '{enter}');
+    await waitFor(() => screen.getByText('Submit'))
+    expect(books).to.have.length(4);
+    expect(books[2].title).to.equal(book.title);
+  });
+
+  it('Shows a loading indicator while waiting for the API');
+  it('Clears the input fields once data is received');
+  it('Shows an API error if one is received');
+  it('Clears the error message if submission is retried');
 });
