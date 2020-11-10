@@ -1,20 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'semantic-ui-react';
+import { Card, Button, Icon } from 'semantic-ui-react';
+import BookListItem from '../BookListItem';
 
 const BookList = (props) => {
+
+  const [deleteButton, showDeleteButton] = useState(false);
+
   return (
     <Card.Group itemsPerRow={3}>
-      {props.books.map(book => {
-        return (
-          <Card key={book._id} fluid={true}>
-            <Card.Content>
-              <Card.Header className='bookTitle'>{book.title}</Card.Header>
-              <Card.Meta className='bookAuthor'>{book.author}</Card.Meta>
-            </Card.Content>
-          </Card>
-        )
-      })}
+      {props.books.map(book => (<BookListItem author={book.author} title={book.title} key={book._id} />))}
     </Card.Group>
   );
 };
