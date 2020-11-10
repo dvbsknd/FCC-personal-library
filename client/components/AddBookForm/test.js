@@ -38,8 +38,8 @@ describe('<AddBookForm>', () => {
     "document": book
   };
 
-  const setData = (cb) => {
-    books = cb(books);
+  const setData = (reducer) => {
+    books = reducer(books);
   }
 
   before(function () {
