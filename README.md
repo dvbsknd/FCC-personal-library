@@ -104,11 +104,12 @@ Development steps are documented here for tracking and articulating progress:
 1. Handle API errors on the front-end
 1. Add tests for the AddBookForm to confirm it works with API
 1. Add a "delete" button to each card
+1. Make the delete button remove the card from the DOM
 
 ### Todo
 
-1. Make the delete button remove the card from the DOM
 1. Make the delete button remove the card from the database
+1. Add tests for the delete control and endpoint
 1. Allow deleting of a book
 1. Allow adding of comments to a specific book
 1. Return a comment count for each book

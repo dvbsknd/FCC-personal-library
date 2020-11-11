@@ -12,7 +12,8 @@ const BookListItem = (props) => {
       onMouseLeave={() => showDeleteButton(false)}>
       <Card.Content>
         {deleteButton && (
-          <Button icon floated='right' size='tiny' color='red' circular basic>
+          <Button icon floated='right' color='red' circular basic
+            onClick={() => props.deleteBook(props.bookId)}>
             <Icon name='delete' />
           </Button>
         )}
@@ -24,8 +25,14 @@ const BookListItem = (props) => {
 };
 
 BookListItem.propTypes = {
+  bookId: function(props, propName, componentName) {
+    if (!props[propName] || props[propName].length !== 24) {
+      return new Error(`Expected ${propName} to exist and have a length of 24`);
+    }
+  },
   title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired
+  author: PropTypes.string.isRequired,
+  deleteBook: PropTypes.func.isRequired
 };
 
 export default BookListItem;
