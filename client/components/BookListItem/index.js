@@ -14,7 +14,7 @@ const BookListItem = (props) => {
         {deleteButton && (
           <Button icon floated='right' color='red' circular basic
             onClick={() => props.deleteBook(props.bookId)}>
-            <Icon name='delete' />
+           <Icon name='delete' />
           </Button>
         )}
         <Card.Header className='bookTitle'>{props.title}</Card.Header>

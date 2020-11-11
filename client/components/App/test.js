@@ -12,12 +12,10 @@ import App from './';
 describe('<App>', () => {
 
   before(function () {
-    this.jsdom = require('jsdom-global')()
     fetchMock.mock('/api/books', [{ _id: '5f8fa8dc74e0e8daa000ef56', title: 'Test', author: 'me'}]);
   })
 
   after(function () {
-    this.jsdom()
     fetchMock.restore();
   })
 

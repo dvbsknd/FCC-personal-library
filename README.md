@@ -109,6 +109,8 @@ Development steps are documented here for tracking and articulating progress:
 ### Todo
 
 1. Make the delete button remove the card from the database
+1. Get ESLint working (seems not to be enabled)
+1. Handle API errors for deletion (replace card, log to console)
 1. Add tests for the delete control and endpoint
 1. Allow deleting of a book
 1. Allow adding of comments to a specific book

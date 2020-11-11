@@ -10,7 +10,18 @@ const BookList = (props) => {
   const [deleteButton, showDeleteButton] = useState(false);
 
   const deleteBook = bookId => {
-    console.log('Deleting', bookId);
+
+    console.log(`Deleting book ${bookId}`);
+
+    // Save the current state in case deletion fails and
+    // we need to restore it
+    const currentData = props.books;
+
+    // Remove the item from the DOM immediately and restore
+    // it later if deletion at the API fails
+    props.setData(current => current.filter(book => book._id !== bookId));
+
+    // Send the delete request
     fetch('/api/books', {
       method: 'DELETE',
       headers: {
@@ -18,13 +29,15 @@ const BookList = (props) => {
       },
       body: JSON.stringify({ _id: bookId })
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          console.log('[API Error]', data);
-        } else {
-          props.setData(current => current.filter(book => book._id !== bookId));
-        }
+      .then(res => {
+        if (!res.ok) throw new Error(`[API Error] ${res.status}: ${res.statusText}`)
+      })
+    // If there was an error, restore the original state to the DOM
+    // If there wasn't the end state is already as desired so do nothing
+      .catch(err => {
+        console.log(err);
+        console.log(`Restoring deleted book ${bookId} to the list`);
+        props.setData(currentData);
       });
   };
 
