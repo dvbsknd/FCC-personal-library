@@ -103,12 +103,20 @@ Development steps are documented here for tracking and articulating progress:
 1. Clear inputs on submission of "Add" form
 1. Handle API errors on the front-end
 1. Add tests for the AddBookForm to confirm it works with API
+1. Add a "delete" button to each card
+1. Make the delete button remove the card from the DOM
+1. Make the delete button remove the card from the database
+1. Handle API errors for deletion
+1. Add tests for the delete control and endpoint
 
 ### Todo
 
-1. Allow deleting of a book
+1. Get ESLint working (seems not to be enabled)
+1. Refactor `_id` to `id` for usability (it's MongoDB specific"
+1. Add more granular tests for the delete function on client
 1. Allow adding of comments to a specific book
 1. Return a comment count for each book
+1. Make sure _all_ components have at least some tests
 1. Probably move client tests to the tests folder
 1. Probably flatten components into single files, not folders (for now)
 1. Move the API request to the BooksList component

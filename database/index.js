@@ -23,5 +23,6 @@ Collection.prototype.get = function () {
 };
 
 module.exports = {
-  Collection
+  Collection,
+  ObjectID
 };
