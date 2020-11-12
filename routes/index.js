@@ -8,7 +8,6 @@ const {
 
 router.use((req, res, next) => {
   res.error = (error) => {
-    console.log('[API Error]', error);
     res.status(400);
     res.json({ error: error.message });
   };
@@ -25,6 +24,11 @@ router.route('/books')
   })
   .post((req, res, next) => {
     booksController.add(req.body.title, req.body.author)
+      .then(result => res.json(result))
+      .catch(res.error);
+  })
+  .delete((req, res, next) => {
+    booksController.delete(req.body._id)
       .then(result => res.json(result))
       .catch(res.error);
   });

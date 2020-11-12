@@ -1,6 +1,6 @@
 'use strict';
 
-const Collection = require('../database').Collection;
+const { Collection, ObjectID } = require('../database');
 const books = new Collection('books');
 
 function Book(title, author) {
@@ -24,5 +24,20 @@ module.exports.booksController = {
     } catch (e) {
       return Promise.reject(e);
     };
+  },
+  delete: function (_id) {
+    try {
+      return books.get()
+        .then(collection => collection.deleteOne({ _id: ObjectID(_id) }))
+        .then(result => {
+          const { ok, n } = result.toJSON();
+          if (ok === 1 && n === 1) {
+            return { success: true, message: 'Book deleted', _id };
+          }
+          else throw new Error('Could not delete book');
+        });
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 }

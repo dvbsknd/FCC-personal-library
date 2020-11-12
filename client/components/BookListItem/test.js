@@ -22,7 +22,8 @@ describe('<BookListItem>', () => {
 
   const response = {
     "success": true,
-    "message": "Book deleted"
+    "message": "Book deleted",
+    "_id": book.id
   };
 
   const deleteBook = (bookId) => {
