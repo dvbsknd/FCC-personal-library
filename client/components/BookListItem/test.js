@@ -26,17 +26,8 @@ describe('<BookListItem>', () => {
   };
 
   const deleteBook = (bookId) => {
-    console.log(bookId);
     _id = bookId;
   }
-
-  before(function () {
-    fetchMock.delete('/api/books', response);
-  })
-
-  after(function () {
-    fetchMock.restore();
-  })
 
   beforeEach(() => {
     component = render(
@@ -55,7 +46,17 @@ describe('<BookListItem>', () => {
     expect(author).to.exist;
   });
 
-  it('Displays a delete button/icon when hovered over');
-  it('Calls the deleteBook function with the bookId when the button is clicked');
+  it('Displays a delete button/icon when hovered over', () => {
+    userEvent.hover(title);
+    expect(screen.queryByLabelText('Delete')).to.exist;
+    userEvent.unhover(title);
+    expect(screen.queryByLabelText('Delete')).not.exist;
+  });
+  it('Calls the deleteBook function with the bookId when the button is clicked', () => {
+    userEvent.hover(title);
+    expect(_id).to.be.undefined;
+    userEvent.click(screen.queryByLabelText('Delete'));
+    expect(_id).to.equal(book._id);
+  });
 
 });

@@ -13,6 +13,7 @@ const BookListItem = (props) => {
       <Card.Content>
         {deleteButton && (
           <Button icon floated='right' color='red' circular basic
+            aria-label='Delete'
             onClick={() => props.deleteBook(props.bookId)}>
            <Icon name='delete' />
           </Button>
