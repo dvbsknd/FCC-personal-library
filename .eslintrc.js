@@ -11,10 +11,6 @@ module.exports = {
     'plugin:react/recommended'
   ],
   ignorePatterns: ['/public'],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
-  },
   parserOptions: {
     ecmaFeatures: {
       jsx: true
