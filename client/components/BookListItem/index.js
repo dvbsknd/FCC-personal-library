@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 const BookListItem = (props) => {
 
@@ -20,6 +21,7 @@ const BookListItem = (props) => {
         )}
         <Card.Header className='bookTitle'>{props.title}</Card.Header>
         <Card.Meta className='bookAuthor'>{props.author}</Card.Meta>
+        <Link to={`/books/${props.bookId}`}>Comments</Link>
       </Card.Content>
     </Card>
   )

@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import BookListItem from '../BookListItem';
 
 const BookList = (props) => {
@@ -40,17 +41,35 @@ const BookList = (props) => {
   };
 
   return (
-    <Card.Group itemsPerRow={3}>
-      {props.books.map((book, idx) => (
-        <BookListItem
-          author={book.author}
-          title={book.title}
-          bookId={book._id}
-          key={idx}
-          deleteBook={deleteBook} />)
-      )}
-    </Card.Group>
+    <Router>
+      <Route exact={true} path='/' render={() => (
+        <Card.Group itemsPerRow={3}>
+          {props.books.map((book, idx) => (
+            <BookListItem
+              author={book.author}
+              title={book.title}
+              bookId={book._id}
+              key={idx}
+              deleteBook={deleteBook} />)
+          )}
+        </Card.Group>
+      )}/>
+      <Route path='/books/:id' render={({ match }) => (
+        <Book book={props.books.find(b => b._id === match.params.id)} />
+      )} />
+    </Router>
   );
+};
+
+const Book = ({ book }) => (
+  <BookListItem
+    author={book.author}
+    title={book.title}
+    bookId={book._id} />
+);
+
+Book.propTypes = {
+  book: PropTypes.object
 };
 
 BookList.propTypes = {

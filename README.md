@@ -68,6 +68,7 @@ Notable packages and concepts include:
 1. [MongoDB](https://www.npmjs.com/package/mongodb)
 1. [Mocha](https://www.npmjs.com/package/mocha) to run tests
 1. [Chai](https://www.npmjs.com/package/chai) with [HTTP](https://www.npmjs.com/package/chai-http) to assert
+1. [React Testing Library](https://github.com/testing-library/react-testing-library) for rendering & testing components
 1. [Nodemon](https://www.npmjs.com/package/nodemon) for running a local dev server with hot-reloading
 1. [ESLint](https://www.npmjs.com/package/eslint) for code-checking
 1. [React](https://reactjs.org/), of course
@@ -108,14 +109,26 @@ Development steps are documented here for tracking and articulating progress:
 1. Make the delete button remove the card from the database
 1. Handle API errors for deletion
 1. Add tests for the delete control and endpoint
+1. Get ESLint working (seems not to be enabled)
+
+### In Progress
+1. Allow adding of comments to a specific book
+    1. Implement `react-router-dom` so each book can have a "view" URL
+    1. Tidy up components to work well with the router
+    1. Try to get `webpack-dev-server` to understand the routes on reload
+    1. Try to get the route to render a modal of the book
+    1. Try to have the "close" button on the modal take us home
+    1. List comments in the book modal
+    1. Add a form to add comments in the book modal
+    1. Add a form to delete comments in the book modal
+    1. Show a comment count on the books in the home list
 
 ### Todo
 
-1. Get ESLint working (seems not to be enabled)
 1. Perhaps use `concurrently` to make an `npm run dev` command
-1. Refactor `_id` to `id` for usability (it's MongoDB specific"
+1. Split ESLint files in to a `root` and `client` ones, like [this](https://stackoverflow.com/questions/36762468/how-do-i-setup-a-folder-with-a-different-rule-and-another-folder-with-a-differen) or [this](https://headway.io/blog/customizing-eslint-for-a-specific-directory)
+1. Refactor `_id` to `id` for usability (it's MongoDB specific)
 1. Add more granular tests for the delete function on client
-1. Allow adding of comments to a specific book
 1. Return a comment count for each book
 1. Make sure _all_ components have at least some tests
 1. Probably move client tests to the tests folder
