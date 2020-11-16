@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 import ErrorMessage from '../ErrorMessage'
 
-export default function AddBookForm(props) {
+const AddBookForm = (props) => {
 
   const initialValues = { title: '', author: '' }
   const [values, setValues] = useState(initialValues);
@@ -16,7 +17,7 @@ export default function AddBookForm(props) {
     setValues({ ...values, ...newValues });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     if (error) setError(null);
     setButtonLoading(true);
     fetch('/api/books', {
@@ -61,4 +62,10 @@ export default function AddBookForm(props) {
       </Form>
     </>
   );
+}
+
+AddBookForm.propTypes = {
+  setData: PropTypes.func.isRequired
 };
+
+export default AddBookForm;

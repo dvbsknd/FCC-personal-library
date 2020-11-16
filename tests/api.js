@@ -4,7 +4,6 @@ const chai = require('chai')
 const chaiHttp = require('chai-http');
 const app = require('express')();
 const api = require('../routes');
-const db = require('../database');
 const expect = chai.expect;
 app.use('/api', api);
 

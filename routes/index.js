@@ -17,17 +17,17 @@ router.use((req, res, next) => {
 router.use(express.json());
 
 router.route('/books')
-  .get((req, res, next) => {
+  .get((req, res) => {
     booksController.list()
       .then(result => res.json(result))
       .catch(res.error);
   })
-  .post((req, res, next) => {
+  .post((req, res) => {
     booksController.add(req.body.title, req.body.author)
       .then(result => res.json(result))
       .catch(res.error);
   })
-  .delete((req, res, next) => {
+  .delete((req, res) => {
     booksController.delete(req.body._id)
       .then(result => res.json(result))
       .catch(res.error);

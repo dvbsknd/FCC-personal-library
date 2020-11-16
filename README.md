@@ -112,6 +112,7 @@ Development steps are documented here for tracking and articulating progress:
 ### Todo
 
 1. Get ESLint working (seems not to be enabled)
+1. Perhaps use `concurrently` to make an `npm run dev` command
 1. Refactor `_id` to `id` for usability (it's MongoDB specific"
 1. Add more granular tests for the delete function on client
 1. Allow adding of comments to a specific book

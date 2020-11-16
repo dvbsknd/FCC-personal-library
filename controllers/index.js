@@ -23,7 +23,7 @@ module.exports.booksController = {
         .then(result => ({ success: true, message: 'Book added', document: result.ops[0] }));
     } catch (e) {
       return Promise.reject(e);
-    };
+    }
   },
   delete: function (_id) {
     try {

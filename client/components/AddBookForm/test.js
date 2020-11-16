@@ -12,7 +12,7 @@ import AddBookForm from './';
 
 describe('<AddBookForm>', () => {
 
-  let component, title, author;
+  let title, author;
 
   let books = [
    {
@@ -51,7 +51,7 @@ describe('<AddBookForm>', () => {
   })
 
   beforeEach(() => {
-    component = render(<AddBookForm setData={setData} />);
+    render(<AddBookForm setData={setData} />);
     title = screen.getByLabelText('Book Title');
     author = screen.getByLabelText('Author');
   });

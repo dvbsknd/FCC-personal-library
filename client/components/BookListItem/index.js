@@ -26,7 +26,7 @@ const BookListItem = (props) => {
 };
 
 BookListItem.propTypes = {
-  bookId: function(props, propName, componentName) {
+  bookId: function(props, propName) {
     if (!props[propName] || props[propName].length !== 24) {
       return new Error(`Expected ${propName} to exist and have a length of 24`);
     }
