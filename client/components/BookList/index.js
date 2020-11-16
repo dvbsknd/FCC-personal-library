@@ -1,13 +1,11 @@
 'use strict';
 
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 import BookListItem from '../BookListItem';
 
 const BookList = (props) => {
-
-  const [deleteButton, showDeleteButton] = useState(false);
 
   const deleteBook = bookId => {
 
@@ -58,7 +56,7 @@ const BookList = (props) => {
 BookList.propTypes = {
   setData: PropTypes.func.isRequired,
   books: PropTypes.arrayOf(PropTypes.shape({
-    _id: function(props, propName, componentName) {
+    _id: function(props, propName) {
       if (props[propName] && props[propName].length !== 24) {
         return new Error(`Expected ${propName} to exist and have a length of 24`);
       }
