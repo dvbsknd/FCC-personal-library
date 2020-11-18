@@ -116,9 +116,11 @@ Development steps are documented here for tracking and articulating progress:
 1. Allow adding of comments to a specific book
     1. Implement `react-router-dom` so each book can have a "view" URL
     1. Tidy up components to work well with the router
-    1. Try to get `webpack-dev-server` to understand the routes on reload
     1. Ensure tests are passing again
     1. Add tests for new components/routes
+    1. Handle database offline case
+    1. Try to get `webpack-dev-server` to understand the routes on reload
+    1. Try and get renders to persist across tests
     1. Try to get the route to render a modal of the book
     1. Try to have the "close" button on the modal take us home
 

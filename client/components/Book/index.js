@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
-  Header
+  Header,
+  Loader
 } from 'semantic-ui-react';
 
 const Book = ({ books, bookId, loading }) => {
   const book = books ? books.find(book => bookId.toString() === book._id) : null;
-  console.log(bookId, book, books);
   return (
     loading ? (
-      <p>Loading</p>
+      <Loader active inline='centered' size='medium'>Fetching data...</Loader>
     ) : (
       <Grid columns={2}>
         <Grid.Column width={3}>

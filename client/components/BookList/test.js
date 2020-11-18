@@ -1,12 +1,17 @@
 'use strict';
 
 const React = require('react');
-const { render } = require('@testing-library/react');
+const { render, screen } = require('@testing-library/react');
 const expect = require('chai').expect;
 
 // We have to use an import because components are
 // exported using ES6 modules
 import BookList from './';
+
+// We also have to import BrowserRouter becuase the <Link>
+// component doesn't inherit the Router context from its
+// parents when run atomically
+import { BrowserRouter as DummyRouter } from 'react-router-dom';
 
 describe('<BookList>', () => {
 
@@ -16,28 +21,32 @@ describe('<BookList>', () => {
     { _id: 'Sh3LpackRYOf1oSBxKKBtumI', title: 'Test Three', author: 'Author Three'}
   ];
 
-  const setData = () => {};
+  const setBooks = () => {};
+  let loading = true;
 
-  it('Shows a loading indicator while waiting for data',
+  beforeEach(() => {
+    render(
+      <DummyRouter>
+        <BookList loading={loading} books={data} setBooks={setBooks}/>
+      </DummyRouter>
+    );
+  });
 
-    /* The below will be refactored once the loading indicator
-     * has been moved to this component from the <App /> component
-     *
-    () => {
-    const component = render(<App />);
-    const loader = component.getByText('Fetching data...');
+  it('Shows a loading indicator while waiting for data', () => {
+
+    const loader = screen.getByText('Fetching data...');
     expect(loader).to.be.instanceOf(HTMLDivElement);
     expect(loader.className).to.include('loader');
-    }
-    */
+    loading = false;
 
-  );
+  });
+
   it('Shows the BookList component once data is fetched');
+
   it('Renders a card for each book passed to it', (done) => {
-    const component = render(<BookList books={data} setData={setData}/>);
     data.forEach(book => {
-      const title = component.getByText(book.title);
-      const author = component.getByText(book.author);
+      const title = screen.getByText(book.title);
+      const author = screen.getByText(book.author);
       expect(title.textContent).to.equal(book.title);
       expect(author.textContent).to.equal(book.author);
     });

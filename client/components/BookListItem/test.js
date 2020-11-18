@@ -7,6 +7,11 @@ const expect = require('chai').expect;
 // exported using ES6 modules
 import BookListItem from './';
 
+// We also have to import BrowserRouter becuase the <Link>
+// component doesn't inherit the Router context from its
+// parents when run atomically
+import { BrowserRouter as DummyRouter } from 'react-router-dom';
+
 describe('<BookListItem>', () => {
 
   let _id = null;
@@ -23,12 +28,15 @@ describe('<BookListItem>', () => {
 
   beforeEach(() => {
     render(
-      <BookListItem 
-        author={book.author}
-        title={book.title}
-        bookId={book._id}
-        deleteBook={deleteBook} 
-      />);
+      <DummyRouter>
+        <BookListItem
+          author={book.author}
+          title={book.title}
+          bookId={book._id}
+          deleteBook={deleteBook}
+        />
+      </DummyRouter>
+    );
   });
 
   it('Renders the book title and author', () => {
