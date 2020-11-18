@@ -2,9 +2,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'semantic-ui-react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {
+  Card,
+  Loader,
+  Divider } from 'semantic-ui-react';
 import BookListItem from '../BookListItem';
+import AddBookForm from '../AddBookForm'
 
 const BookList = (props) => {
 
@@ -18,7 +21,7 @@ const BookList = (props) => {
 
     // Remove the item from the DOM immediately and restore
     // it later if deletion at the API fails
-    props.setData(current => current.filter(book => book._id !== bookId));
+    props.setBooks(current => current.filter(book => book._id !== bookId));
 
     // Send the delete request
     fetch('/api/books', {
@@ -36,13 +39,15 @@ const BookList = (props) => {
       .catch(err => {
         console.log(err);
         console.log(`Restoring deleted book ${bookId} to the list`);
-        props.setData(currentData);
+        props.setBooks(currentData);
       });
   };
 
   return (
-    <Router>
-      <Route exact={true} path='/' render={() => (
+    props.loading ? (
+      <Loader active inline='centered' size='medium'>Fetching data...</Loader>
+    ) : (
+      <>
         <Card.Group itemsPerRow={3}>
           {props.books.map((book, idx) => (
             <BookListItem
@@ -50,30 +55,19 @@ const BookList = (props) => {
               title={book.title}
               bookId={book._id}
               key={idx}
-              deleteBook={deleteBook} />)
-          )}
+              deleteBook={deleteBook} />
+          ))}
         </Card.Group>
-      )}/>
-      <Route path='/books/:id' render={({ match }) => (
-        <Book book={props.books.find(b => b._id === match.params.id)} />
-      )} />
-    </Router>
+        <Divider hidden />
+        <AddBookForm books={props.books} setBooks={props.setBooks} />
+      </>
+    )
   );
 };
 
-const Book = ({ book }) => (
-  <BookListItem
-    author={book.author}
-    title={book.title}
-    bookId={book._id} />
-);
-
-Book.propTypes = {
-  book: PropTypes.object
-};
-
 BookList.propTypes = {
-  setData: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  setBooks: PropTypes.func.isRequired,
   books: PropTypes.arrayOf(PropTypes.shape({
     _id: function(props, propName) {
       if (props[propName] && props[propName].length !== 24) {

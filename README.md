@@ -112,19 +112,22 @@ Development steps are documented here for tracking and articulating progress:
 1. Get ESLint working (seems not to be enabled)
 
 ### In Progress
+
 1. Allow adding of comments to a specific book
     1. Implement `react-router-dom` so each book can have a "view" URL
     1. Tidy up components to work well with the router
     1. Try to get `webpack-dev-server` to understand the routes on reload
+    1. Ensure tests are passing again
+    1. Add tests for new components/routes
     1. Try to get the route to render a modal of the book
     1. Try to have the "close" button on the modal take us home
-    1. List comments in the book modal
-    1. Add a form to add comments in the book modal
-    1. Add a form to delete comments in the book modal
-    1. Show a comment count on the books in the home list
 
 ### Todo
 
+1. List comments in the book modal
+1. Add a form to add comments in the book modal
+1. Add a form to delete comments in the book modal
+1. Show a comment count on the books in the home list
 1. Perhaps use `concurrently` to make an `npm run dev` command
 1. Split ESLint files in to a `root` and `client` ones, like [this](https://stackoverflow.com/questions/36762468/how-do-i-setup-a-folder-with-a-different-rule-and-another-folder-with-a-differen) or [this](https://headway.io/blog/customizing-eslint-for-a-specific-directory)
 1. Refactor `_id` to `id` for usability (it's MongoDB specific)

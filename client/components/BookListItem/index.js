@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { Card, Button, Icon } from 'semantic-ui-react';
 
 const BookListItem = (props) => {
 
   const [deleteButton, showDeleteButton] = useState(false);
 
   return (
-    <Card fluid={true} 
+    <Card fluid={true}
       onMouseEnter={() => showDeleteButton(true)}
       onMouseLeave={() => showDeleteButton(false)}>
       <Card.Content>
@@ -16,12 +16,12 @@ const BookListItem = (props) => {
           <Button icon floated='right' color='red' circular basic
             aria-label='Delete'
             onClick={() => props.deleteBook(props.bookId)}>
-           <Icon name='delete' />
+            <Icon name='delete' />
           </Button>
         )}
         <Card.Header className='bookTitle'>{props.title}</Card.Header>
         <Card.Meta className='bookAuthor'>{props.author}</Card.Meta>
-        <Link to={`/books/${props.bookId}`}>Comments</Link>
+        <Link to={`/${props.bookId}`}>Comments</Link>
       </Card.Content>
     </Card>
   )

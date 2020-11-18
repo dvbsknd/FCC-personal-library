@@ -34,7 +34,7 @@ const AddBookForm = (props) => {
           setError(data.error);
           setButtonLoading(false);
         } else {
-          props.setData(current => {
+          props.setBooks(current => {
             return [...current].concat(data.document);
           });
           setButtonLoading(false);
@@ -65,7 +65,7 @@ const AddBookForm = (props) => {
 }
 
 AddBookForm.propTypes = {
-  setData: PropTypes.func.isRequired
+  setBooks: PropTypes.func.isRequired
 };
 
 export default AddBookForm;
