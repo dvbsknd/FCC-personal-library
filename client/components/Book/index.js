@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Grid,
-  Header,
-  Loader
+  Loader,
+  Card
 } from 'semantic-ui-react';
 
 const Book = ({ books, bookId, loading }) => {
@@ -14,9 +14,10 @@ const Book = ({ books, bookId, loading }) => {
     ) : (
       <Grid columns={2}>
         <Grid.Column width={3}>
-          <Header>{book.title}
-            <Header.Subheader>{book.author}</Header.Subheader>
-          </Header>
+          <Card>
+            <Card.Content header={book.title} />
+            <Card.Content description={book.author} />
+          </Card>
         </Grid.Column>
         <Grid.Column width={9}>
           Comments to come...
