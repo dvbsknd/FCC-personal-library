@@ -7,32 +7,39 @@ import {
 } from 'semantic-ui-react';
 import Comments from '../Comments';
 
-const Book = ({ books, bookId, loading }) => {
-  const book = books ? books.find(book => bookId.toString() === book._id) : null;
+const Book = ({ books, bookId, loading, setBooks }) => {
+  // TODO: Identification and extraction of the book should
+  // happen in the parent component.
+  const book = books
+    ? books.find(book => bookId.toString() === book._id)
+    : null;
   return (
-    loading ? (
-      <Loader active inline='centered' size='medium'>Fetching data...</Loader>
-    ) : (
-      <Grid columns={2}>
-        <Grid.Column width={3}>
-          <Card>
-            <Card.Content header={book.title} />
-            <Card.Content description={book.author} />
-          </Card>
-        </Grid.Column>
-        <Grid.Column width={9}>
-          <Comments bookId={bookId} />
-        </Grid.Column>
-      </Grid>
-    )
+    loading
+      ? (<Loader active inline='centered' size='medium'>
+        Fetching data...
+        </Loader>)
+      : (
+        <Grid columns={2}>
+          <Grid.Column width={3}>
+            <Card>
+              <Card.Content header={book.title} />
+              <Card.Content description={book.author} />
+            </Card>
+          </Grid.Column>
+          <Grid.Column width={9}>
+            <Comments comments={book.comments}  setBooks={setBooks} />
+          </Grid.Column>
+        </Grid>
+      )
   )
 };
 
 Book.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.PropTypes.object),
-  bookId: PropTypes.string.isRequired,
+  books: PropTypes.arrayOf(PropTypes.object),
   find: PropTypes.func,
-  loading: PropTypes.bool.isRequired
+  setBooks: PropTypes.func,
+  loading: PropTypes.bool.isRequired,
+  bookId: PropTypes.objectId.isRequired
 };
 
 export default Book;

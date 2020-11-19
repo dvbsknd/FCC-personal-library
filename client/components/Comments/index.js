@@ -1,52 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Comment as suComment,
-  Header,
-  Loader,
+  Header
 } from 'semantic-ui-react';
 import Comment from '../Comment';
 
-const Comments = ({ bookId }) => {
+const Comments = ({ comments, setBooks }) => {
 
-  const [comments, setComments] = useState();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`/api/books/${bookId}/comments`)
-      .then(response => response.json())
-      .then(data => {
-        setComments(data);
-        setLoading(false);
-      });
-  }, []);
+  const deleteComment = (commentId) => {
+    console.log(commentId);
+    setBooks();
+    // Send a delete request to the API with the
+    // comment ID and expect it to return a confirmation
+    // Then, update the App's state by removing the
+    // comment from the parent book, which should re-render
+  }
 
   return (
     <suComment.Group minimal>
       <Header as='h3' dividing>
         Comments
       </Header>
-      {loading ?
-          (
-            <Loader active inline='centered' size='medium'>
-              Fetching data...
-            </Loader>
-          ) : (
-            comments.forEach(comment => (
-              <Comment
-                createdDate={comment.createdDate}
-                author={comment.author}
-                text={comment.text}
-              />
-            ))
-          )
-      }
+      {comments.forEach(comment => (
+        <Comment
+          createdDate={comment.createdDate}
+          author={comment.author}
+          text={comment.text}
+          deleteComment={deleteComment}
+        />
+      ))}
     </suComment.Group>
   )
 };
 
 Comments.propTypes = {
-  bookId: PropTypes.string.isRequired,
+  comments: PropTypes.shape({
+    author: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    createdDate: PropTypes.string.isRequired,
+    forEach: PropTypes.func.isRequired
+  }).isRequired,
+  setBooks: PropTypes.func.isRequired,
 };
 
 export default Comments;

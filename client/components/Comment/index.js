@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react';
 
 const Comment = ({ comment, deleteComment }) => {
+
   return (
     <suComment>
       <suComment.Content>

@@ -27,6 +27,7 @@ export default function App() {
   return (
     <Container>
       <Header as='h1' className='site-title'>My Books</Header>
+      {/* <Loader should be here /> */}
       <Router>
         <Switch>
           <Route exact={true} path='/' render={() => (
@@ -34,7 +35,12 @@ export default function App() {
           )} />
           <Route path='/:id' render={({ match }) => {
             return (
-              <Book loading={loading} bookId={match.params.id} books={books} />
+              <Book
+                loading={loading}
+                bookId={match.params.id}
+                books={books}
+                setBooks={setBooks}
+              />
             )}} />
         </Switch>
       </Router>

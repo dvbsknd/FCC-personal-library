@@ -118,6 +118,8 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Move Loader in to main App rather than in two subcomponents
+1. Select which Book to render in the main App component/route
 1. Comments should be sub-documents of Books (fix Components to fetch them all on load and pass down to Comments)
 1. Add tests for Comments components
 1. Build out the API endpoints for comments
