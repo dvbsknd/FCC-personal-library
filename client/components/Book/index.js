@@ -5,6 +5,7 @@ import {
   Loader,
   Card
 } from 'semantic-ui-react';
+import Comments from './Comments';
 
 const Book = ({ books, bookId, loading }) => {
   const book = books ? books.find(book => bookId.toString() === book._id) : null;
@@ -20,7 +21,7 @@ const Book = ({ books, bookId, loading }) => {
           </Card>
         </Grid.Column>
         <Grid.Column width={9}>
-          Comments to come...
+          <Comments bookId={bookId} />
         </Grid.Column>
       </Grid>
     )
