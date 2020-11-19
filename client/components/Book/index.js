@@ -5,7 +5,7 @@ import {
   Loader,
   Card
 } from 'semantic-ui-react';
-import Comments from './Comments';
+import Comments from '../Comments';
 
 const Book = ({ books, bookId, loading }) => {
   const book = books ? books.find(book => bookId.toString() === book._id) : null;

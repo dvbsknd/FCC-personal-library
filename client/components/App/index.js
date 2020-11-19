@@ -33,7 +33,6 @@ export default function App() {
             <BookList loading={loading} books={books} setBooks={setBooks}/>
           )} />
           <Route path='/:id' render={({ match }) => {
-            console.log(match);
             return (
               <Book loading={loading} bookId={match.params.id} books={books} />
             )}} />

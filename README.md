@@ -118,6 +118,7 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Comments should be sub-documents of Books (fix Components to fetch them all on load and pass down to Comments)
 1. Add tests for Comments components
 1. Build out the API endpoints for comments
 1. Add a form to add comments in the book modal

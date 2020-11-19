@@ -26,7 +26,7 @@ Comment.propTypes = {
     id: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-    text: PropTypes.strinf.isRequired
+    text: PropTypes.string.isRequired
   }).isRequired,
   deleteComment: PropTypes.func.isRequired
 };

@@ -5,7 +5,7 @@ import {
   Header,
   Loader,
 } from 'semantic-ui-react';
-import Comment from './Comment';
+import Comment from '../Comment';
 
 const Comments = ({ bookId }) => {
 
@@ -46,10 +46,7 @@ const Comments = ({ bookId }) => {
 };
 
 Comments.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.object),
   bookId: PropTypes.string.isRequired,
-  find: PropTypes.func,
-  loading: PropTypes.bool.isRequired
 };
 
 export default Comments;
