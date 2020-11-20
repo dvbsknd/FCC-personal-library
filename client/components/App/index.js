@@ -6,11 +6,12 @@ import {
 } from 'react-router-dom';
 import {
   Container,
-  Header } from 'semantic-ui-react';
+  Header,
+  Loader } from 'semantic-ui-react';
 import BookList from '../BookList'
 import Book from '../Book'
 
-export default function App() {
+const App = () => {
 
   const [books, setBooks] = useState();
   const [loading, setLoading] = useState(true);
@@ -27,23 +28,33 @@ export default function App() {
   return (
     <Container>
       <Header as='h1' className='site-title'>My Books</Header>
-      {/* <Loader should be here /> */}
       <Router>
-        <Switch>
-          <Route exact={true} path='/' render={() => (
-            <BookList loading={loading} books={books} setBooks={setBooks}/>
-          )} />
-          <Route path='/:id' render={({ match }) => {
-            return (
-              <Book
-                loading={loading}
-                bookId={match.params.id}
-                books={books}
-                setBooks={setBooks}
-              />
-            )}} />
-        </Switch>
+        {loading
+          ? (
+            <Loader active inline='centered' size='medium'>
+              Fetching data...
+            </Loader>
+          )
+          : (
+            <Switch>
+              <Route exact={true} path='/' render={() => (
+                <BookList books={books} setBooks={setBooks}/>
+              )} />
+              <Route path='/:id' render={({ match }) => {
+                const { id } = match.params;
+                const book = books.find(book => id === book._id)
+                return (
+                  <Book
+                    book={book}
+                    setBooks={setBooks}
+                  />
+                )}} />
+            </Switch>
+          )
+        }
       </Router>
     </Container>
   );
-}
+};
+
+export default App;

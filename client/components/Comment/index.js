@@ -24,7 +24,11 @@ const Comment = ({ comment, deleteComment }) => {
 
 Comment.propTypes = {
   comment: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: function(props, propName) {
+      if (props[propName] && props[propName].length !== 24) {
+        return new Error(`Expected ${propName} to exist and have a length of 24`);
+      }
+    },
     createdAt: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired

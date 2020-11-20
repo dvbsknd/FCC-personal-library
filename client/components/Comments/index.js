@@ -22,25 +22,21 @@ const Comments = ({ comments, setBooks }) => {
       <Header as='h3' dividing>
         Comments
       </Header>
-      {comments.forEach(comment => (
-        <Comment
-          createdDate={comment.createdDate}
-          author={comment.author}
-          text={comment.text}
-          deleteComment={deleteComment}
-        />
-      ))}
+      {comments
+        ? comments.forEach(comment => (
+          <Comment
+            comment={comment}
+            deleteComment={deleteComment}
+          />
+        ))
+        : (<p>No comment.</p>)
+      }
     </suComment.Group>
   )
 };
 
 Comments.propTypes = {
-  comments: PropTypes.shape({
-    author: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    createdDate: PropTypes.string.isRequired,
-    forEach: PropTypes.func.isRequired
-  }).isRequired,
+  comments: PropTypes.arrayOf(PropTypes.object),
   setBooks: PropTypes.func.isRequired,
 };
 

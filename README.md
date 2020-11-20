@@ -115,16 +115,17 @@ Development steps are documented here for tracking and articulating progress:
 1. Ensure tests are passing again
 1. Add tests for new components/routes
 1. Build out the front-end components for comments
-
-### Todo
-
 1. Move Loader in to main App rather than in two subcomponents
 1. Select which Book to render in the main App component/route
 1. Comments should be sub-documents of Books (fix Components to fetch them all on load and pass down to Comments)
+
+### Todo
+
 1. Add tests for Comments components
 1. Build out the API endpoints for comments
 1. Add a form to add comments in the book modal
 1. Add a link to delete comments in the book modal
+1. Possibly get the App compontent to be wholly responsible for synch to DB
 1. Try to get `webpack-dev-server` to understand the routes on reload
 1. Try and get renders to persist across tests
 1. Try to get the route to render a modal of the book
