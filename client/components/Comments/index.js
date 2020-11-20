@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Comment as suComment,
+  Comment as KitComment,
   Header
 } from 'semantic-ui-react';
 import Comment from '../Comment';
@@ -18,20 +18,21 @@ const Comments = ({ comments, setBooks }) => {
   }
 
   return (
-    <suComment.Group minimal>
+    <KitComment.Group minimal>
       <Header as='h3' dividing>
         Comments
       </Header>
       {comments
-        ? comments.forEach(comment => (
+        ? comments.map((comment, idx) => (
           <Comment
+            key={idx}
             comment={comment}
             deleteComment={deleteComment}
           />
         ))
         : (<p>No comment.</p>)
       }
-    </suComment.Group>
+    </KitComment.Group>
   )
 };
 

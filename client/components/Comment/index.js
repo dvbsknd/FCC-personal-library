@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Comment as suComment
+  Comment as KitComment
 } from 'semantic-ui-react';
 
 const Comment = ({ comment, deleteComment }) => {
-
   return (
-    <suComment>
-      <suComment.Content>
-        <suComment.Author as='a'>{comment.author}</suComment.Author>
-        <suComment.Metadata>
+    <KitComment>
+      <KitComment.Content>
+        <KitComment.Author as='a'>{comment.author}</KitComment.Author>
+        <KitComment.Metadata>
           <span>{comment.createdAt}</span>
-        </suComment.Metadata>
-        <suComment.Text>{comment.text}</suComment.Text>
-        <suComment.Actions>
+        </KitComment.Metadata>
+        <KitComment.Text>{comment.text}</KitComment.Text>
+        <KitComment.Actions>
           <a onClick={() => deleteComment(comment.id)}>Delete</a>
-        </suComment.Actions>
-      </suComment.Content>
-    </suComment>
+        </KitComment.Actions>
+      </KitComment.Content>
+    </KitComment>
   )
 };
 
