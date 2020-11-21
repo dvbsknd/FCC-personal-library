@@ -23,9 +23,9 @@ const Comments = ({ comments, setBooks }) => {
         Comments
       </Header>
       {comments
-        ? comments.map((comment, idx) => (
+        ? comments.map((comment,) => (
           <Comment
-            key={idx}
+            key={comment.id}
             comment={comment}
             deleteComment={deleteComment}
           />
@@ -37,7 +37,10 @@ const Comments = ({ comments, setBooks }) => {
 };
 
 Comments.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.object),
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired),
   setBooks: PropTypes.func.isRequired,
 };
 

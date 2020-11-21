@@ -45,10 +45,10 @@ const BookList = ({ books, setBooks }) => {
   return (
     <>
       <Card.Group itemsPerRow={3}>
-        {books.map((book, idx) => (
+        {books.map((book) => (
           <BookListItem
             book={book}
-            key={idx}
+            key={book._id}
             deleteBook={deleteBook}
             setBooks={setBooks} />
         ))}
@@ -61,7 +61,10 @@ const BookList = ({ books, setBooks }) => {
 
 BookList.propTypes = {
   setBooks: PropTypes.func.isRequired,
-  books: PropTypes.arrayOf(PropTypes.object)
+  books: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired
+    }).isRequired)
 };
 
 export default BookList;
