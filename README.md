@@ -125,7 +125,8 @@ Development steps are documented here for tracking and articulating progress:
 1. Build out the API endpoints for comments
 1. Add a form to add comments in the book modal
 1. Add a link to delete comments in the book modal
-1. Possibly get the App compontent to be wholly responsible for synch to DB
+1. Possibly get the App compontent to be wholly responsible for synch to DB by using a [Context](https://www.robinwieruch.de/react-context)
+1. Implement [Babel resolvers](https://www.robinwieruch.de/babel-module-resolver/) for components/modules
 1. Try to get `webpack-dev-server` to understand the routes on reload
 1. Try and get renders to persist across tests
 1. Try to get the route to render a modal of the book
