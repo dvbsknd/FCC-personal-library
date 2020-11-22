@@ -41,4 +41,6 @@ describe('<Comment>', () => {
     expect(args).to.equal(comment.id);
   });
 
+  it('Removes the deleted comment from the list of comments when asked');
+
 });

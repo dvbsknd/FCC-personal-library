@@ -14,6 +14,7 @@ function Book (title, author) {
 function Comment (author, text, createdAt) {
   if (!text || !author) throw new Error('Missing text or author');
   else {
+    this._id = new ObjectID();
     this.author = author;
     this.text = text;
     this.createdAt = createdAt ? new Date(createdAt) : new Date();
@@ -34,13 +35,13 @@ module.exports.booksController = {
       return Promise.reject(e);
     }
   },
-  addComment: function (id, body) {
+  addComment: function (bookId, body) {
     try {
       const { author, text, createdAt } = body;
       const comment = new Comment(author, text, createdAt);
       return books.get()
-        .then(collection => collection.updateOne({ _id: ObjectID(id) }, { $push: { comments: comment } }))
-        .then(()=> ({ success: true, message: 'Comment added' }));
+        .then(collection => collection.updateOne({ _id: ObjectID(bookId) }, { $push: { comments: comment } }))
+        .then(()=> ({ success: true, message: 'Comment added', comment }));
     } catch (e) {
       return Promise.reject(e);
     }

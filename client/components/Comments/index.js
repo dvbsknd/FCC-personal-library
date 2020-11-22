@@ -7,6 +7,7 @@ import {
 } from 'semantic-ui-react';
 import Comment from '../Comment';
 import ErrorMessage from '../ErrorMessage';
+import API from '../../services/api';
 
 const Comments = ({ bookId, comments }) => {
 
@@ -19,42 +20,35 @@ const Comments = ({ bookId, comments }) => {
   };
 
   const addComment = () => {
+
     const comment = {
       createdAt: new Date(),
       author: commentValues.name,
       text: commentValues.comment
     };
 
-    fetch('/api/comments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        bookId,
-        comment
+    API.addComment(bookId, comment)
+      .then(returnedComment => {
+        setCurrentComments(currentComments.concat(returnedComment));
+        setCommentValues({});
       })
-    })
-      .then(response => {
-        if(response.ok) return response.json();
-        else throw new Error(response.status + ' ' + response.statusText);
-      })
-      .then(()=> console.log('Comment by %s added.', comment.author))
-      .catch(err => {
-        console.log('[API Error]', err);
-        setError(err.toString());
-      });
+      .catch(err => setError({
+        label: 'Couldn\'t save comment',
+        message: err.toString()
+      }));
 
-    setCurrentComments(currentComments.concat(comment));
-    setCommentValues({});
   };
 
   const deleteComment = (commentId) => {
-    console.log(commentId);
-    // Send a delete request to the API with the
-    // comment ID and expect it to return a confirmation
-    // Then, update the App's state by removing the
-    // comment from the parent book, which should re-render
+
+    API.deleteComment(commentId)
+      .then(_id => setCurrentComments(
+        currentComments.filter(c => c._id !== _id)))
+      .catch(err => setError({
+        label: 'Deleting failed',
+        message: err.toString()
+      }));
+
   };
 
   return (
@@ -63,15 +57,15 @@ const Comments = ({ bookId, comments }) => {
       {currentComments
         ? currentComments.map((comment,) => (
           <Comment
-            key={comment.id || Number(comment.createdAt.valueOf())}
+            key={comment._id || Number(comment.createdAt.valueOf())}
             comment={comment}
-            deleteComment={deleteComment}
+            deleteComment={() => deleteComment(comment._id)}
           />
         ))
         : (<p>No comment.</p>)
       }
       <Header as='h3' dividing>Add a Comment</Header>
-      {error ? (<ErrorMessage label={'Saving comment failed'}  message={error} />) : error}
+      {error ? (<ErrorMessage label={error.label}  message={error.message} />) : error}
       <Form onSubmit={addComment}>
         <Form.Group>
           <Form.Input

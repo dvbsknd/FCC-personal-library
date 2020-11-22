@@ -38,6 +38,10 @@ router.route('/comments')
     booksController.addComment(req.body.bookId, req.body.comment)
       .then(result => res.json(result))
       .catch(res.error);
+  })
+  .delete((req, res) => {
+    // TODO: Finalise this endpoint, this is just a mock.
+    res.json({ success: true, message: 'Comment deleted', _id: req.body._id });
   });
 
 // Unmatched routes

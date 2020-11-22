@@ -72,6 +72,7 @@ Notable packages and concepts include:
 1. [Nodemon](https://www.npmjs.com/package/nodemon) for running a local dev server with hot-reloading
 1. [ESLint](https://www.npmjs.com/package/eslint) for code-checking
 1. [React](https://reactjs.org/), of course
+1. [React Router](https://reactrouter.com/)
 
 ## Goals/Todo
 
@@ -122,12 +123,18 @@ Development steps are documented here for tracking and articulating progress:
 1. Add a form to add comments in the book modal
 1. Add a link to delete comments in the book modal
 1. Build out the API POST endpoint for comments
+1. Add React-Router to README
+
+# In Progress
+1. Implement the #deleteComment function
+1. Finalise the mocked DELETE endpoint for comments
+1. Move getBooks, addBook and deleteBook to the API module
+1. Add a DELETE endpoint for comments
 
 ### Todo
 
-1. Implement the #deleteComment function
-1. Add React-Router to README
-1. Add a DELETE endpoint for comments
+1. Clean-up unused dependencies
+1. Ensure we have what's required to get [FCC tests](https://github.com/freeCodeCamp/freeCodeCamp/blob/production-current/curriculum/challenges/english/06-quality-assurance/quality-assurance-projects/personal-library.md) to pass
 1. Add some form field validation on front-end
 1. Ensure forms can be submitted by enter
 1. Add API/controller tests for Comments
