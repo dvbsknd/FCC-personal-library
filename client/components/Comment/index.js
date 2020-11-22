@@ -10,7 +10,7 @@ const Comment = ({ comment, deleteComment }) => {
       <KitComment.Content>
         <KitComment.Author as='a'>{comment.author}</KitComment.Author>
         <KitComment.Metadata>
-          <span>{comment.createdAt}</span>
+          <span>{comment.createdAt.toLocaleString()}</span>
         </KitComment.Metadata>
         <KitComment.Text>{comment.text}</KitComment.Text>
         <KitComment.Actions>
@@ -28,7 +28,7 @@ Comment.propTypes = {
         return new Error(`Expected ${propName} to exist and have a length of 24`);
       }
     },
-    createdAt: PropTypes.string.isRequired,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
     author: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired
   }).isRequired,

@@ -19,7 +19,22 @@ const App = () => {
   useEffect(() => {
     fetch('/api/books')
       .then(response => response.json())
+      .then(json => {
+        // Convert the JSON string formatted value
+        // of createdAt to a real Date for all the
+        // comments
+        return json.map(book => ({
+          ...book,
+          comments: book.comments
+          ? book.comments.map(comment => ({
+            ...comment,
+            createdAt: new Date(comment.createdAt)
+          }))
+          : []
+        }))
+      })
       .then(data => {
+        console.log('Fetched all books from API', data);
         setBooks(data);
         setLoading(false);
       });

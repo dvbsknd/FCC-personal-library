@@ -6,32 +6,48 @@ import {
   Form
 } from 'semantic-ui-react';
 import Comment from '../Comment';
-import ObjectID from 'bson-objectid';
+import ErrorMessage from '../ErrorMessage';
 
 const Comments = ({ comments }) => {
 
-  const initialState = { name: '', comment: ''};
-
   const [currentComments, setCurrentComments] = useState(comments);
-  const [commentContent, setCommentContent] = useState(initialState);
+  const [commentValues, setCommentValues] = useState({});
+  const [error, setError] = useState(null);
 
   const updateValue = (e) => {
-    setCommentContent({ ...commentContent, [e.target.name]: e.target.value });
+    setCommentValues({ ...commentValues, [e.target.name]: e.target.value });
   };
 
   const addComment = () => {
-    console.log(commentContent);
-    setCurrentComments(currentComments.concat({
-      id: new ObjectID().toHexString(),
-      createdAt: new Date().toString(),
-      author: commentContent.name,
-      text: commentContent.comment
-    }));
-    setCommentContent(initialState);
-    // Send a post request to the API with the
-    // comment ID and expect it to return a confirmation
-    // Then, update the App's state by adding the
-    // comment
+    const comment = {
+      createdAt: new Date(),
+      author: commentValues.name,
+      text: commentValues.comment
+    };
+
+    console.log(comment);
+
+    fetch('/api/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(comment)
+    })
+      .then(response => {
+        if(response.ok) return response.json();
+        else throw new Error(response.status + ' ' + response.statusText);
+      })
+      .then(data => {
+          console.log('[Comment Added]', data);
+      })
+      .catch(err => {
+          console.log('[API Error]', err);
+          setError(err.toString());
+      });
+
+    setCurrentComments(currentComments.concat(comment));
+    setCommentValues({});
   };
 
   const deleteComment = (commentId) => {
@@ -48,7 +64,7 @@ const Comments = ({ comments }) => {
       {currentComments
         ? currentComments.map((comment,) => (
           <Comment
-            key={comment.id}
+            key={comment.id || Number(comment.createdAt.valueOf())}
             comment={comment}
             deleteComment={deleteComment}
           />
@@ -56,6 +72,7 @@ const Comments = ({ comments }) => {
         : (<p>No comment.</p>)
       }
       <Header as='h3' dividing>Add a Comment</Header>
+      {error ? (<ErrorMessage label={'Saving comment failed'}  message={error} />) : error}
       <Form onSubmit={addComment}>
         <Form.Group>
           <Form.Input
@@ -64,7 +81,7 @@ const Comments = ({ comments }) => {
             placeholder='Full name'
             width={6}
             onChange={updateValue}
-            value={commentContent.name}
+            value={commentValues.name || ''}
           />
           <Form.TextArea
             name='comment'
@@ -72,7 +89,7 @@ const Comments = ({ comments }) => {
             placeholder='Tell us what you think...'
             width={10}
             onChange={updateValue}
-            value={commentContent.comment}
+            value={commentValues.comment || ''}
           />
         </Form.Group>
         <Form.Button>Add</Form.Button>
