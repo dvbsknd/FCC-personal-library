@@ -126,6 +126,7 @@ Development steps are documented here for tracking and articulating progress:
 ### Todo
 
 1. Implement the #deleteComment function
+1. Add React-Router to README
 1. Add a DELETE endpoint for comments
 1. Add some form field validation on front-end
 1. Ensure forms can be submitted by enter
