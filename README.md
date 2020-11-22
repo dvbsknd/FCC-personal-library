@@ -125,9 +125,11 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Implement the #deleteComment function
 1. Add a DELETE endpoint for comments
 1. Add some form field validation on front-end
 1. Ensure forms can be submitted by enter
+1. Add API/controller tests for Comments
 1. Possibly get the App compontent to be wholly responsible for synch to DB by using a [Context](https://www.robinwieruch.de/react-context)
 1. Implement [Babel resolvers](https://www.robinwieruch.de/babel-module-resolver/) for components/modules
 1. Try to get `webpack-dev-server` to understand the routes on reload
