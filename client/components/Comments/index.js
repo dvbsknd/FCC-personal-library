@@ -8,7 +8,7 @@ import {
 import Comment from '../Comment';
 import ErrorMessage from '../ErrorMessage';
 
-const Comments = ({ comments }) => {
+const Comments = ({ bookId, comments }) => {
 
   const [currentComments, setCurrentComments] = useState(comments);
   const [commentValues, setCommentValues] = useState({});
@@ -25,25 +25,24 @@ const Comments = ({ comments }) => {
       text: commentValues.comment
     };
 
-    console.log(comment);
-
     fetch('/api/comments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(comment)
+      body: JSON.stringify({
+        bookId,
+        comment
+      })
     })
       .then(response => {
         if(response.ok) return response.json();
         else throw new Error(response.status + ' ' + response.statusText);
       })
-      .then(data => {
-          console.log('[Comment Added]', data);
-      })
+      .then(()=> console.log('Comment by %s added.', comment.author))
       .catch(err => {
-          console.log('[API Error]', err);
-          setError(err.toString());
+        console.log('[API Error]', err);
+        setError(err.toString());
       });
 
     setCurrentComments(currentComments.concat(comment));
@@ -99,9 +98,14 @@ const Comments = ({ comments }) => {
 };
 
 Comments.propTypes = {
+  bookId: function(props, propName) {
+    if (props[propName] && props[propName].length !== 24) {
+      return new Error(`Expected ${propName} to exist and have a length of 24`);
+    }
+  },
   comments: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired
+      id: PropTypes.string
     }).isRequired)
 };
 

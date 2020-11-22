@@ -33,6 +33,13 @@ router.route('/books')
       .catch(res.error);
   });
 
+router.route('/comments')
+  .post((req, res) => {
+    booksController.addComment(req.body.bookId, req.body.comment)
+      .then(result => res.json(result))
+      .catch(res.error);
+  });
+
 // Unmatched routes
 router.use((req, res) => {
   res.error({ error: 'Unknown route'});
