@@ -33,8 +33,7 @@ Book.propTypes = {
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     comments: PropTypes.arrayOf(PropTypes.object)
-  }),
-  setBooks: PropTypes.func.isRequired
+  })
 };
 
 export default Book;

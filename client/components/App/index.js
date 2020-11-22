@@ -34,7 +34,6 @@ const App = () => {
         }))
       })
       .then(data => {
-        console.log('Fetched all books from API', data);
         setBooks(data);
         setLoading(false);
       });

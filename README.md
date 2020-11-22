@@ -118,13 +118,14 @@ Development steps are documented here for tracking and articulating progress:
 1. Move Loader in to main App rather than in two subcomponents
 1. Select which Book to render in the main App component/route
 1. Comments should be sub-documents of Books (fix Components to fetch them all on load and pass down to Comments)
+1. Add tests for Comments components
+1. Add a form to add comments in the book modal
+1. Add a link to delete comments in the book modal
+1. Build out the API POST endpoint for comments
 
 ### Todo
 
-1. Add tests for Comments components
-1. Build out the API endpoints for comments
-1. Add a form to add comments in the book modal
-1. Add a link to delete comments in the book modal
+1. Add a DELETE endpoint for comments
 1. Add some form field validation on front-end
 1. Ensure forms can be submitted by enter
 1. Possibly get the App compontent to be wholly responsible for synch to DB by using a [Context](https://www.robinwieruch.de/react-context)
@@ -149,3 +150,4 @@ Development steps are documented here for tracking and articulating progress:
 1. Make tests add/remove dummy data to the database
 1. Document the deployment process
 1. Set-up deployments to an actual production environment
+1. Possibly try to build a mockable function class for tests by using [Object.setPrototypeOf](https://stackoverflow.com/questions/10341127/can-javascript-constructor-return-function-and-keep-inheritance)
