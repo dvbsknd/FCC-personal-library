@@ -31,7 +31,7 @@ I've attempted to follow some archictural principles that I've picked up along t
 .
 ├── client               All uncompiled source files for the React client
 │   ├── components       React components
-│   │   └── [Component]  Each component is a folder of js, css and test
+│   │   └── {Component}  Each component is a folder of js, css and test
 │   ├── images           Static images/assets for components
 │   ├── index.html       HTML output template for Webpack
 │   ├── index.js         JS entry point for Webpack
@@ -139,6 +139,7 @@ Development steps are documented here for tracking and articulating progress:
 1. Ensure forms can be submitted by enter
 1. Add API/controller tests for Comments
 1. Possibly get the App compontent to be wholly responsible for synch to DB by using a [Context](https://www.robinwieruch.de/react-context)
+1. Possibly write a [custom hook or reducer](https://www.robinwieruch.de/react-hooks-fetch-data) for the API stuff
 1. Implement [Babel resolvers](https://www.robinwieruch.de/babel-module-resolver/) for components/modules
 1. Try to get `webpack-dev-server` to understand the routes on reload
 1. Try and get renders to persist across tests
