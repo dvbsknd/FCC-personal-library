@@ -133,6 +133,7 @@ Development steps are documented here for tracking and articulating progress:
 
 ### Todo
 
+1. Create a unique ObjectID for new Comments (possibly temporary)
 1. Clean-up unused dependencies
 1. Ensure we have what's required to get [FCC tests](https://github.com/freeCodeCamp/freeCodeCamp/blob/production-current/curriculum/challenges/english/06-quality-assurance/quality-assurance-projects/personal-library.md) to pass
 1. Add some form field validation on front-end

@@ -35,6 +35,9 @@ module.exports.booksController = {
       return Promise.reject(e);
     }
   },
+  // TODO: Add a #getOne method here to allow the API to return a
+  // single book when requested:
+  getOne: function (bookId) { return bookId },
   addComment: function (bookId, body) {
     try {
       const { author, text, createdAt } = body;
@@ -42,6 +45,18 @@ module.exports.booksController = {
       return books.get()
         .then(collection => collection.updateOne({ _id: ObjectID(bookId) }, { $push: { comments: comment } }))
         .then(()=> ({ success: true, message: 'Comment added', comment }));
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  },
+  deleteComment: function (commentId) {
+    try {
+      return books.get()
+        .then(collection => collection.findOneAndUpdate(
+          { "comments._id": ObjectID(commentId) },
+          { $pull: { comments: { _id: ObjectID(commentId)} } }
+        ))
+        .then(()=> ({ success: true, message: 'Comment deleted', commentId }));
     } catch (e) {
       return Promise.reject(e);
     }

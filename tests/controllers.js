@@ -5,6 +5,7 @@ const expect = chai.expect;
 const {
   booksController
 } = require('../controllers');
+const { comments } = require('./mocks');
 
 describe('Controllers', () => {
   context('booksController#list', () => {
@@ -33,4 +34,31 @@ describe('Controllers', () => {
         .catch(done);
     });
   });
+
+  context('booksController comment handling', () => {
+
+    it('#addComment adds a new comment to the book', (done) => {
+      booksController.add('White Fragility', 'Robin DiAngelo')
+        // Create a new dummy book and return the ID
+        .then(response => response.document._id)
+        .then(bookId => {
+        // Add the test comments to the book using the #addComments
+        // method, returning the bookId
+          comments.forEach(/* Insert the comment */);
+          return bookId;
+        })
+        // Look up the book and return it with the #getOne method
+        .then(bookId => booksController.getOne(bookId))
+        // Expoct the returned book to have the same comments as
+        // those supplied in the mock
+        .then(book => {
+          // Make assertions...
+          expect(book).to.be.ok;
+          done();
+        })
+        .catch(done);
+    });
+
+  });
+
 });

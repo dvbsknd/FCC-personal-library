@@ -17,5 +17,6 @@ const books = array.map(item => ({
 }));
 
 module.exports = {
-  books
+  books,
+  comments
 }
