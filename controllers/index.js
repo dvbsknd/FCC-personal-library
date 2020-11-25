@@ -25,12 +25,12 @@ module.exports.booksController = {
 
   list: function () {
     // Return a list of all the books in the database
-    return books.get().then(collection => collection.find().toArray())
+    return books.get().then(collection => collection.find().toArray());
   },
 
   getOne: function (_id) {
     // Return a specific book by its _id
-    return books.get().then(collection => collection.findOne({ _id }));
+    return books.get().then(collection => collection.findOne({ _id: ObjectID(_id) }))
   },
 
   add: function (title, author) {

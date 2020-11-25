@@ -127,13 +127,15 @@ Development steps are documented here for tracking and articulating progress:
 1. Add a DELETE endpoint for comments
 1. Implement the #deleteComment function
 1. Finalise the mocked DELETE endpoint for comments
+1. Create a unique ObjectID for new Comments (possibly temporary)
 
 # In Progress
+
 1. Move getBooks, addBook and deleteBook to the API module
 
 ### Todo
 
-1. Create a unique ObjectID for new Comments (possibly temporary)
+1. Create a shared `resolve()` function to handle API responses
 1. Clean-up unused dependencies
 1. Ensure we have what's required to get [FCC tests](https://github.com/freeCodeCamp/freeCodeCamp/blob/production-current/curriculum/challenges/english/06-quality-assurance/quality-assurance-projects/personal-library.md) to pass
 1. Add some form field validation on front-end

@@ -8,7 +8,7 @@ import {
 import Comment from '../Comment';
 import ErrorMessage from '../ErrorMessage';
 import API from '../../services/api';
-import { ObjectID } from 'mongodb';
+import { ObjectID } from '../../services/utils';
 
 const Comments = ({ bookId, comments }) => {
 
@@ -58,7 +58,7 @@ const Comments = ({ bookId, comments }) => {
       {currentComments
         ? currentComments.map((comment) => (
           <Comment
-            key={comment._id || new ObjectID()}
+            key={comment._id || ObjectID()}
             comment={comment}
             deleteComment={() => deleteComment(comment._id)}
           />
