@@ -113,6 +113,7 @@ Development steps are documented here for tracking and articulating progress:
 1. Get ESLint working (seems not to be enabled)
 1. Implement `react-router-dom` so each book can have a "view" URL
 1. Tidy up components to work well with the router
+1. Try to get `webpack-dev-server` to understand the routes on reload
 1. Ensure tests are passing again
 1. Add tests for new components/routes
 1. Build out the front-end components for comments
@@ -128,41 +129,42 @@ Development steps are documented here for tracking and articulating progress:
 1. Implement the #deleteComment function
 1. Finalise the mocked DELETE endpoint for comments
 1. Create a unique ObjectID for new Comments (possibly temporary)
+1. Add controller tests for Comments
 
-## In Progress
+### In Progress
 
 1. Move getBooks, addBook and deleteBook to the API module
+1. Just add Comments do the DOM after DB returns
+1. Create a shared `resolve()` function to handle API responses
+1. Add some form field validation on front-end
+1. Ensure forms can be submitted by enter
+1. Add API tests for Comments
 
 ### Todo
 
-1. Create a shared `resolve()` function to handle API responses
+1. Handle database offline case
+1. Show a message if no books found
+1. Add more granular tests for the delete function on client
+1. Make tests add/remove dummy data to the database
+1. Make sure _all_ components have at least some tests
+1. Try and get renders to persist across tests
+1. Move the API request to the BooksList component
 1. Clean-up unused dependencies
 1. Update list of notable dependencies/concepts in this README
+1. Set-up deployments to an actual production environment
+1. Document the deployment process
 1. Ensure we have what's required to get [FCC tests](https://github.com/freeCodeCamp/freeCodeCamp/blob/production-current/curriculum/challenges/english/06-quality-assurance/quality-assurance-projects/personal-library.md) to pass
-1. Add some form field validation on front-end
-1. Ensure forms can be submitted by enter
-1. Add API/controller tests for Comments
-1. Possibly get the App compontent to be wholly responsible for synch to DB by using a [Context](https://www.robinwieruch.de/react-context)
-1. Possibly write a [custom hook or reducer](https://www.robinwieruch.de/react-hooks-fetch-data) for the API stuff
-1. Implement [Babel resolvers](https://www.robinwieruch.de/babel-module-resolver/) for components/modules
-1. Try to get `webpack-dev-server` to understand the routes on reload
-1. Try and get renders to persist across tests
-1. Try to get the route to render a modal of the book
-1. Try to have the "close" button on the modal take us home
-1. Handle database offline case
+
+## Wishlist/Enhancements
+
+1. Return a comment count for each book using a MongoDB calculated field
 1. Show a comment count on the books in the home list
-1. Perhaps use `concurrently` to make an `npm run dev` command
+1. Get the App compontent to be wholly responsible for synch to DB by using a [Context](https://www.robinwieruch.de/react-context)
+1. Write a [custom hook or reducer](https://www.robinwieruch.de/react-hooks-fetch-data) for the API stuff
+1. Use [Babel resolvers](https://www.robinwieruch.de/babel-module-resolver/) for components/modules
 1. Split ESLint files in to a `root` and `client` ones, like [this](https://stackoverflow.com/questions/36762468/how-do-i-setup-a-folder-with-a-different-rule-and-another-folder-with-a-differen) or [this](https://headway.io/blog/customizing-eslint-for-a-specific-directory)
 1. Refactor `_id` to `id` for usability (it's MongoDB specific)
-1. Add more granular tests for the delete function on client
-1. Return a comment count for each book
-1. Make sure _all_ components have at least some tests
-1. Probably move client tests to the tests folder
-1. Probably flatten components into single files, not folders (for now)
-1. Move the API request to the BooksList component
-1. Show a message if no books found
-1. Possibly restructure the Controllers so that DB connections close and tests finish
-1. Make tests add/remove dummy data to the database
-1. Document the deployment process
-1. Set-up deployments to an actual production environment
-1. Possibly try to build a mockable function class for tests by using [Object.setPrototypeOf](https://stackoverflow.com/questions/10341127/can-javascript-constructor-return-function-and-keep-inheritance)
+1. Flatten components into single files, not folders (for now)
+1. Restructure the Controllers so that DB connections close and tests finish
+1. Try to build a mockable function class for tests by using [Object.setPrototypeOf](https://stackoverflow.com/questions/10341127/can-javascript-constructor-return-function-and-keep-inheritance)
+1. Use `concurrently` to make an `npm run dev` command
