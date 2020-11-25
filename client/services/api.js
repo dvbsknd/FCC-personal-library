@@ -21,9 +21,9 @@ const deleteComment = (commentId) => {
   })
     .then(validateResponse)
     .then(json => {
-      const { _id } = json;
-      console.log('Comment %s deleted.', _id);
-      return _id;
+      const { commentId } = json;
+      console.log('Comment %s deleted.', commentId);
+      return commentId;
     })
     .catch(handleError);
 

@@ -124,12 +124,12 @@ Development steps are documented here for tracking and articulating progress:
 1. Add a link to delete comments in the book modal
 1. Build out the API POST endpoint for comments
 1. Add React-Router to README
-
-# In Progress
+1. Add a DELETE endpoint for comments
 1. Implement the #deleteComment function
 1. Finalise the mocked DELETE endpoint for comments
+
+# In Progress
 1. Move getBooks, addBook and deleteBook to the API module
-1. Add a DELETE endpoint for comments
 
 ### Todo
 

@@ -8,6 +8,7 @@ import {
 import Comment from '../Comment';
 import ErrorMessage from '../ErrorMessage';
 import API from '../../services/api';
+import { ObjectID } from 'mongodb';
 
 const Comments = ({ bookId, comments }) => {
 
@@ -55,9 +56,9 @@ const Comments = ({ bookId, comments }) => {
     <KitComment.Group minimal>
       <Header as='h2' dividing>Comments</Header>
       {currentComments
-        ? currentComments.map((comment,) => (
+        ? currentComments.map((comment) => (
           <Comment
-            key={comment._id || Number(comment.createdAt.valueOf())}
+            key={comment._id || new ObjectID()}
             comment={comment}
             deleteComment={() => deleteComment(comment._id)}
           />

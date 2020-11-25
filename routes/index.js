@@ -40,7 +40,7 @@ router.route('/comments')
       .catch(res.error);
   })
   .delete((req, res) => {
-    booksController.deleteComment(req.body.id)
+    booksController.deleteComment(req.body._id)
       .then(result => res.json(result))
       .catch(res.error);
   });

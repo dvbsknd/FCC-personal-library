@@ -22,9 +22,17 @@ function Comment (author, text, createdAt) {
 }
 
 module.exports.booksController = {
+
   list: function () {
+    // Return a list of all the books in the database
     return books.get().then(collection => collection.find().toArray())
   },
+
+  getOne: function (_id) {
+    // Return a specific book by its _id
+    return books.get().then(collection => collection.findOne({ _id }));
+  },
+
   add: function (title, author) {
     try {
       const book = new Book(title, author);
@@ -35,9 +43,7 @@ module.exports.booksController = {
       return Promise.reject(e);
     }
   },
-  // TODO: Add a #getOne method here to allow the API to return a
-  // single book when requested:
-  getOne: function (bookId) { return bookId },
+
   addComment: function (bookId, body) {
     try {
       const { author, text, createdAt } = body;
@@ -49,18 +55,23 @@ module.exports.booksController = {
       return Promise.reject(e);
     }
   },
+
   deleteComment: function (commentId) {
     try {
       return books.get()
         .then(collection => collection.findOneAndUpdate(
           { "comments._id": ObjectID(commentId) },
-          { $pull: { comments: { _id: ObjectID(commentId)} } }
+          { $pull: { comments: { _id: ObjectID(commentId) } } }
         ))
-        .then(()=> ({ success: true, message: 'Comment deleted', commentId }));
+        .then((response)=> {
+          console.log(response);
+          return { success: true, message: 'Comment deleted', commentId: commentId  }
+        });
     } catch (e) {
       return Promise.reject(e);
     }
   },
+
   delete: function (_id) {
     try {
       return books.get()
@@ -76,4 +87,5 @@ module.exports.booksController = {
       return Promise.reject(e);
     }
   }
+
 }
