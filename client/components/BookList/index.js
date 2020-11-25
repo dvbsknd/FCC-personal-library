@@ -2,10 +2,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'semantic-ui-react';
+import {
+  Card,
+  Divider } from 'semantic-ui-react';
 import BookListItem from '../BookListItem';
+import AddBookForm from '../AddBookForm'
 
-const BookList = (props) => {
+const BookList = ({ books, setBooks }) => {
 
   const deleteBook = bookId => {
 
@@ -13,11 +16,11 @@ const BookList = (props) => {
 
     // Save the current state in case deletion fails and
     // we need to restore it
-    const currentData = props.books;
+    const currentData = books;
 
     // Remove the item from the DOM immediately and restore
     // it later if deletion at the API fails
-    props.setData(current => current.filter(book => book._id !== bookId));
+    setBooks(current => current.filter(book => book._id !== bookId));
 
     // Send the delete request
     fetch('/api/books', {
@@ -35,35 +38,33 @@ const BookList = (props) => {
       .catch(err => {
         console.log(err);
         console.log(`Restoring deleted book ${bookId} to the list`);
-        props.setData(currentData);
+        setBooks(currentData);
       });
   };
 
   return (
-    <Card.Group itemsPerRow={3}>
-      {props.books.map((book, idx) => (
-        <BookListItem
-          author={book.author}
-          title={book.title}
-          bookId={book._id}
-          key={idx}
-          deleteBook={deleteBook} />)
-      )}
-    </Card.Group>
+    <>
+      <Card.Group itemsPerRow={3}>
+        {books.map((book) => (
+          <BookListItem
+            book={book}
+            key={book._id}
+            deleteBook={deleteBook}
+            setBooks={setBooks} />
+        ))}
+      </Card.Group>
+      <Divider hidden />
+      <AddBookForm books={books} setBooks={setBooks} />
+    </>
   );
 };
 
 BookList.propTypes = {
-  setData: PropTypes.func.isRequired,
-  books: PropTypes.arrayOf(PropTypes.shape({
-    _id: function(props, propName) {
-      if (props[propName] && props[propName].length !== 24) {
-        return new Error(`Expected ${propName} to exist and have a length of 24`);
-      }
-    },
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired
-  }))
-}
+  setBooks: PropTypes.func.isRequired,
+  books: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired
+    }).isRequired)
+};
 
 export default BookList;

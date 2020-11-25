@@ -1,21 +1,22 @@
 const React = require('react');
 const { render, screen, } = require('@testing-library/react');
 const { default: userEvent } = require('@testing-library/user-event');
+const { books } = require('../../../tests/mocks.js');
 const expect = require('chai').expect;
 
 // We have to use an import because components are
 // exported using ES6 modules
 import BookListItem from './';
 
+// We also have to import BrowserRouter becuase the <Link>
+// component doesn't inherit the Router context from its
+// parents when run atomically
+import { BrowserRouter as DummyRouter } from 'react-router-dom';
+
 describe('<BookListItem>', () => {
 
   let _id = null;
-
-  const book = {
-    "title": "Book Three",
-    "author": "Avid Asking",
-    "_id": "5fa4f612c9ed1b404e0aed53"
-  };
+  const book = books[0];
 
   const deleteBook = (bookId) => {
     _id = bookId;
@@ -23,12 +24,10 @@ describe('<BookListItem>', () => {
 
   beforeEach(() => {
     render(
-      <BookListItem 
-        author={book.author}
-        title={book.title}
-        bookId={book._id}
-        deleteBook={deleteBook} 
-      />);
+      <DummyRouter>
+        <BookListItem book={book} deleteBook={deleteBook} />
+      </DummyRouter>
+    );
   });
 
   it('Renders the book title and author', () => {

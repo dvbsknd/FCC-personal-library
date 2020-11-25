@@ -38,7 +38,7 @@ describe('<AddBookForm>', () => {
     "document": book
   };
 
-  const setData = (reducer) => {
+  const setBooks = (reducer) => {
     books = reducer(books);
   }
 
@@ -51,7 +51,7 @@ describe('<AddBookForm>', () => {
   })
 
   beforeEach(() => {
-    render(<AddBookForm setData={setData} />);
+    render(<AddBookForm setBooks={setBooks} />);
     title = screen.getByLabelText('Book Title');
     author = screen.getByLabelText('Author');
   });

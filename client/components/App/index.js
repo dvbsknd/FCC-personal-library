@@ -1,21 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
+import {
   Container,
   Header,
-  Loader,
-  Divider } from 'semantic-ui-react';
+  Loader } from 'semantic-ui-react';
 import BookList from '../BookList'
-import AddBookForm from '../AddBookForm'
+import Book from '../Book'
 
-export default function App() {
-  const [data, setData] = useState();
+const App = () => {
+
+  const [books, setBooks] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/books')
       .then(response => response.json())
+      .then(json => {
+        // Convert the JSON string formatted value
+        // of createdAt to a real Date for all the
+        // comments
+        return json.map(book => ({
+          ...book,
+          comments: book.comments
+          ? book.comments.map(comment => ({
+            ...comment,
+            createdAt: new Date(comment.createdAt)
+          }))
+          : []
+        }))
+      })
       .then(data => {
-        setData(data);
+        setBooks(data);
         setLoading(false);
       });
   }, []);
@@ -23,13 +42,33 @@ export default function App() {
   return (
     <Container>
       <Header as='h1' className='site-title'>My Books</Header>
-      { loading ? (
-        <Loader active inline='centered' size='medium'>Fetching data...</Loader>
-      ) : (
-        <BookList books={data} setData={setData}/>
-      ) }
-      <Divider hidden />
-      <AddBookForm data={data} setData={setData} />
+      <Router>
+        {loading
+          ? (
+            <Loader active inline='centered' size='medium'>
+              Fetching data...
+            </Loader>
+          )
+          : (
+            <Switch>
+              <Route exact={true} path='/' render={() => (
+                <BookList books={books} setBooks={setBooks}/>
+              )} />
+              <Route path='/:id' render={({ match }) => {
+                const { id } = match.params;
+                const book = books.find(book => id === book._id)
+                return (
+                  <Book
+                    book={book}
+                    setBooks={setBooks}
+                  />
+                )}} />
+            </Switch>
+          )
+        }
+      </Router>
     </Container>
   );
-}
+};
+
+export default App;

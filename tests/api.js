@@ -52,7 +52,10 @@ describe('API', () => {
     });
     it('Returns an array of Books with author and title', (done) => {
       result.body.forEach(book => {
-        expect(book).to.have.keys(['_id', 'title', 'author']);
+        const keys = Object.keys(book);
+        expect(keys).to.include('_id');
+        expect(keys).to.include('author');
+        expect(keys).to.include('title');
       });
       done();
     });

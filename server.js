@@ -18,6 +18,9 @@ app.use(helmet.contentSecurityPolicy({
 }));
 app.use(express.urlencoded({ extended: true }));
 
+// Redirect routes for books home (for now)
+app.get('/books/:title', (req, res) => res.redirect('/'));
+
 // Static assets
 app.use(express.static('public/build'));
 

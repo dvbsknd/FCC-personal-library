@@ -31,7 +31,7 @@ I've attempted to follow some archictural principles that I've picked up along t
 .
 ├── client               All uncompiled source files for the React client
 │   ├── components       React components
-│   │   └── [Component]  Each component is a folder of js, css and test
+│   │   └── {Component}  Each component is a folder of js, css and test
 │   ├── images           Static images/assets for components
 │   ├── index.html       HTML output template for Webpack
 │   ├── index.js         JS entry point for Webpack
@@ -68,9 +68,11 @@ Notable packages and concepts include:
 1. [MongoDB](https://www.npmjs.com/package/mongodb)
 1. [Mocha](https://www.npmjs.com/package/mocha) to run tests
 1. [Chai](https://www.npmjs.com/package/chai) with [HTTP](https://www.npmjs.com/package/chai-http) to assert
+1. [React Testing Library](https://github.com/testing-library/react-testing-library) for rendering & testing components
 1. [Nodemon](https://www.npmjs.com/package/nodemon) for running a local dev server with hot-reloading
 1. [ESLint](https://www.npmjs.com/package/eslint) for code-checking
 1. [React](https://reactjs.org/), of course
+1. [React Router](https://reactrouter.com/)
 
 ## Goals/Todo
 
@@ -108,14 +110,50 @@ Development steps are documented here for tracking and articulating progress:
 1. Make the delete button remove the card from the database
 1. Handle API errors for deletion
 1. Add tests for the delete control and endpoint
+1. Get ESLint working (seems not to be enabled)
+1. Implement `react-router-dom` so each book can have a "view" URL
+1. Tidy up components to work well with the router
+1. Ensure tests are passing again
+1. Add tests for new components/routes
+1. Build out the front-end components for comments
+1. Move Loader in to main App rather than in two subcomponents
+1. Select which Book to render in the main App component/route
+1. Comments should be sub-documents of Books (fix Components to fetch them all on load and pass down to Comments)
+1. Add tests for Comments components
+1. Add a form to add comments in the book modal
+1. Add a link to delete comments in the book modal
+1. Build out the API POST endpoint for comments
+1. Add React-Router to README
+1. Add a DELETE endpoint for comments
+1. Implement the #deleteComment function
+1. Finalise the mocked DELETE endpoint for comments
+1. Create a unique ObjectID for new Comments (possibly temporary)
+
+# In Progress
+
+1. Move getBooks, addBook and deleteBook to the API module
 
 ### Todo
 
-1. Get ESLint working (seems not to be enabled)
+1. Create a shared `resolve()` function to handle API responses
+1. Clean-up unused dependencies
+1. Ensure we have what's required to get [FCC tests](https://github.com/freeCodeCamp/freeCodeCamp/blob/production-current/curriculum/challenges/english/06-quality-assurance/quality-assurance-projects/personal-library.md) to pass
+1. Add some form field validation on front-end
+1. Ensure forms can be submitted by enter
+1. Add API/controller tests for Comments
+1. Possibly get the App compontent to be wholly responsible for synch to DB by using a [Context](https://www.robinwieruch.de/react-context)
+1. Possibly write a [custom hook or reducer](https://www.robinwieruch.de/react-hooks-fetch-data) for the API stuff
+1. Implement [Babel resolvers](https://www.robinwieruch.de/babel-module-resolver/) for components/modules
+1. Try to get `webpack-dev-server` to understand the routes on reload
+1. Try and get renders to persist across tests
+1. Try to get the route to render a modal of the book
+1. Try to have the "close" button on the modal take us home
+1. Handle database offline case
+1. Show a comment count on the books in the home list
 1. Perhaps use `concurrently` to make an `npm run dev` command
-1. Refactor `_id` to `id` for usability (it's MongoDB specific"
+1. Split ESLint files in to a `root` and `client` ones, like [this](https://stackoverflow.com/questions/36762468/how-do-i-setup-a-folder-with-a-different-rule-and-another-folder-with-a-differen) or [this](https://headway.io/blog/customizing-eslint-for-a-specific-directory)
+1. Refactor `_id` to `id` for usability (it's MongoDB specific)
 1. Add more granular tests for the delete function on client
-1. Allow adding of comments to a specific book
 1. Return a comment count for each book
 1. Make sure _all_ components have at least some tests
 1. Probably move client tests to the tests folder
@@ -126,3 +164,4 @@ Development steps are documented here for tracking and articulating progress:
 1. Make tests add/remove dummy data to the database
 1. Document the deployment process
 1. Set-up deployments to an actual production environment
+1. Possibly try to build a mockable function class for tests by using [Object.setPrototypeOf](https://stackoverflow.com/questions/10341127/can-javascript-constructor-return-function-and-keep-inheritance)
