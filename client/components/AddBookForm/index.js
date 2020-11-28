@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'semantic-ui-react';
 import ErrorMessage from '../ErrorMessage'
+import API from '../../services/api';
 
-const AddBookForm = (props) => {
+const AddBookForm = ({ setBooks }) => {
 
   const initialValues = { title: '', author: '' }
   const [values, setValues] = useState(initialValues);
@@ -20,26 +21,18 @@ const AddBookForm = (props) => {
   const handleSubmit = () => {
     if (error) setError(null);
     setButtonLoading(true);
-    fetch('/api/books', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          console.log('[API Error]', data);
-          setError(data.error);
-          setButtonLoading(false);
-        } else {
-          props.setBooks(current => {
-            return [...current].concat(data.document);
-          });
-          setButtonLoading(false);
-          setValues(initialValues);
-        }
+    API.addBook(values)
+      .then(book => {
+        setBooks(current => {
+          return [...current].concat(book);
+        });
+        setButtonLoading(false);
+        setValues(initialValues);
+      })
+      .catch(err => {
+        const { message } = err;
+        setError(message);
+        setButtonLoading(false);
       });
   };
 

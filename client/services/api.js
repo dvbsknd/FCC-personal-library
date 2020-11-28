@@ -1,5 +1,10 @@
 const validateResponse = (response) => {
-  if(response.ok) return response.json();
+  if (response.ok) {
+    return response.json()
+      .then(json => {
+        return json
+      });
+  }
   else throw new Error(response.status + ' ' + response.statusText);
 };
 
@@ -28,8 +33,33 @@ const getBooks = () => {
     .catch(handleError);
 };
 
-const deleteComment = (commentId) => {
+const addBook = (bookDetails) => {
+  return fetch('/api/books', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(bookDetails)
+  })
+    .then(validateResponse)
+    .then(json => json.document)
+    .catch(handleError);
+};
 
+const deleteBook = (bookId) => {
+  return fetch('/api/books', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ _id: bookId })
+  })
+    .then(validateResponse)
+    .then(json => json.document)
+    .catch(handleError);
+};
+
+const deleteComment = (commentId) => {
   return fetch('/api/comments', {
     method: 'DELETE',
     headers: {
@@ -42,15 +72,12 @@ const deleteComment = (commentId) => {
     .then(validateResponse)
     .then(json => {
       const { commentId } = json;
-      console.log('Comment %s deleted.', commentId);
       return commentId;
     })
     .catch(handleError);
-
 };
 
 const addComment = (bookId, comment) => {
-
   return fetch('/api/comments', {
     method: 'POST',
     headers: {
@@ -64,17 +91,17 @@ const addComment = (bookId, comment) => {
     .then(validateResponse)
     .then(json => {
       const { comment } = json;
-      console.log('Comment %s added.', comment._id);
       return {
         ...comment,
         createdAt: new Date(comment.createdAt)
       }
     })
     .catch(handleError);
-
 };
 
 export default {
+  addBook,
+  deleteBook,
   getBooks,
   addComment,
   deleteComment
