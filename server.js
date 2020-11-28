@@ -8,7 +8,7 @@ const router = require('./routes');
 
 // Common middleware
 app.use(helmet.contentSecurityPolicy({
-  directives: { 
+  directives: {
     scriptSrc: ["'self'", "'unsafe-eval'"],
     imgSrc: ["'self'", "data:"],
     styleSrc: ["'unsafe-inline'", "'self'", "fonts.googleapis.com"],

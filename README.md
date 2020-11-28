@@ -73,3 +73,9 @@ Notable packages and concepts include:
 1. [ESLint](https://www.npmjs.com/package/eslint) for code-checking
 1. [React](https://reactjs.org/), of course
 1. [React Router](https://reactrouter.com/)
+
+## Deployments
+
+1. Fork this repository.
+1. Create a new [REPL](https://repl.it/) and connect it to your forked version of the repo.
+1. Run `npm install` on the target box.
