@@ -29,7 +29,7 @@ const BookList = ({ books, setBooks }) => {
 
   return (
     <>
-      <Card.Group itemsPerRow={3}>
+      <Card.Group itemsPerRow={4}>
         {books.map((book) => (
           <BookListItem
             book={book}

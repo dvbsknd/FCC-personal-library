@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Card, Button, Icon } from 'semantic-ui-react';
+import {
+  Card,
+  Button,
+  Dimmer
+ } from 'semantic-ui-react';
 
 const BookListItem = ({ book, deleteBook }) => {
 
@@ -9,22 +13,19 @@ const BookListItem = ({ book, deleteBook }) => {
   const { _id, title, author } = book;
 
   return (
-    <Card fluid={true}
+    <Dimmer.Dimmable as={Card} dimmed={deleteButton} Card fluid={true}
       onMouseEnter={() => showDeleteButton(true)}
       onMouseLeave={() => showDeleteButton(false)}>
       <Card.Content>
-        {deleteButton && (
-          <Button icon floated='right' color='red' circular basic
-            aria-label='Delete'
-            onClick={() => deleteBook(_id)}>
-            <Icon name='delete' />
-          </Button>
-        )}
         <Card.Header as="h3" className='bookTitle'>{title}</Card.Header>
         <Card.Meta className='bookAuthor'>{author}</Card.Meta>
-        <Link to={`/${_id}`}>Comments</Link>
+        <Dimmer active={deleteButton}>
+          <Button as={Link} to={`/${_id}`} aria-label='View' primary content='View' />
+          <Button aria-label='Delete' negative content='Delete'
+            onClick={() => deleteBook(_id)} />
+        </Dimmer>
       </Card.Content>
-    </Card>
+    </Dimmer.Dimmable>
   )
 };
 

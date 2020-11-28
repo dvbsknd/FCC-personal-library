@@ -9,6 +9,7 @@ import Comment from '../Comment';
 import ErrorMessage from '../ErrorMessage';
 import API from '../../services/api';
 import { ObjectID } from '../../services/utils';
+import './styles.scss';
 
 const Comments = ({ bookId, comments }) => {
 
@@ -57,7 +58,7 @@ const Comments = ({ bookId, comments }) => {
   };
 
   return (
-    <KitComment.Group minimal>
+    <KitComment.Group minimal fluid>
       <Header as='h2' dividing>Comments</Header>
       {currentComments
         ? currentComments.map((comment) => (

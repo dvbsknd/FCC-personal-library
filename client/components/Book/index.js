@@ -9,8 +9,8 @@ import Comments from '../Comments';
 const Book = ({ book }) => {
   const { _id, title, author, comments } = book;
   return (
-    <Grid columns={2}>
-      <Grid.Column width={3}>
+    <Grid>
+      <Grid.Column width={4}>
         <Card>
           <Card.Content>
             <Card.Header as='h3' content={title} />
@@ -18,7 +18,7 @@ const Book = ({ book }) => {
           </Card.Content>
         </Card>
       </Grid.Column>
-      <Grid.Column width={9}>
+      <Grid.Column width={12} className='commentPanel'>
         <Comments bookId={_id} comments={comments} />
       </Grid.Column>
     </Grid>
