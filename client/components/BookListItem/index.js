@@ -20,7 +20,7 @@ const BookListItem = ({ book, deleteBook }) => {
             <Icon name='delete' />
           </Button>
         )}
-        <Card.Header className='bookTitle'>{title}</Card.Header>
+        <Card.Header as="h3" className='bookTitle'>{title}</Card.Header>
         <Card.Meta className='bookAuthor'>{author}</Card.Meta>
         <Link to={`/${_id}`}>Comments</Link>
       </Card.Content>

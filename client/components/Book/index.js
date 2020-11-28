@@ -12,8 +12,10 @@ const Book = ({ book }) => {
     <Grid columns={2}>
       <Grid.Column width={3}>
         <Card>
-          <Card.Content header={title} />
-          <Card.Content description={author} />
+          <Card.Content>
+            <Card.Header as='h3' content={title} />
+            <Card.Content content={author} />
+          </Card.Content>
         </Card>
       </Grid.Column>
       <Grid.Column width={9}>

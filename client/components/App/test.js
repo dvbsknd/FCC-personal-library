@@ -32,6 +32,6 @@ describe('<App>', () => {
     expect(loader.className).to.include('loader');
   });
 
-  it('Fetches books from the API and renders them on the page');
+  it('Fetches books from the API and updates its state');
 
 });
