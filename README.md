@@ -76,6 +76,4 @@ Notable packages and concepts include:
 
 ## Deployments
 
-1. Fork this repository.
-1. Create a new [REPL](https://repl.it/) and connect it to your forked version of the repo.
-1. Run `npm install` on the target box.
+Despite trying, I was unable to get the app installed and built on [REPL](http://repl.it) so I've fallen back to [Heroku](http://heroku.com) which I'm relatively familiar with anyway. 
