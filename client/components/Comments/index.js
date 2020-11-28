@@ -9,7 +9,6 @@ import Comment from '../Comment';
 import ErrorMessage from '../ErrorMessage';
 import API from '../../services/api';
 import { ObjectID } from '../../services/utils';
-import './styles.scss';
 
 const Comments = ({ bookId, comments }) => {
 
