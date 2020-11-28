@@ -8,6 +8,26 @@ const handleError = (err) => {
   throw err;
 };
 
+const getBooks = () => {
+  return fetch('/api/books')
+    .then(validateResponse)
+    .then(json => {
+      // Convert the JSON string formatted value
+      // of createdAt to a real Date for all the
+      // comments
+      return json.map(book => ({
+        ...book,
+        comments: book.comments
+        ? book.comments.map(comment => ({
+          ...comment,
+          createdAt: new Date(comment.createdAt)
+        }))
+        : []
+      }))
+    })
+    .catch(handleError);
+};
+
 const deleteComment = (commentId) => {
 
   return fetch('/api/comments', {
@@ -55,6 +75,7 @@ const addComment = (bookId, comment) => {
 };
 
 export default {
+  getBooks,
   addComment,
   deleteComment
 };

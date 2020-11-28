@@ -10,6 +10,7 @@ import {
   Loader } from 'semantic-ui-react';
 import BookList from '../BookList'
 import Book from '../Book'
+import API from '../../services/api';
 
 const App = () => {
 
@@ -17,22 +18,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/books')
-      .then(response => response.json())
-      .then(json => {
-        // Convert the JSON string formatted value
-        // of createdAt to a real Date for all the
-        // comments
-        return json.map(book => ({
-          ...book,
-          comments: book.comments
-          ? book.comments.map(comment => ({
-            ...comment,
-            createdAt: new Date(comment.createdAt)
-          }))
-          : []
-        }))
-      })
+    API.getBooks()
       .then(data => {
         setBooks(data);
         setLoading(false);
