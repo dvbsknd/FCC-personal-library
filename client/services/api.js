@@ -1,3 +1,13 @@
+const dispatch = (endpoint, method, payload) => {
+  return fetch(`/api/${endpoint}`, {
+    method: method.toUpperCase(),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+};
+
 const validateResponse = (response) => {
   if (response.ok) {
     return response.json()
@@ -14,7 +24,7 @@ const handleError = (err) => {
 };
 
 const getBooks = () => {
-  return fetch('/api/books')
+  return dispatch('books', 'get')
     .then(validateResponse)
     .then(json => {
       // Convert the JSON string formatted value
@@ -34,41 +44,21 @@ const getBooks = () => {
 };
 
 const addBook = (bookDetails) => {
-  return fetch('/api/books', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(bookDetails)
-  })
+  return dispatch('books', 'post', bookDetails)
     .then(validateResponse)
     .then(json => json.document)
     .catch(handleError);
 };
 
 const deleteBook = (bookId) => {
-  return fetch('/api/books', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ _id: bookId })
-  })
+  return dispatch('books', 'delete', { _id: bookId })
     .then(validateResponse)
     .then(json => json.document)
     .catch(handleError);
 };
 
 const deleteComment = (commentId) => {
-  return fetch('/api/comments', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      _id: commentId
-    })
-  })
+  return dispatch('books', 'delete', { _id: commentId })
     .then(validateResponse)
     .then(json => {
       const { commentId } = json;
@@ -78,16 +68,7 @@ const deleteComment = (commentId) => {
 };
 
 const addComment = (bookId, comment) => {
-  return fetch('/api/comments', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      bookId,
-      comment
-    })
-  })
+  return dispatch('comments', 'post', { bookId, comment })
     .then(validateResponse)
     .then(json => {
       const { comment } = json;
