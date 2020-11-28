@@ -30,7 +30,11 @@ const Comments = ({ bookId, comments }) => {
 
     API.addComment(bookId, comment)
       .then(returnedComment => {
-        setCurrentComments(currentComments.concat(returnedComment));
+        setCurrentComments(state=> {
+          return state
+            ? currentComments.concat(returnedComment)
+            : [returnedComment]
+        });
         setCommentValues({});
       })
       .catch(err => setError({
