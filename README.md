@@ -130,10 +130,10 @@ Development steps are documented here for tracking and articulating progress:
 1. Finalise the mocked DELETE endpoint for comments
 1. Create a unique ObjectID for new Comments (possibly temporary)
 1. Add controller tests for Comments
+1. Move getBooks, addBook and deleteBook to the API module
 
 ### In Progress
 
-1. Move getBooks, addBook and deleteBook to the API module
 1. Just add Comments do the DOM after DB returns
 1. Create a shared `resolve()` function to handle API responses
 1. Add some form field validation on front-end
