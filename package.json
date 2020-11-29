@@ -11,7 +11,7 @@
     "test:api": "export $(cat .env | xargs) && NODE_ENV=test npx mocha tests",
     "test:client": "npx mocha -r jsdom-global/register -r @babel/register -r @babel/polyfill -recursive 'client/**/test.js'",
     "build": "npm run build:client",
-    "build:client": "webpack --mode production",
+    "build:client": "webpack",
     "start": "node server.js"
   },
   "repository": {
