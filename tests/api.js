@@ -3,7 +3,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http');
 const app = require('express')();
-const api = require('../routes');
+const { api } = require('../routes');
 const expect = chai.expect;
 app.use('/api', api);
 
