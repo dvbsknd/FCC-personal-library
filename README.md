@@ -73,3 +73,17 @@ Notable packages and concepts include:
 1. [ESLint](https://www.npmjs.com/package/eslint) for code-checking
 1. [React](https://reactjs.org/), of course
 1. [React Router](https://reactrouter.com/)
+
+## Deployments
+
+Despite trying, I was unable to get the app installed and built easily on [REPL](http://repl.it) so I've fallen back to [Heroku](http://heroku.com) which I'm relatively familiar with anyway.
+
+Heroku is configured to automatically deploy to `staging` from the `main` branch in the repository, and then once checked the app can be promoted to `live` in the [pipeline](https://devcenter.heroku.com/articles/pipelines) either via the web interface or the [CLI](https://devcenter.heroku.com/articles/heroku-cli).
+
+Heroku will first run the `build` script and then, if successful, will run `start` so those scripts and the things that depend on them have all been made "production ready". For example, the `webpack.config.js` file contains some conditional logic to allow `build` to run locally or on Heroku, where the environment differs slightly.
+
+In order to deploy, you'll need to have a user with appropriate permissions on both the repository and the Heroku account, and have authenticated and linked the two.
+
+Finally, because our `.env` isn't included in the repo or deployment, environment variable for both staging and live need to be configured manually for Heroku. At this stage they include `MONGO_URI` and `MONGO_DATABASE`, and a differnet database is recommended for `test`.
+
+There are a number of peculiarities required for the freeCodeCamp tests to run, but these will be documented at a later date.
