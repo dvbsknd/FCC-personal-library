@@ -1,5 +1,5 @@
 const React = require('react');
-const { render, screen, } = require('@testing-library/react');
+const { render, screen, queryByLabelText } = require('@testing-library/react');
 const { default: userEvent } = require('@testing-library/user-event');
 const { books } = require('../../../tests/mocks.js');
 const expect = require('chai').expect;
@@ -36,10 +36,9 @@ describe('<BookListItem>', () => {
   });
 
   it('Displays a delete button/icon when hovered over', () => {
-    userEvent.hover(screen.queryByText(book.title));
-    expect(screen.queryByLabelText('Delete')).to.exist;
-    userEvent.unhover(screen.queryByText(book.title));
-    expect(screen.queryByLabelText('Delete')).not.exist;
+    const card = screen.queryByText(book.title).parentNode.parentNode;
+    userEvent.hover(card);
+    expect(queryByLabelText(card, 'Delete')).to.exist;
   });
   it('Calls the deleteBook function with the bookId when the button is clicked', () => {
     userEvent.hover(screen.queryByText(book.title));

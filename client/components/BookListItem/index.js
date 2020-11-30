@@ -13,7 +13,7 @@ const BookListItem = ({ book, deleteBook }) => {
   const { _id, title, author } = book;
 
   return (
-    <Dimmer.Dimmable as={Card} dimmed={deleteButton} Card fluid={true}
+    <Dimmer.Dimmable as={Card} dimmed={deleteButton} fluid={true}
       onMouseEnter={() => showDeleteButton(true)}
       onMouseLeave={() => showDeleteButton(false)}>
       <Card.Content>

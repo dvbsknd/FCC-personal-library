@@ -57,7 +57,7 @@ const Comments = ({ bookId, comments }) => {
   };
 
   return (
-    <KitComment.Group minimal fluid>
+    <KitComment.Group minimal>
       <Header as='h2' dividing>Comments</Header>
       {currentComments
         ? currentComments.map((comment) => (

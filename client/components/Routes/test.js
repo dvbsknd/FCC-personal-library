@@ -32,7 +32,7 @@ describe('<Routes>', () => {
   });
 
   it('Shows a <Book> when accessing a page with an :id param', () => {
-    const links = screen.getAllByText('Comments');
+    const links = screen.getAllByText('View');
     fireEvent.click(links[0]);
     expect(history.location.pathname).to.equal(links[0].href);
     const title = screen.getByText(books[0].title);
