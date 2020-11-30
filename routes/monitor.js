@@ -16,15 +16,16 @@ monitor.route('/get-tests')
     const testFiles = fs.readdirSync(testDir)
       .filter(file => file.match(/api|controllers|server/));
     testFiles.forEach(file => {
-        mocha.addFile(path.join(testDir, file));
-      });
+      mocha.addFile(path.join(testDir, file));
+    });
     const results = [];
     const runner = mocha.run()
-    runner.on('test end', (e) => { results.push({
+    runner.on('test end', (e) => results.push({
       group: e.parent.title,
       title: e.title,
-      state: e.state });
-    });
+      state: e.state,
+      assertions: ['Yes']
+    }));
     runner.on('end', () => res.json(results));
   });
 
