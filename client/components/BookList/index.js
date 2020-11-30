@@ -5,6 +5,7 @@ import {
   Divider } from 'semantic-ui-react';
 import BookListItem from '../BookListItem';
 import AddBookForm from '../AddBookForm'
+import PurgeButton from '../PurgeButton'
 import API from '../../services/api';
 
 const BookList = ({ books, setBooks }) => {
@@ -30,7 +31,7 @@ const BookList = ({ books, setBooks }) => {
   return (
     <>
       <Card.Group itemsPerRow={4}>
-        {books.map((book) => (
+        {books && books.map((book) => (
           <BookListItem
             book={book}
             key={book._id}
@@ -38,6 +39,7 @@ const BookList = ({ books, setBooks }) => {
             setBooks={setBooks} />
         ))}
       </Card.Group>
+      {books && books.length > 0 && <PurgeButton setBooks={setBooks} />}
       <Divider hidden />
       <AddBookForm books={books} setBooks={setBooks} />
     </>
