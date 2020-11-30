@@ -51,7 +51,14 @@ const addBook = (bookDetails) => {
 };
 
 const deleteBook = (bookId) => {
-  return dispatch('books', 'delete', { _id: bookId })
+  return dispatch(`books/${bookId}`, 'delete', { _id: bookId })
+    .then(validateResponse)
+    .then(json => json.document)
+    .catch(handleError);
+};
+
+const purgeBooks = () => {
+  return dispatch(`books/`, 'delete')
     .then(validateResponse)
     .then(json => json.document)
     .catch(handleError);
@@ -83,6 +90,7 @@ const addComment = (bookId, comment) => {
 export default {
   addBook,
   deleteBook,
+  purgeBooks,
   getBooks,
   addComment,
   deleteComment

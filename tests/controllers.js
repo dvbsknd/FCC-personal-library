@@ -69,6 +69,21 @@ describe('Controllers', () => {
     });
   });
 
+  context('booksController#purge', () => {
+    it('Deletes all books from the database', (done) => {
+      // Get a bookId to work with
+      booksController.purge()
+        .then(res => {
+          console.log(res);
+          return res;
+        })
+        .then(() => booksController.list())
+        .then(books => expect(books).to.have.length(0))
+        .then(() => done())
+        .catch(done);
+    });
+  });
+
   context('booksController comment handling', () => {
 
     it('#addComment adds a new comment to the book', (done) => {

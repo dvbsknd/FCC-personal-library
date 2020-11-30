@@ -44,6 +44,16 @@ module.exports.booksController = {
     }
   },
 
+  purge: function() {
+    // Remove all books from the database
+    return books.get().then(collection => collection.deleteMany())
+      .then(res => ({
+        success: true,
+        message: 'Books deleted',
+        count: res.result.n
+      }));
+  },
+
   addComment: function (bookId, body) {
     try {
       const { author, text, createdAt } = body;

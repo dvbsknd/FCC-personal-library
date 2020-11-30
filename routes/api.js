@@ -28,7 +28,14 @@ api.route('/books')
       .catch(res.error);
   })
   .delete((req, res) => {
-    booksController.delete(req.body._id)
+    booksController.purge()
+      .then(result => res.json(result))
+      .catch(res.error);
+  });
+
+api.route('/books/:_id/')
+  .delete((req, res) => {
+    booksController.delete(req.params._id)
       .then(result => res.json(result))
       .catch(res.error);
   });
