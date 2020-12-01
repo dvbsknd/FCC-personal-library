@@ -109,4 +109,15 @@ describe('API', () => {
       done();
     });
   });
+
+  context('Adding a comment to a book', () => {
+    it('Returns a confirmation and the Comment data');
+    it('Returns a valid ObjectID for the Comment');
+  });
+
+  context('Deleting a comment from a book', () => {
+    it('Returns a confirmation with the Comment ID');
+    it('Does not return the deleted comment with the book');
+  });
+
 });
