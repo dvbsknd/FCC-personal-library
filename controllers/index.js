@@ -73,10 +73,11 @@ module.exports.booksController = {
           { "comments._id": ObjectID(commentId) },
           { $pull: { comments: { _id: ObjectID(commentId) } } }
         ))
-        .then((response)=> {
-          console.log(response);
-          return { success: true, message: 'Comment deleted', commentId: commentId  }
-        });
+        .then(()=> ({
+          success: true,
+          message: 'Comment deleted',
+          commentId: commentId
+        }));
     } catch (e) {
       return Promise.reject(e);
     }
