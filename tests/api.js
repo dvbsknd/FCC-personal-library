@@ -5,13 +5,13 @@ const chaiHttp = require('chai-http');
 const app = require('express')();
 const api = require('../routes');
 const expect = chai.expect;
-app.use('/api', api);
 
+app.use('/api', api);
 chai.use(chaiHttp);
 
 describe('API', () => {
-  let book;
-  context('POST request for /books', () => {
+
+   context('POST request for /books', () => {
     let result;
     before(done => {
       chai.request(app)
@@ -32,7 +32,6 @@ describe('API', () => {
     it('Returns a success message and the ID of the newly added book', (done) => {
       expect(result.body.success).to.be.equal(true);
       expect(result.body).to.have.keys(['success', 'message', 'document']);
-      book = result.body.document;
       done();
     });
   });

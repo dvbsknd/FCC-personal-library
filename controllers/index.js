@@ -1,7 +1,7 @@
 'use strict';
 
-const { Collection, ObjectID } = require('../database');
-const books = new Collection('books');
+const { Store, ObjectID } = require('../database');
+const books = new Store('books');
 
 function Book (title, author) {
   if (!title || !author) throw new Error('Missing title or author');
@@ -25,20 +25,20 @@ module.exports.booksController = {
 
   list: function () {
     // Return a list of all the books in the database
-    return books.get().then(collection => collection.find().toArray());
+    return books.getAll();
   },
 
   getOne: function (_id) {
     // Return a specific book by its _id
-    return books.get().then(collection => collection.findOne({ _id: ObjectID(_id) }))
+    return books.getOne(_id);
   },
 
   add: function (title, author) {
+    // Add a book to the database
     try {
       const book = new Book(title, author);
-      return books.get()
-        .then(collection => collection.insertOne(book, {}))
-        .then(result => ({ success: true, message: 'Book added', document: result.ops[0] }));
+      return books.addOne(book)
+        .then(document => ({ success: true, message: 'Book added', book: document }));
     } catch (e) {
       return Promise.reject(e);
     }
