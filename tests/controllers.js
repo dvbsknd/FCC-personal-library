@@ -38,9 +38,9 @@ describe('Controllers', () => {
     it('Returns a success message and the ID of the newly added book', (done) => {
       booksController.add('White Fragility', 'Robin DiAngelo')
         .then(response => {
-          expect(response).to.have.keys(['success', 'message','document']);
+          expect(response).to.have.keys(['success', 'message','book']);
           expect(response.success).to.be.equal(true);
-          expect(response.document._id.toString()).to.have.lengthOf(24);
+          expect(response.book._id.toString()).to.have.lengthOf(24);
           done();
         })
         .catch(done);
@@ -67,6 +67,12 @@ describe('Controllers', () => {
         })
         .catch(done);
     });
+  });
+
+  context('booksController#deleteOne', () => {
+    it('Throws an error if no _id is supplied');
+    it('Returns a confirmation message with the Book ID');
+    it('Physically removes the book from the database');
   });
 
   context('booksController comment handling', () => {

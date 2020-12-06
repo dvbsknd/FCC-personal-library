@@ -10,8 +10,7 @@ app.use('/api', api);
 chai.use(chaiHttp);
 
 describe('API', () => {
-
-   context('POST request for /books', () => {
+  context('POST request for /books', () => {
     let result;
     before(done => {
       chai.request(app)
@@ -29,9 +28,9 @@ describe('API', () => {
           }
         })
     });
-    it('Returns a success message and the ID of the newly added book', (done) => {
+    it('Returns a success message and the body of the newly added book', (done) => {
       expect(result.body.success).to.be.equal(true);
-      expect(result.body).to.have.keys(['success', 'message', 'document']);
+      expect(result.body).to.have.keys(['success', 'message', 'book']);
       done();
     });
   });
@@ -61,20 +60,28 @@ describe('API', () => {
   });
   context('Valid DELETE request for /books', () => {
     let result;
+    let book;
     before(done => {
       chai.request(app)
-        .delete('/api/books')
-        .set('Content-Type', 'application/json; charset=utf-8')
-        .send({ _id: book._id })
-        .end((err, res) => {
-          if (err) done(err);
-          else {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.not.be.empty;
-            result = res;
-            done();
-          }
+        .get('/api/books')
+        .end((err, res) => res.ops[0])
+        .then(res=> {
+          book = res;
+          const { _id } = book;
+          chai.request(app)
+            .delete('/api/books')
+            .set('Content-Type', 'application/json; charset=utf-8')
+            .send({ _id })
+            .end((err, res) => {
+              if (err) done(err);
+              else {
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body).to.not.be.empty;
+                result = res;
+                done();
+              }
+            })
         })
     });
     it('Returns a success message and the ID of the deleted book', (done) => {

@@ -44,12 +44,30 @@ module.exports.booksController = {
     }
   },
 
-  addComment: function (bookId, body) {
+  delete: function (_id) {
     try {
-      const { author, text, createdAt } = body;
+      return books.getOne()
+        .then(collection => collection.deleteOne({ _id: ObjectID(_id) }))
+        .then(result => {
+          // TODO: Move this error checking to the database
+          const { ok, n } = result.toJSON();
+          if (ok === 1 && n === 1) {
+            return { success: true, message: 'Book deleted', _id };
+          }
+          else throw new Error('Could not delete book');
+        });
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  },
+
+  addComment: function (bookId, comment) {
+    const { author, text, createdAt } = comment;
+    try {
       const comment = new Comment(author, text, createdAt);
-      return books.get()
-        .then(collection => collection.updateOne({ _id: ObjectID(bookId) }, { $push: { comments: comment } }))
+      return books.getOne(bookId)
+        .then(book => book._id)
+        .then(_id => books.addComment(_id, comment))
         .then(()=> ({ success: true, message: 'Comment added', comment }));
     } catch (e) {
       return Promise.reject(e);
@@ -58,7 +76,7 @@ module.exports.booksController = {
 
   deleteComment: function (commentId) {
     try {
-      return books.get()
+      return books.getOne()
         .then(collection => collection.findOneAndUpdate(
           { "comments._id": ObjectID(commentId) },
           { $pull: { comments: { _id: ObjectID(commentId) } } }
@@ -71,21 +89,5 @@ module.exports.booksController = {
       return Promise.reject(e);
     }
   },
-
-  delete: function (_id) {
-    try {
-      return books.get()
-        .then(collection => collection.deleteOne({ _id: ObjectID(_id) }))
-        .then(result => {
-          const { ok, n } = result.toJSON();
-          if (ok === 1 && n === 1) {
-            return { success: true, message: 'Book deleted', _id };
-          }
-          else throw new Error('Could not delete book');
-        });
-    } catch (e) {
-      return Promise.reject(e);
-    }
-  }
 
 }

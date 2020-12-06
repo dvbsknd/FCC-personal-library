@@ -9,62 +9,83 @@ function Store (collection) {
   this.ObjectID = ObjectID;
 }
 
+Store.prototype.execQuery = function (query, filter, data) {
+  // Create the connection
+  return MongoClient.connect(process.env.MONGO_URI, { useUnifiedTopology: true })
+    .then(client => {
+      const collection = client.db(dbName).collection(this.collection);
+      switch (query) {
+        case 'getAll':
+          return collection.find().toArray()
+            .then(result => {
+              client.close();
+              return result;
+            });
+        case 'getOne':
+          return collection.findOne({ _id: ObjectID(filter) })
+            .then(result => {
+              client.close();
+              return result;
+            });
+        case 'addOne':
+          return collection.insertOne(data)
+            .then(result => {
+              client.close();
+              return result.ops[0];
+            });
+        case 'deleteOne':
+          return collection.findOneAndDelete({ _id: ObjectID(filter) })
+            .then(result => {
+              client.close();
+              return result;
+            });
+        case 'addComment':
+          return collection.updateOne({ _id: ObjectID(filter) }, { $push: { comments: data } })
+            .then(result => {
+              client.close();
+              return result;
+            });
+
+
+
+
+        default: throw new Error('Query failed');
+      }
+    });
+}
+
 Store.prototype.getAll = function () {
-  return new Promise((resolve, reject) => {
-    MongoClient.connect(process.env.MONGO_URI, { useUnifiedTopology: true })
-      .then(client => {
-        return {
-          client,
-          data: client.db(dbName).collection(this.collection).find().toArray()
-        }
-      })
-      .then(res => {
-        res.data.then(result => {
-          res.client.close();
-          resolve(result)
-        })
-      })
-      .catch(err => reject(err));
-  })
+  return this.execQuery('getAll')
+    .then(res => res)
+    .catch(err => err);
 };
 
 Store.prototype.getOne = function (_id) {
-  return new Promise((resolve, reject) => {
-    MongoClient.connect(process.env.MONGO_URI, { useUnifiedTopology: true })
-      .then(client => {
-        return {
-          client,
-          data: client.db(dbName).collection(this.collection).findOne({ _id: ObjectID(_id) })
-        }
-      })
-      .then(res => {
-        res.data.then(result => {
-          res.client.close();
-          resolve(result)
-        })
-      })
-      .catch(err => reject(err));
-  })
+  return this.execQuery('getOne', _id)
+    .then(res => res)
+    .catch(err => err);
 };
 
 Store.prototype.addOne = function (document) {
-  return new Promise((resolve, reject) => {
-    MongoClient.connect(process.env.MONGO_URI, { useUnifiedTopology: true })
-      .then(client => {
-        return {
-          client,
-          data: client.db(dbName).collection(this.collection).insertOne(document)
-        }
-      })
-      .then(res => {
-        res.data.then(result => {
-          res.client.close();
-          resolve(result)
-        })
-      })
-      .catch(err => reject(err));
-  })
+  return this.execQuery('addOne', null,  document)
+    .then(res => res)
+    .catch(err => err);
 };
+
+Store.prototype.deleteOne = function (_id) {
+  return this.execQuery('deleteOne', _id)
+    .then(res => res)
+    .catch(err => err);
+};
+
+Store.prototype.addComment = function (bookId, comment) {
+  return this.execQuery('addComment', bookId, comment)
+      .then(res => {
+          return res.result.ok === 1 || new Error('Unable to save comment');
+        })
+    .catch(err => err);
+};
+
 module.exports = {
   Store,
   ObjectID
