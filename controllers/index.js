@@ -25,12 +25,16 @@ module.exports.booksController = {
 
   list: function () {
     // Return a list of all the books in the database
-    return books.getAll();
+    return books.getAll()
+      .then(books => books)
+      .catch(err => { throw new Error('Database error:', err) });
   },
 
   getOne: function (_id) {
     // Return a specific book by its _id
-    return books.getOne(_id);
+    return books.getOne(_id)
+      .then(book => book)
+      .catch(err => { throw new Error('Database error:', err) });
   },
 
   add: function (title, author) {
@@ -38,27 +42,17 @@ module.exports.booksController = {
     try {
       const book = new Book(title, author);
       return books.addOne(book)
-        .then(document => ({ success: true, message: 'Book added', book: document }));
+        .then(_id => _id)
+        .catch(err => { throw new Error('Database error:', err) });
     } catch (e) {
       return Promise.reject(e);
     }
   },
 
   delete: function (_id) {
-    try {
-      return books.getOne()
-        .then(collection => collection.deleteOne({ _id: ObjectID(_id) }))
-        .then(result => {
-          // TODO: Move this error checking to the database
-          const { ok, n } = result.toJSON();
-          if (ok === 1 && n === 1) {
-            return { success: true, message: 'Book deleted', _id };
-          }
-          else throw new Error('Could not delete book');
-        });
-    } catch (e) {
-      return Promise.reject(e);
-    }
+    return books.deleteOne({ _id })
+      .then(() => _id)
+      .catch(err => { throw new Error('Database error:', err) });
   },
 
   addComment: function (bookId, comment) {
@@ -68,26 +62,17 @@ module.exports.booksController = {
       return books.getOne(bookId)
         .then(book => book._id)
         .then(_id => books.addComment(_id, comment))
-        .then(()=> ({ success: true, message: 'Comment added', comment }));
+        .then(_id => _id)
+        .catch(err => { throw new Error('Database error:', err) });
     } catch (e) {
       return Promise.reject(e);
     }
   },
 
   deleteComment: function (commentId) {
-    try {
-      return books.getOne()
-        .then(collection => collection.findOneAndUpdate(
-          { "comments._id": ObjectID(commentId) },
-          { $pull: { comments: { _id: ObjectID(commentId) } } }
-        ))
-        .then((response)=> {
-          console.log(response);
-          return { success: true, message: 'Comment deleted', commentId: commentId  }
-        });
-    } catch (e) {
-      return Promise.reject(e);
-    }
+      return books.deleteComment(commentId)
+      .then(() => commentId)
+      .catch(err => { throw new Error('Database error:', err) });
   },
 
 }

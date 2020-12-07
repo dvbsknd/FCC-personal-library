@@ -6,6 +6,7 @@ const {
   booksController
 } = require('../controllers');
 const { books, comments } = require('./mocks');
+const { ObjectID } = require('../database');
 
 describe('Controllers', () => {
 
@@ -35,12 +36,10 @@ describe('Controllers', () => {
   });
 
   context('booksController#add', () => {
-    it('Returns a success message and the ID of the newly added book', (done) => {
+    it('If successful, returns the ID of the newly added book', (done) => {
       booksController.add('White Fragility', 'Robin DiAngelo')
-        .then(response => {
-          expect(response).to.have.keys(['success', 'message','book']);
-          expect(response.success).to.be.equal(true);
-          expect(response.book._id.toString()).to.have.lengthOf(24);
+        .then(_id => {
+          expect(_id).to.be.an.instanceOf(ObjectID);
           done();
         })
         .catch(done);
@@ -84,17 +83,17 @@ describe('Controllers', () => {
           const idx = Math.floor(Math.random() * books.length)
           return books[idx]._id;
         })
-        // Add a test comment to the book using the #addComments
-        // method
+      // Add a test comment to the book using the #addComments
+      // method
         .then(_id => {
           // Choose a random comment
           const idx = Math.floor(Math.random() * comments.length)
           // Add it to the selected book
           booksController.addComment(_id, comments[idx])
-            // Look up the book and return it with the #getOne method
+          // Look up the book and return it with the #getOne method
             .then(() => booksController.getOne(_id))
-            // Expect the returned book to have the same comments as
-            // those supplied in the mock
+          // Expect the returned book to have the same comments as
+          // those supplied in the mock
             .then(book=> {
               expect(Object.keys(book)).to.include('comments');
               const comment = book.comments[0];
@@ -108,8 +107,41 @@ describe('Controllers', () => {
         })
     });
 
-    it('#deleteComment removes a comment from the book');
-
+    it('#deleteComment removes a comment from the book', (done) => {
+      // Get a bookId to work with
+      let book, commentToAdd;
+      booksController.list()
+        .then(books => {
+          const idx = Math.floor(Math.random() * books.length)
+          book = books[idx];
+        })
+        .then(() => {
+          const idx = Math.floor(Math.random() * comments.length)
+          commentToAdd = comments[idx];
+        })
+        .then(() => {
+          booksController.addComment(book._id, commentToAdd)
+            .then(() => booksController.getOne(book._id))
+            .then(book => {
+              const { comments } = book;
+              const addedComment = comments.find(item => item._id = commentToAdd._id);
+              expect(addedComment).to.deep.equal(commentToAdd);
+              return addedComment._id;
+            })
+            .then(idToDelete => booksController.deleteComment(idToDelete))
+            .then(deletedId => {
+              expect(deletedId).to.equal(commentToAdd._id);
+            })
+            .then(() => booksController.getOne(book._id))
+            .then(returnedBook => {
+              const { comments } = returnedBook;
+              const deletedComment = comments.find(item => item._id = commentToAdd._id);
+              expect(deletedComment).to.be.null;
+              done();
+            })
+        })
+        .catch(done);
+    })
   });
 
 });

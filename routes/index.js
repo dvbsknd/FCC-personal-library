@@ -24,24 +24,24 @@ router.route('/books')
   })
   .post((req, res) => {
     booksController.add(req.body.title, req.body.author)
-      .then(result => res.json(result))
+      .then(_id => res.json({ success: true, message: 'Book added', _id }))
       .catch(res.error);
   })
   .delete((req, res) => {
     booksController.delete(req.body._id)
-      .then(result => res.json(result))
+      .then(_id => res.json({ success: true, message: 'Book deleted', _id }))
       .catch(res.error);
   });
 
 router.route('/comments')
   .post((req, res) => {
     booksController.addComment(req.body.bookId, req.body.comment)
-      .then(result => res.json(result))
+      .then(_id => res.json({ success: true, message: 'Comment added', _id }))
       .catch(res.error);
   })
   .delete((req, res) => {
     booksController.deleteComment(req.body._id)
-      .then(result => res.json(result))
+      .then(_id => res.json({ success: true, message: 'Comment deleted', _id }))
       .catch(res.error);
   });
 

@@ -19,36 +19,52 @@ Store.prototype.execQuery = function (query, filter, data) {
           return collection.find().toArray()
             .then(result => {
               client.close();
-              return result;
+              if (result) return result;
+              else throw new Error('Unable to retrieve books');
             });
         case 'getOne':
           return collection.findOne({ _id: ObjectID(filter) })
             .then(result => {
               client.close();
-              return result;
+              if (result) return result;
+              else throw new Error('Unable to retrieve book');
             });
         case 'addOne':
           return collection.insertOne(data)
-            .then(result => {
+            .then(cmdResult => {
               client.close();
-              return result.ops[0];
+              const { result } = cmdResult;
+              if (result.ok === 1) return data._id;
+              else throw new Error('Unable to save book');
             });
         case 'deleteOne':
           return collection.findOneAndDelete({ _id: ObjectID(filter) })
             .then(result => {
               client.close();
-              return result;
+              if (result.result.ok === 1) return filter;
+              else throw new Error('Unable to delete book');
             });
         case 'addComment':
-          return collection.updateOne({ _id: ObjectID(filter) }, { $push: { comments: data } })
+          return collection.updateOne(
+            { _id: ObjectID(filter) },
+            { $push: { comments: data } }
+          )
             .then(result => {
               client.close();
-              return result;
+              if (result.result.ok === 1) return data._id;
+              else throw new Error('Unable to save comment');
             });
-
-
-
-
+        case 'deleteComment':
+          return collection.findOneAndUpdate(
+            { "comments._id": ObjectID(filter) },
+            { $pull: { comments: { _id: ObjectID(filter) } } }
+          )
+            .then(result => {
+              client.close();
+              console.log(result);
+              if (result.result.ok === 1) return filter;
+              else throw new Error('Unable to delete comment');
+            });
         default: throw new Error('Query failed');
       }
     });
@@ -56,34 +72,26 @@ Store.prototype.execQuery = function (query, filter, data) {
 
 Store.prototype.getAll = function () {
   return this.execQuery('getAll')
-    .then(res => res)
-    .catch(err => err);
 };
 
 Store.prototype.getOne = function (_id) {
   return this.execQuery('getOne', _id)
-    .then(res => res)
-    .catch(err => err);
 };
 
 Store.prototype.addOne = function (document) {
   return this.execQuery('addOne', null,  document)
-    .then(res => res)
-    .catch(err => err);
 };
 
 Store.prototype.deleteOne = function (_id) {
   return this.execQuery('deleteOne', _id)
-    .then(res => res)
-    .catch(err => err);
 };
 
 Store.prototype.addComment = function (bookId, comment) {
   return this.execQuery('addComment', bookId, comment)
-      .then(res => {
-          return res.result.ok === 1 || new Error('Unable to save comment');
-        })
-    .catch(err => err);
+};
+
+Store.prototype.deleteComment = function (commentId) {
+  return this.execQuery('deleteComment', commentId)
 };
 
 module.exports = {
