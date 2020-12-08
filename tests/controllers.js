@@ -5,16 +5,22 @@ const expect = chai.expect;
 const {
   booksController
 } = require('../controllers');
-const { books, comments } = require('./mocks');
+const { books: mockBooks, comments: mockComments } = require('./mocks');
 const { ObjectID } = require('../database');
 
 describe('Controllers', () => {
 
-  beforeEach('Add a test book to the database', () => {
-    // Create a new dummy book and store the ID
-    const idx = Math.floor(Math.random() * books.length)
-    const { author, title } = books[idx];
+  let testBook, testBookId;
+  beforeEach('Add a test book to the database', done => {
+    const idx = Math.floor(Math.random() * mockBooks.length)
+    testBook = mockBooks[idx];
+    const { author, title } = testBook;
     booksController.add(author, title)
+      .then(_id => {
+        testBookId = _id;
+        done()
+      })
+      .catch(done);
   });
 
   context('booksController#list', () => {
@@ -36,13 +42,8 @@ describe('Controllers', () => {
   });
 
   context('booksController#add', () => {
-    it('If successful, returns the ID of the newly added book', (done) => {
-      booksController.add('White Fragility', 'Robin DiAngelo')
-        .then(_id => {
-          expect(_id).to.be.an.instanceOf(ObjectID);
-          done();
-        })
-        .catch(done);
+    it('If successful, returns the ID of the newly added book', () => {
+      expect(testBookId).to.be.an.instanceOf(ObjectID);
     });
   });
 
@@ -76,72 +77,47 @@ describe('Controllers', () => {
 
   context('booksController comment handling', () => {
 
+    let commentToAdd, addedComment;
+    before('Get a mock comment to work with', () => {
+      const idx = Math.floor(Math.random() * mockComments.length)
+      commentToAdd = mockComments[idx];
+    });
+
     it('#addComment adds a new comment to the book', (done) => {
-      // Get a bookId to work with
-      booksController.list()
-        .then(books => {
-          const idx = Math.floor(Math.random() * books.length)
-          return books[idx]._id;
+      booksController.addComment(testBookId, commentToAdd)
+        .then(() => booksController.getOne(testBookId))
+        .then(book => {
+          expect(Object.keys(book)).to.include('comments');
+          addedComment = book.comments[0];
+          const { author, title, createdAt } = commentToAdd;
+          expect(addedComment._id).to.be.an.instanceOf(ObjectID);
+          expect(addedComment.author).to.equal(author);
+          expect(addedComment.title).to.equal(title);
+          expect(addedComment.createdAt.getTime()).to.equal(createdAt.getTime());
+          done();
         })
-      // Add a test comment to the book using the #addComments
-      // method
-        .then(_id => {
-          // Choose a random comment
-          const idx = Math.floor(Math.random() * comments.length)
-          // Add it to the selected book
-          booksController.addComment(_id, comments[idx])
-          // Look up the book and return it with the #getOne method
-            .then(() => booksController.getOne(_id))
-          // Expect the returned book to have the same comments as
-          // those supplied in the mock
-            .then(book=> {
-              expect(Object.keys(book)).to.include('comments');
-              const comment = book.comments[0];
-              const { author, title, createdAt } = comments[idx];
-              expect(comment.author).to.equal(author);
-              expect(comment.title).to.equal(title);
-              expect(comment.createdAt.getTime()).to.equal(createdAt.getTime());
-              done();
-            })
-            .catch(done);
-        })
+        .catch(done);
     });
 
     it('#deleteComment removes a comment from the book', (done) => {
-      // Get a bookId to work with
-      let book, commentToAdd;
-      booksController.list()
-        .then(books => {
-          const idx = Math.floor(Math.random() * books.length)
-          book = books[idx];
+      booksController.deleteComment(addedComment._id)
+        .then(deletedId => {
+          expect(deletedId).to.equal(addedComment._id);
         })
-        .then(() => {
-          const idx = Math.floor(Math.random() * comments.length)
-          commentToAdd = comments[idx];
-        })
-        .then(() => {
-          booksController.addComment(book._id, commentToAdd)
-            .then(() => booksController.getOne(book._id))
-            .then(book => {
-              const { comments } = book;
-              const addedComment = comments.find(item => item._id = commentToAdd._id);
-              expect(addedComment).to.deep.equal(commentToAdd);
-              return addedComment._id;
-            })
-            .then(idToDelete => booksController.deleteComment(idToDelete))
-            .then(deletedId => {
-              expect(deletedId).to.equal(commentToAdd._id);
-            })
-            .then(() => booksController.getOne(book._id))
-            .then(returnedBook => {
-              const { comments } = returnedBook;
-              const deletedComment = comments.find(item => item._id = commentToAdd._id);
-              expect(deletedComment).to.be.null;
-              done();
-            })
+        .then(() => booksController.getOne(testBookId))
+        .then(returnedBook => {
+          if (returnedBook.comments) {
+            const { comments } = returnedBook;
+            const deletedComment = comments.find(item => item._id = commentToAdd._id);
+            expect(deletedComment).to.be.null;
+          } else {
+            expect(returnedBook.coments).to.be.undefined;
+          }
+          done();
         })
         .catch(done);
-    })
+    });
+
   });
 
 });
