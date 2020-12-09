@@ -12,7 +12,6 @@ const validateResponse = (response) => {
   if (response.ok) {
     return response.json()
       .then(json => {
-        console.log('[API Response]', json);
         return json
       });
   }
