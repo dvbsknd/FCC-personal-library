@@ -44,6 +44,19 @@ module.exports.booksController = {
     return books.getOne(_id).catch(handleError);
   },
 
+  purge: function() {
+    // TODO: update to new structure
+    console.log('[Controller] Implementation incomplete!');
+    /*
+    return books.get().then(collection => collection.deleteMany())
+      .then(res => ({
+        success: true,
+        message: 'Books deleted',
+        count: res.result.n
+      }));
+    */
+  },
+
   delete: function (_id) {
     return _id
       ? books.deleteOne(_id).catch(handleError)

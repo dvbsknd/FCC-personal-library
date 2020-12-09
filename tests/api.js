@@ -3,7 +3,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http');
 const app = require('express')();
-const api = require('../routes');
+const { api } = require('../routes');
 const expect = chai.expect;
 const { books } = require('./mocks');
 
@@ -73,6 +73,7 @@ describe('API', () => {
   context('Valid DELETE request for /books', () => {
     let result;
     let book;
+
     before(done => {
       chai.request(app)
         .get('/api/books')
@@ -80,23 +81,26 @@ describe('API', () => {
           book = res.body[0];
           const { _id } = book;
           chai.request(app)
-            .delete('/api/books')
+            .delete(`/api/books/${_id}`)
             .set('Content-Type', 'application/json; charset=utf-8')
-            .send({ _id })
-            .then(res => {
-              expect(res).to.have.status(200);
-              expect(res).to.be.json;
-              expect(res.body).to.not.be.empty;
-              result = res;
-              done();
+            .end((err, res) => {
+              if (err) done(err);
+              else {
+                expect(res).to.have.status(200);
+                expect(res).to.be.json;
+                expect(res.body).to.not.be.empty;
+                result = res;
+                done();
+              }
             })
         })
-        .catch(done)
+        .catch(done);
+
     });
     it('Returns a success message and the ID of the deleted book', (done) => {
       expect(result.body).to.have.keys(['success', 'message', '_id']);
       expect(result.body.message).to.equal('Book deleted');
-      expect(result.body._id).to.equal(book._id);
+      expect(result.body._id).to.equal(_id);
       done();
     });
   });
@@ -104,9 +108,8 @@ describe('API', () => {
     let result;
     before(done => {
       chai.request(app)
-        .delete('/api/books')
+        .delete('/api/books/5fc567a7dc88055e92d79aae')
         .set('Content-Type', 'application/json; charset=utf-8')
-        .send({ data: 'garbage' })
         .end((err, res) => {
           if (err) done(err);
           else {

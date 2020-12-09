@@ -2,9 +2,11 @@
 
 const express = require('express');
 const app = express();
-const port = process.env.NODE_ENV === 'test' ? process.env.PORT_TEST : process.env.PORT;
+const port = process.env.NODE_ENV === 'test'
+  ? process.env.PORT_TEST
+  : process.env.PORT;
 const helmet = require('helmet');
-const router = require('./routes');
+const { api, monitor }  = require('./routes');
 
 // Common middleware
 app.use(helmet.contentSecurityPolicy({
@@ -24,8 +26,11 @@ app.get('/books/:title', (req, res) => res.redirect('/'));
 // Static assets
 app.use(express.static('public/build'));
 
+// freeCodeCamp test reporting
+app.use('/_api', monitor);
+
 // Client and API Routers
-app.use('/api', router);
+app.use('/api', api);
 
 const listener = app.listen(port || 3000, () => {
   console.log("Listening on port", listener.address().port);

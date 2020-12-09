@@ -25,7 +25,8 @@ describe('Controllers', () => {
 
   context('booksController#list', () => {
     it('Returns an array of Books with author and title', (done) => {
-      booksController.list()
+      booksController.add(author, title)
+        .then(() => booksController.list())
         .then(docs => {
           expect(docs).to.be.a('array');
           expect(docs).to.not.be.empty;
@@ -49,21 +50,19 @@ describe('Controllers', () => {
 
   context('booksController#getOne', () => {
     it('Returns an Book with author, title and comments', (done) => {
-      // Get a bookId to work with
-      booksController.list()
+      booksController.add(author, title)
+        .then(() => booksController.list())
         .then(books => {
           const idx = Math.floor(Math.random() * books.length)
           return books[idx]._id
         })
-        .then(_id => {
-          booksController.getOne(_id)
-            .then(doc => {
-              const keys = Object.keys(doc);
-              expect(keys).to.include('_id');
-              expect(keys).to.include('author');
-              expect(keys).to.include('title');
-              done();
-            })
+        .then(_id => booksController.getOne(_id))
+        .then(doc => {
+          const keys = Object.keys(doc);
+          expect(keys).to.include('_id');
+          expect(keys).to.include('author');
+          expect(keys).to.include('title');
+          done();
         })
         .catch(done);
     });
@@ -73,6 +72,17 @@ describe('Controllers', () => {
     it('Throws an error if no _id is supplied');
     it('Returns a confirmation message with the Book ID');
     it('Physically removes the book from the database');
+   });
+
+  context('booksController#purge', () => {
+    it('Deletes all books from the database', (done) => {
+      booksController.add(author, title)
+        .then(() => booksController.purge())
+        .then(() => booksController.list())
+        .then(books => expect(books).to.have.length(0))
+        .then(() => done())
+        .catch(done);
+    });
   });
 
   context('booksController comment handling', () => {
@@ -119,5 +129,4 @@ describe('Controllers', () => {
     });
 
   });
-
 });
