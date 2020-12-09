@@ -11,7 +11,7 @@ import API from '../../services/api';
 const BookList = ({ books, setBooks }) => {
 
   const deleteBook = bookId => {
-    console.log(`Deleting book ${bookId}`);
+    console.log(`[BookList] Deleting book ${bookId}`);
     // Save the current state in case deletion fails and
     // we need to restore it
     const currentData = books;
@@ -23,7 +23,7 @@ const BookList = ({ books, setBooks }) => {
     // If there was an error, restore the original state to the DOM
     // If there wasn't the end state is already as desired so do nothing
       .catch(() => {
-        console.log(`Restoring deleted book ${bookId} to the list`);
+        console.log(`[BookList] Restoring deleted book ${bookId} to the list`);
         setBooks(currentData);
       });
   };

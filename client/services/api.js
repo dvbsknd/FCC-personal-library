@@ -46,7 +46,6 @@ const getBooks = () => {
 const addBook = (bookDetails) => {
   return dispatch('books', 'post', bookDetails)
     .then(validateResponse)
-    .then(json => json.document)
     .catch(handleError);
 };
 

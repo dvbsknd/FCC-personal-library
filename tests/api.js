@@ -5,19 +5,27 @@ const chaiHttp = require('chai-http');
 const app = require('express')();
 const { api } = require('../routes');
 const expect = chai.expect;
-app.use('/api', api);
+const { books } = require('./mocks');
 
+
+app.use('/api', api);
 chai.use(chaiHttp);
 
 describe('API', () => {
-  let book;
   context('POST request for /books', () => {
+
+    let testBook;
     let result;
     before(done => {
+
+      const idx = Math.floor(Math.random() * books.length)
+      testBook = books[idx];
+      const { author, title } = testBook;
+
       chai.request(app)
         .post('/api/books')
         .set('Content-Type', 'application/json; charset=utf-8')
-        .send({ title: 'Bow Down and Obey', author: 'Ibram X. Kendi'})
+        .send({ author, title })
         .end((err, res) => {
           if (err) done(err);
           else {
@@ -29,13 +37,15 @@ describe('API', () => {
           }
         })
     });
-    it('Returns a success message and the ID of the newly added book', (done) => {
+
+    it('Returns a success message and the body of the newly added book', (done) => {
       expect(result.body.success).to.be.equal(true);
-      expect(result.body).to.have.keys(['success', 'message', 'document']);
-      book = result.body.document;
+      expect(result.body).to.have.keys(['success', 'message', 'book']);
       done();
     });
+
   });
+
   context('GET request for /books', () => {
     let result;
     before(done => {
@@ -62,12 +72,14 @@ describe('API', () => {
   });
   context('Valid DELETE request for /books', () => {
     let result;
-    let _id;
+    let book;
+
     before(done => {
       chai.request(app)
         .get('/api/books')
         .then(res => {
-          _id = res.body[0]._id;
+          book = res.body[0];
+          const { _id } = book;
           chai.request(app)
             .delete(`/api/books/${_id}`)
             .set('Content-Type', 'application/json; charset=utf-8')
@@ -83,6 +95,7 @@ describe('API', () => {
             })
         })
         .catch(done);
+
     });
     it('Returns a success message and the ID of the deleted book', (done) => {
       expect(result.body).to.have.keys(['success', 'message', '_id']);
@@ -108,9 +121,9 @@ describe('API', () => {
           }
         })
     });
-    it('Returns an error  message a valid ID is not supplied', (done) => {
+    it('Returns an error  message if a valid ID is not supplied', (done) => {
       expect(result.body).to.have.keys(['error']);
-      expect(result.body.error).to.equal('Could not delete book');
+      expect(result.body.error).to.equal('Valid _id not supplied');
       done();
     });
   });

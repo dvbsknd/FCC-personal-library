@@ -1,7 +1,7 @@
 'use strict';
 
-const { Collection, ObjectID } = require('../database');
-const books = new Collection('books');
+const { Store, ObjectID } = require('../database');
+const books = new Store('books');
 
 function Book (title, author) {
   if (!title || !author) throw new Error('Missing title or author');
@@ -21,82 +21,64 @@ function Comment (author, text, createdAt) {
   }
 }
 
+function handleError (err) {
+  throw new Error(`Database error: ${err.message}`);
+}
+
 module.exports.booksController = {
-
-  list: function () {
-    // Return a list of all the books in the database
-    return books.get().then(collection => collection.find().toArray());
-  },
-
-  getOne: function (_id) {
-    // Return a specific book by its _id
-    return books.get().then(collection => collection.findOne({ _id: ObjectID(_id) }))
-  },
 
   add: function (title, author) {
     try {
       const book = new Book(title, author);
-      return books.get()
-        .then(collection => collection.insertOne(book, {}))
-        .then(result => ({ success: true, message: 'Book added', document: result.ops[0] }));
+      return books.addOne(book).catch(handleError);
     } catch (e) {
       return Promise.reject(e);
     }
   },
 
+  list: function () {
+    return books.getAll().catch(handleError);
+  },
+
+  getOne: function (_id) {
+    return books.getOne(_id).catch(handleError);
+  },
+
   purge: function() {
-    // Remove all books from the database
+    // TODO: update to new structure
+    console.log('[Controller] Implementation incomplete!');
+    /*
     return books.get().then(collection => collection.deleteMany())
       .then(res => ({
         success: true,
         message: 'Books deleted',
         count: res.result.n
       }));
+    */
   },
 
-  addComment: function (bookId, body) {
+  delete: function (_id) {
+    return _id
+      ? books.deleteOne(_id).catch(handleError)
+      : Promise.reject(new Error('Valid _id not supplied'));
+  },
+
+  addComment: function (bookId, comment) {
+    const { author, text, createdAt } = comment;
     try {
-      const { author, text, createdAt } = body;
       const comment = new Comment(author, text, createdAt);
-      return books.get()
-        .then(collection => collection.updateOne({ _id: ObjectID(bookId) }, { $push: { comments: comment } }))
-        .then(()=> ({ success: true, message: 'Comment added', comment }));
+      return books.addSubDoc(bookId, 'comments', comment)
+        .then(() => comment._id)
+        .catch(handleError);
     } catch (e) {
       return Promise.reject(e);
     }
   },
 
   deleteComment: function (commentId) {
-    try {
-      return books.get()
-        .then(collection => collection.findOneAndUpdate(
-          { "comments._id": ObjectID(commentId) },
-          { $pull: { comments: { _id: ObjectID(commentId) } } }
-        ))
-        .then(()=> ({
-          success: true,
-          message: 'Comment deleted',
-          commentId: commentId
-        }));
-    } catch (e) {
-      return Promise.reject(e);
-    }
+    return books.deleteSubDoc('comments', commentId)
+      .then(() => commentId)
+      .catch(handleError);
   },
-
-  delete: function (_id) {
-    try {
-      return books.get()
-        .then(collection => collection.deleteOne({ _id: ObjectID(_id) }))
-        .then(result => {
-          const { ok, n } = result.toJSON();
-          if (ok === 1 && n === 1) {
-            return { success: true, message: 'Book deleted', _id };
-          }
-          else throw new Error('Could not delete book');
-        });
-    } catch (e) {
-      return Promise.reject(e);
-    }
-  }
 
 }
