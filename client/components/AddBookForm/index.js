@@ -22,9 +22,10 @@ const AddBookForm = ({ setBooks }) => {
     if (error) setError(null);
     setButtonLoading(true);
     API.addBook(values)
-      .then(book => {
+      .then(res => {
+        const { book } = res;
         setBooks(current => {
-          return [...current].concat(book);
+          return [...current, book];
         });
         setButtonLoading(false);
         setValues(initialValues);

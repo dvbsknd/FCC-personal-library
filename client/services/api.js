@@ -12,6 +12,7 @@ const validateResponse = (response) => {
   if (response.ok) {
     return response.json()
       .then(json => {
+        console.log('[API Response]', json);
         return json
       });
   }
@@ -46,7 +47,6 @@ const getBooks = () => {
 const addBook = (bookDetails) => {
   return dispatch('books', 'post', bookDetails)
     .then(validateResponse)
-    .then(json => json.document)
     .catch(handleError);
 };
 
