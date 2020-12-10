@@ -75,6 +75,17 @@ module.exports.booksController = {
     }
   },
 
+  getComment: function (bookId, commentId) {
+      return books.getOne(bookId)
+      .then(book => {
+        const comment = book.comments.find(comment => {
+          return comment._id.toString() === commentId.toString();
+        })
+        return comment;
+      })
+        .catch(handleError);
+  },
+
   deleteComment: function (commentId) {
     return books.deleteSubDoc('comments', commentId)
       .then(() => commentId)

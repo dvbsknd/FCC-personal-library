@@ -56,25 +56,30 @@ Store.prototype.execQuery = function (query, filter, data) {
           )
             .then(result => {
               client.close();
-              if (result.result.ok !== 1) {
+              if (result.result.nModified !== 1) {
                 throw new Error('#addSubDoc failed');
               }
+              return data;
             });
 
         case 'deleteSubDoc':
-          return collection.findOneAndUpdate(
-            { filter },
-            { $pull: data }
+          return collection.updateOne(
+            { [`${filter}._id`]: ObjectID(data) },
+            { $pull: { [filter]: { _id: ObjectID(data) } } }
           )
             .then(result => {
               client.close();
-              if (result.ok !== 1) {
+              if (result.result.nModified !== 1) {
                 throw new Error('#deleteSubDoc failed');
               }
+              return data;
             });
         default: throw new Error('Query failed');
       }
-    });
+    }).catch(err => {
+      console.log('[Database Error]', err);
+      throw err;
+    })
 }
 
 Store.prototype.getAll = function () {
@@ -101,15 +106,7 @@ Store.prototype.addSubDoc = function (docId, key, subDoc) {
 };
 
 Store.prototype.deleteSubDoc = function (key, subDocId) {
-  const subDocObjId = ObjectID(subDocId);
-
-  const docFilter = {};
-  docFilter[`${key}._id`]= subDocObjId;
-
-  const subDocFilter = {};
-  subDocFilter[key] = { _id: subDocObjId };
-
-  return this.execQuery('deleteSubDoc', docFilter, subDocFilter)
+  return this.execQuery('deleteSubDoc', key, subDocId)
 };
 
 module.exports = {
