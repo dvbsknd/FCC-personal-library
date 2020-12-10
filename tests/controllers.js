@@ -25,8 +25,7 @@ describe('Controllers', () => {
 
   context('booksController#list', () => {
     it('Returns an array of Books with author and title', (done) => {
-      booksController.add(author, title)
-        .then(() => booksController.list())
+      booksController.list()
         .then(docs => {
           expect(docs).to.be.a('array');
           expect(docs).to.not.be.empty;
@@ -50,8 +49,7 @@ describe('Controllers', () => {
 
   context('booksController#getOne', () => {
     it('Returns an Book with author, title and comments', (done) => {
-      booksController.add(author, title)
-        .then(() => booksController.list())
+      booksController.list()
         .then(books => {
           const idx = Math.floor(Math.random() * books.length)
           return books[idx]._id
@@ -76,11 +74,12 @@ describe('Controllers', () => {
 
   context('booksController#purge', () => {
     it('Deletes all books from the database', (done) => {
-      booksController.add(author, title)
-        .then(() => booksController.purge())
+      booksController.purge()
         .then(() => booksController.list())
-        .then(books => expect(books).to.have.length(0))
-        .then(() => done())
+        .then(books => {
+          expect(books).to.have.length(0);
+          done();
+        })
         .catch(done);
     });
   });

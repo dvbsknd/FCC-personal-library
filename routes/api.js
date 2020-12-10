@@ -30,7 +30,7 @@ api.route('/books')
   })
   .delete((req, res) => {
     booksController.purge()
-      .then(() => res.json({ success: true, message: 'All books deleted' }))
+      .then(count => res.json({ success: true, message: 'All books deleted', count }))
       .catch(res.error);
   });
 

@@ -49,6 +49,14 @@ Store.prototype.execQuery = function (query, filter, data) {
               else throw new Error('#deleteOne failed');
             });
 
+        case 'deleteAll':
+          return collection.deleteMany({})
+            .then(result => {
+              client.close();
+              if (result.result.ok === 1) return result.deletedCount;
+              else throw new Error('#deleteAll failed');
+            });
+
         case 'addSubDoc':
           return collection.updateOne(
             { _id: ObjectID(filter) },
@@ -97,6 +105,10 @@ Store.prototype.addOne = function (document) {
 Store.prototype.deleteOne = function (docId) {
   const docObjId = ObjectID(docId);
   return this.execQuery('deleteOne', docObjId)
+};
+
+Store.prototype.deleteAll = function () {
+  return this.execQuery('deleteAll')
 };
 
 Store.prototype.addSubDoc = function (docId, key, subDoc) {
