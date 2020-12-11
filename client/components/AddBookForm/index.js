@@ -22,8 +22,7 @@ const AddBookForm = ({ setBooks }) => {
     if (error) setError(null);
     setButtonLoading(true);
     API.addBook(values)
-      .then(res => {
-        const { book } = res;
+      .then(book => {
         setBooks(current => {
           return [...current, book];
         });

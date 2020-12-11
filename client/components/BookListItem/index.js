@@ -19,7 +19,7 @@ const BookListItem = ({ book, deleteBook }) => {
       <Card.Content>
         <Card.Header as="h3" className='bookTitle'>{title}</Card.Header>
         <Card.Meta className='bookAuthor'>{author}</Card.Meta>
-        <Card.Meta>{commentcount} comments</Card.Meta>
+        <Card.Meta>{commentcount || '0'} comments</Card.Meta>
         <Dimmer active={deleteButton}>
           <Button as={Link} to={`/${_id}`} aria-label='View' primary content='View' />
           <Button aria-label='Delete' negative content='Delete'
@@ -39,7 +39,7 @@ BookListItem.propTypes = {
     },
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-    commentcount: PropTypes.number.isRequired,
+    commentcount: PropTypes.number
   }),
   deleteBook: PropTypes.func.isRequired,
 };

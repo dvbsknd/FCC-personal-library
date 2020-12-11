@@ -47,8 +47,8 @@ const Comments = ({ bookId, comments }) => {
   const deleteComment = (commentId) => {
 
     API.deleteComment(commentId)
-      .then(_id => setCurrentComments(
-        currentComments.filter(c => c._id !== _id)))
+      .then(() => setCurrentComments(
+        currentComments.filter(c => c._id !== commentId)))
       .catch(err => setError({
         label: 'Deleting failed',
         message: err.toString()

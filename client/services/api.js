@@ -68,10 +68,9 @@ const deleteComment = (commentId) => {
 };
 
 const addComment = (bookId, comment) => {
-  return dispatch('comments', 'post', { bookId, comment })
+  return dispatch(`books/${bookId}`, 'post', comment)
     .then(validateResponse)
-    .then(json => {
-      const { comment } = json;
+    .then(() => {
       return {
         ...comment,
           createdAt: new Date(comment.createdAt)
