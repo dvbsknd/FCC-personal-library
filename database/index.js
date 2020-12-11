@@ -2,123 +2,97 @@
 
 const { MongoClient } = require('mongodb');
 const { ObjectID } = require('mongodb');
-const dbName = process.env.NODE_ENV === 'test' ? process.env.MONGO_DATABASE_TEST : process.env.MONGO_DATABASE;
+const dbName = process.env.NODE_ENV === 'test'
+  ? process.env.MONGO_DATABASE_TEST
+  : process.env.MONGO_DATABASE;
 
 function Store (collection) {
-  this.collection = collection;
   this.ObjectID = ObjectID;
-}
-
-Store.prototype.execQuery = function (query, filter, data) {
-  // Create the connection
-  return MongoClient.connect(process.env.MONGO_URI, { useUnifiedTopology: true })
+  this.connect = () => MongoClient.connect(process.env.MONGO_URI,
+    { useUnifiedTopology: true, }
+  )
     .then(client => {
-      const collection = client.db(dbName).collection(this.collection);
-
-      switch (query) {
-        case 'getAll':
-          return collection.find().toArray()
-            .then(result => {
-              client.close();
-              if (result) return result;
-              else throw new Error('#find failed');
-            });
-
-        case 'getOne':
-          return collection.findOne({ _id: ObjectID(filter) })
-            .then(result => {
-              client.close();
-              if (result) return result;
-              else throw new Error('#findOne failed');
-            });
-
-        case 'addOne':
-          return collection.insertOne(data)
-            .then(cmdResult => {
-              client.close();
-              const { result } = cmdResult;
-              if (result.ok === 1) return data._id;
-              else throw new Error('#addOne failed');
-            });
-
-        case 'deleteOne':
-          return collection.findOneAndDelete({ _id: ObjectID(filter) })
-            .then(result => {
-              client.close();
-              if (result.ok === 1) return result.value._id;
-              else throw new Error('#deleteOne failed');
-            });
-
-        case 'deleteAll':
-          return collection.deleteMany({})
-            .then(result => {
-              client.close();
-              if (result.result.ok === 1) return result.deletedCount;
-              else throw new Error('#deleteAll failed');
-            });
-
-        case 'addSubDoc':
-          return collection.updateOne(
-            { _id: ObjectID(filter) },
-            { $push: data }
-          )
-            .then(result => {
-              client.close();
-              if (result.result.nModified !== 1) {
-                throw new Error('#addSubDoc failed');
-              }
-              return data;
-            });
-
-        case 'deleteSubDoc':
-          return collection.updateOne(
-            { [`${filter}._id`]: ObjectID(data) },
-            { $pull: { [filter]: { _id: ObjectID(data) } } }
-          )
-            .then(result => {
-              client.close();
-              if (result.result.nModified !== 1) {
-                throw new Error('#deleteSubDoc failed');
-              }
-              return data;
-            });
-        default: throw new Error('Query failed');
-      }
-    }).catch(err => {
-      console.log('[Database Error]', err);
-      throw err;
-    })
+      this.client = client;
+      return client.db(dbName).collection(collection);
+    });
 }
 
 Store.prototype.getAll = function () {
-  return this.execQuery('getAll')
+  return this.connect()
+    .then(collection => collection.find().toArray())
+    .then(result => {
+      this.client.close();
+      if (result) return result;
+      else throw new Error('#find failed');
+    });
 };
 
 Store.prototype.getOne = function (docId) {
-  return this.execQuery('getOne', docId)
+  return this.connect()
+    .then(collection => collection.findOne({ _id: ObjectID(docId) }))
+    .then(result => {
+      this.client.close();
+      if (result) return result;
+      else throw new Error('#findOne failed');
+    });
 };
 
 Store.prototype.addOne = function (document) {
-  return this.execQuery('addOne', null,  document)
+  return this.connect()
+    .then(collection => collection.insertOne(document))
+    .then(result => {
+      this.client.close();
+      if (result.result.ok === 1) return document._id;
+      else throw new Error('#addOne failed');
+    });
 };
 
 Store.prototype.deleteOne = function (docId) {
-  const docObjId = ObjectID(docId);
-  return this.execQuery('deleteOne', docObjId)
+  return this.connect()
+    .then(collection => collection.findOneAndDelete({ _id: ObjectID(docId) }))
+    .then(result => {
+      this.client.close();
+      if (result.ok === 1) return result.value._id;
+      else throw new Error('#deleteOne failed');
+    });
 };
 
 Store.prototype.deleteAll = function () {
-  return this.execQuery('deleteAll')
+  return this.connect()
+    .then(collection => collection.deleteMany({}))
+    .then(result => {
+      this.client.close();
+      if (result.result.ok === 1) return result.deletedCount;
+      else throw new Error('#deleteAll failed');
+    });
 };
 
 Store.prototype.addSubDoc = function (docId, key, subDoc) {
   const data = {};
   data[key] = subDoc;
-  return this.execQuery('addSubDoc', docId, data)
+  return this.connect()
+    .then(collection => collection.updateOne(
+      { _id: ObjectID(docId) },
+      { $push: data }
+    ))
+    .then(result => {
+      this.client.close();
+      if (result.result.nModified === 1) return data;
+      else throw new Error('#addSubDoc failed');
+    });
 };
 
 Store.prototype.deleteSubDoc = function (key, subDocId) {
-  return this.execQuery('deleteSubDoc', key, subDocId)
+  return this.connect()
+    .then(collection => collection.updateOne(
+      { [`${key}._id`]: ObjectID(subDocId) },
+      { $pull: { [key]: { _id: ObjectID(subDocId) } } }
+    ))
+    .then(result => {
+      this.client.close();
+      if (result.result.nModified === 1) return subDocId;
+      else throw new Error('#deleteSubDoc failed');
+    });
 };
 
 module.exports = {
