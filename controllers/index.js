@@ -4,8 +4,7 @@ const { Store, ObjectID } = require('../database');
 const books = new Store('books');
 
 function Book (title, author) {
-  if (!author) throw new Error('missing required field author');
-  if (!title) throw new Error('missing required field title');
+  if (!title || !author) throw new Error('Missing title or author');
   else {
     this.title = title;
     this.author = author;
@@ -23,7 +22,7 @@ function Comment (author, text, createdAt) {
 }
 
 function handleError (err) {
-  throw new Error(`${err.message}`);
+  throw new Error(`Database error: ${err.message}`);
 }
 
 module.exports.booksController = {

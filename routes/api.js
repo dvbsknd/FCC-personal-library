@@ -23,7 +23,9 @@ api.route('/books')
       .catch(res.error);
   })
   .post((req, res) => {
-    booksController.add(req.body.title, req.body.author)
+    const { title, author } = req.body;
+    if (!title) res.error({ message: 'missing required field title' });
+    booksController.add(title, author)
       .then(_id => booksController.getOne(_id))
       .then(book => res.json(book))
       .catch(res.error);
@@ -38,7 +40,7 @@ api.route('/books/:_id')
   .get((req, res) => {
     booksController.getOne(req.params._id)
       .then(book => res.json(book))
-      .catch(res.error);
+      .catch(() => res.error({ message: 'no book exists' }));
   })
   .delete((req, res) => {
     booksController.delete(req.params._id)
