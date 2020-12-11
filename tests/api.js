@@ -6,6 +6,7 @@ const app = require('express')();
 const { api } = require('../routes');
 const expect = chai.expect;
 const { books } = require('./mocks');
+const ObjectID = require('bson-objectid');
 
 
 app.use('/api', api);
@@ -109,6 +110,28 @@ describe('API', () => {
     });
   });
 
+  context('GET request for an invalid single book at /books/:id', () => {
+    let result;
+
+    before(done => {
+      chai.request(app)
+        .get(`/api/books/${ObjectID()}`)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          result = res;
+          done();
+        })
+    });
+
+    it('Returns an error message noting that no such book was found', (done) => {
+      expect(result).to.have.status(400);
+      expect(result).to.be.json;
+      expect(result.body).to.not.be.empty;
+      expect(result.body.error).to.equal('no book exists');
+      done();
+    });
+  });
+
   context('Valid DELETE request for /books', () => {
     let result;
     let book;
@@ -134,8 +157,8 @@ describe('API', () => {
             })
         })
         .catch(done);
-
     });
+
     it('Returns a success message and the ID of the deleted book', (done) => {
       expect(result.body).to.have.keys(['success', 'message', '_id']);
       expect(result.body.message).to.equal('Book deleted');
@@ -143,6 +166,7 @@ describe('API', () => {
       done();
     });
   });
+
   context('Invalid DELETE request for /books', () => {
     let result;
 

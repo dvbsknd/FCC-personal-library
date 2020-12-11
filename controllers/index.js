@@ -23,7 +23,7 @@ function Comment (author, text, createdAt) {
 }
 
 function handleError (err) {
-  throw new Error(`Database error: ${err.message}`);
+  throw new Error(`${err.message}`);
 }
 
 module.exports.booksController = {

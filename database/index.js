@@ -40,7 +40,7 @@ Store.prototype.getOne = function (docId) {
     .then(result => {
       this.client.close();
       if (result) return result;
-      else throw new Error('#findOne failed');
+      else throw new Error('no book exists');
     });
 };
 
