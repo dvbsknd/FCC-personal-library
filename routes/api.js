@@ -35,6 +35,11 @@ api.route('/books')
   });
 
 api.route('/books/:_id')
+  .get((req, res) => {
+    booksController.getOne(req.params._id)
+      .then(book => res.json(book))
+      .catch(res.error);
+  })
   .delete((req, res) => {
     booksController.delete(req.params._id)
       .then(_id => res.json({ success: true, message: 'Book deleted', _id }))

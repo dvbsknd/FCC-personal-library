@@ -47,6 +47,7 @@ describe('API', () => {
 
   context('GET request for /books', () => {
     let result;
+
     before(done => {
       chai.request(app)
         .get('/api/books')
@@ -59,6 +60,7 @@ describe('API', () => {
           done();
         })
     });
+
     it('Returns an array of Books with author and title', (done) => {
       result.body.forEach(book => {
         const keys = Object.keys(book);
@@ -69,6 +71,44 @@ describe('API', () => {
       done();
     });
   });
+
+  context('GET request for a single book at /books/:id', () => {
+    let testBook;
+    let result;
+
+    before(done => {
+      const idx = Math.floor(Math.random() * books.length)
+      testBook = books[idx];
+      const { author, title } = testBook;
+
+      chai.request(app)
+        .post('/api/books')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .send({ author, title })
+        .then((res) => {
+          const { _id } = res.body;
+          chai.request(app)
+            .get(`/api/books/${_id}`)
+            .end((err, res) => {
+              expect(err).to.be.null;
+              expect(res).to.have.status(200);
+              expect(res).to.be.json;
+              expect(res.body).to.not.be.empty;
+              result = res;
+              done();
+            })
+        })
+    });
+
+    it('Returns a single Book with an id, author and title', (done) => {
+      const keys = Object.keys(result.body);
+      expect(keys).to.include('_id');
+      expect(keys).to.include('author');
+      expect(keys).to.include('title');
+      done();
+    });
+  });
+
   context('Valid DELETE request for /books', () => {
     let result;
     let book;
