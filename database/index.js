@@ -21,7 +21,7 @@ Store.prototype.getAll = function () {
   return this.connect()
     .then(collection => {
       return collection.aggregate([
-        { $addFields: { commentCount: { $cond: {
+        { $addFields: { commentcount: { $cond: {
           if: { $isArray: '$comments' },
           then: { $size: '$comments' },
           else: 0 } } } }

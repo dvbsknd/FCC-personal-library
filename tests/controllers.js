@@ -35,8 +35,8 @@ describe('Controllers', () => {
               expect(keys).to.include('_id');
               expect(keys).to.include('author');
               expect(keys).to.include('title');
-              expect(keys).to.include('commentCount');
-              expect(doc.commentCount).to.be.a('number');
+              expect(keys).to.include('commentcount');
+              expect(doc.commentcount).to.be.a('number');
             });
             done();
           })
