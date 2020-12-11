@@ -56,6 +56,9 @@ module.exports.booksController = {
   },
 
   addComment: function (bookId, comment) {
+    if (!comment) return Promise.reject(
+      new Error('missing required field comment')
+    );
     const { author, text, createdAt } = comment;
     try {
       const comment = new Comment(author, text, createdAt);

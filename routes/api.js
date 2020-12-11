@@ -9,7 +9,7 @@ const {
 api.use((req, res, next) => {
   res.error = (error) => {
     res.status(400);
-    res.json({ error: error.message });
+    res.json(error.message);
   };
   next();
 });
@@ -44,15 +44,17 @@ api.route('/books/:_id')
     booksController.delete(req.params._id)
       .then(_id => res.json({ success: true, message: 'Book deleted', _id }))
       .catch(res.error);
-  });
-
-api.route('/comments')
+  })
   .post((req, res) => {
-    booksController.addComment(req.body.bookId, req.body.comment)
-      .then(_id => booksController.getComment(req.body.bookId, _id))
-      .then(comment => res.json({ success: true, message: 'Comment added', comment }))
+    const { comment } = req.body;
+    const { _id } = req.params;
+     return booksController.addComment(_id, comment)
+      .then(() => booksController.getOne(_id))
+      .then(book => res.json(book))
       .catch(res.error);
   })
+
+api.route('/comments')
   .delete((req, res) => {
     booksController.deleteComment(req.body._id)
       .then(_id => res.json({ success: true, message: 'Comment deleted', _id }))

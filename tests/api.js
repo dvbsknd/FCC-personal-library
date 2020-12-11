@@ -127,7 +127,7 @@ describe('API', () => {
       expect(result).to.have.status(400);
       expect(result).to.be.json;
       expect(result.body).to.not.be.empty;
-      expect(result.body.error).to.equal('no book exists');
+      expect(result.body).to.equal('no book exists');
       done();
     });
   });
@@ -173,7 +173,7 @@ describe('API', () => {
     before(done => {
       chai.request(app)
         .delete('/api/books/garbage')
-        .set('Content-Type', 'application/json; charset=utf-8')
+        .set('content-type', 'application/json; charset=utf-8')
         .end((err, res) => {
           if (err) done(err);
           else {
@@ -187,15 +187,51 @@ describe('API', () => {
     });
 
     it('Returns an error  message if a valid ID is not supplied', (done) => {
-      expect(result.body).to.have.keys(['error']);
-      expect(result.body.error).to.equal('Valid _id not supplied');
+      expect(result.body).to.equal('Valid _id not supplied');
       done();
     });
   });
 
   context('Adding a comment to a book', () => {
+
+    before(done => {
+      const idx = Math.floor(Math.random() * books.length)
+      const testBook = books[idx];
+      const { author, title } = testBook;
+      chai.request(app)
+        .post('/api/books')
+        .set('Content-Type', 'application/json; charset=utf-8')
+        .send({ author, title })
+        .end((err, res) => {
+          if (err) done(err);
+          else {
+            expect(res).to.have.status(200);
+            expect(res).to.be.json;
+            expect(res.body).to.not.be.empty;
+            done();
+          }
+        })
+    });
+
     it('Returns a confirmation and the Comment data');
     it('Returns a valid ObjectID for the Comment');
+
+    it('Throws an error if no comment data is supplied', (done) => {
+      chai.request(app)
+        .post(`/api/books/blah`)
+        .set('content-type', 'application/json; charset=utf-8')
+        // .send({ comment: null })
+        .end((err, res) => {
+          if (err) done(err);
+          else {
+            expect(res).to.have.status(400);
+            expect(res).to.be.json;
+            expect(res.body).to.not.be.empty;
+            expect(res.body).to.equal('missing required field comment');
+            done();
+          }
+        })
+    });
   });
 
   context('Deleting a comment from a book', () => {
