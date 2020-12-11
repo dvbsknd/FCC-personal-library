@@ -258,7 +258,6 @@ describe('API', () => {
       chai.request(app)
         .post(`/api/books/${book._id}`)
         .set('content-type', 'application/json; charset=utf-8')
-        .send({ momment: true })
         .end((err, res) => {
           if (err) done(err);
           else {
