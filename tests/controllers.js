@@ -24,20 +24,23 @@ describe('Controllers', () => {
   });
 
   context('booksController#list', () => {
-    it('Returns an array of Books with author and title', (done) => {
-      booksController.list()
-        .then(docs => {
-          expect(docs).to.be.a('array');
-          expect(docs).to.not.be.empty;
-          docs.forEach(doc => {
-            const keys = Object.keys(doc);
-            expect(keys).to.include('_id');
-            expect(keys).to.include('author');
-            expect(keys).to.include('title');
-          });
-          done();
-        })
-        .catch(done);
+    it('Returns an array of Books with author, title and number of comments',
+      (done) => {
+        booksController.list()
+          .then(docs => {
+            expect(docs).to.be.a('array');
+            expect(docs).to.not.be.empty;
+            docs.forEach(doc => {
+              const keys = Object.keys(doc);
+              expect(keys).to.include('_id');
+              expect(keys).to.include('author');
+              expect(keys).to.include('title');
+              expect(keys).to.include('commentCount');
+              expect(doc.commentCount).to.be.a('number');
+            });
+            done();
+          })
+          .catch(done);
     });
   });
 

@@ -19,7 +19,14 @@ function Store (collection) {
 
 Store.prototype.getAll = function () {
   return this.connect()
-    .then(collection => collection.find().toArray())
+    .then(collection => {
+      return collection.aggregate([
+        { $addFields: { commentCount: { $cond: {
+          if: { $isArray: '$comments' },
+          then: { $size: '$comments' },
+          else: 0 } } } }
+      ]).toArray()
+    })
     .then(result => {
       this.client.close();
       if (result) return result;
