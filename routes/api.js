@@ -25,7 +25,7 @@ api.route('/books')
   .post((req, res) => {
     booksController.add(req.body.title, req.body.author)
       .then(_id => booksController.getOne(_id))
-      .then(book => res.json({ success: true, message: 'Book added', book }))
+      .then(book => res.json(book))
       .catch(res.error);
   })
   .delete((req, res) => {
