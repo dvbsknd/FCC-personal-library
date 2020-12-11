@@ -20,11 +20,7 @@ describe('<AddBookForm>', () => {
       "author": "Avid Asking"
   };
 
-  const response = {
-    "success": true,
-    "message": "Book added",
-    "book": book
-  };
+  const response = book;
 
   const setBooks = (reducer) => {
     books = reducer(books);

@@ -46,9 +46,8 @@ api.route('/books/:_id')
       .catch(res.error);
   })
   .post((req, res) => {
-    console.log(req.body, req.params);
     const { _id } = req.params;
-    const comment = req.body;
+    const { comment } = req.body;
     if (!comment) {
       res.error({ message: 'missing required field comment' })
     } else {

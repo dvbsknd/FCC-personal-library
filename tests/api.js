@@ -230,6 +230,7 @@ describe('API', () => {
 
   context('Adding a comment to a book', () => {
 
+    let book;
     before(done => {
       const idx = Math.floor(Math.random() * books.length)
       const testBook = books[idx];
@@ -244,6 +245,7 @@ describe('API', () => {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.not.be.empty;
+            book = res;
             done();
           }
         })
@@ -254,9 +256,9 @@ describe('API', () => {
 
     it('Throws an error if no comment data is supplied', (done) => {
       chai.request(app)
-        .post(`/api/books/blah`)
+        .post(`/api/books/${book._id}`)
         .set('content-type', 'application/json; charset=utf-8')
-        // .send({ comment: null })
+        .send({ momment: true })
         .end((err, res) => {
           if (err) done(err);
           else {
