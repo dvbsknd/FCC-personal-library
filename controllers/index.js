@@ -45,20 +45,11 @@ module.exports.booksController = {
   },
 
   purge: function() {
-    // TODO: update to new structure
-    console.log('[Controller] Implementation incomplete!');
-    /*
-    return books.get().then(collection => collection.deleteMany())
-      .then(res => ({
-        success: true,
-        message: 'Books deleted',
-        count: res.result.n
-      }));
-    */
+    return books.deleteAll().catch(handleError);
   },
 
   delete: function (_id) {
-    return _id
+    return ObjectID.isValid(_id)
       ? books.deleteOne(_id).catch(handleError)
       : Promise.reject(new Error('Valid _id not supplied'));
   },
@@ -73,6 +64,17 @@ module.exports.booksController = {
     } catch (e) {
       return Promise.reject(e);
     }
+  },
+
+  getComment: function (bookId, commentId) {
+      return books.getOne(bookId)
+      .then(book => {
+        const comment = book.comments.find(comment => {
+          return comment._id.toString() === commentId.toString();
+        })
+        return comment;
+      })
+        .catch(handleError);
   },
 
   deleteComment: function (commentId) {

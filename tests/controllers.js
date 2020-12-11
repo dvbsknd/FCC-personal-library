@@ -24,21 +24,23 @@ describe('Controllers', () => {
   });
 
   context('booksController#list', () => {
-    it('Returns an array of Books with author and title', (done) => {
-      booksController.add(author, title)
-        .then(() => booksController.list())
-        .then(docs => {
-          expect(docs).to.be.a('array');
-          expect(docs).to.not.be.empty;
-          docs.forEach(doc => {
-            const keys = Object.keys(doc);
-            expect(keys).to.include('_id');
-            expect(keys).to.include('author');
-            expect(keys).to.include('title');
-          });
-          done();
-        })
-        .catch(done);
+    it('Returns an array of Books with author, title and number of comments',
+      (done) => {
+        booksController.list()
+          .then(docs => {
+            expect(docs).to.be.a('array');
+            expect(docs).to.not.be.empty;
+            docs.forEach(doc => {
+              const keys = Object.keys(doc);
+              expect(keys).to.include('_id');
+              expect(keys).to.include('author');
+              expect(keys).to.include('title');
+              expect(keys).to.include('commentCount');
+              expect(doc.commentCount).to.be.a('number');
+            });
+            done();
+          })
+          .catch(done);
     });
   });
 
@@ -50,8 +52,7 @@ describe('Controllers', () => {
 
   context('booksController#getOne', () => {
     it('Returns an Book with author, title and comments', (done) => {
-      booksController.add(author, title)
-        .then(() => booksController.list())
+      booksController.list()
         .then(books => {
           const idx = Math.floor(Math.random() * books.length)
           return books[idx]._id
@@ -76,11 +77,12 @@ describe('Controllers', () => {
 
   context('booksController#purge', () => {
     it('Deletes all books from the database', (done) => {
-      booksController.add(author, title)
-        .then(() => booksController.purge())
+      booksController.purge()
         .then(() => booksController.list())
-        .then(books => expect(books).to.have.length(0))
-        .then(() => done())
+        .then(books => {
+          expect(books).to.have.length(0);
+          done();
+        })
         .catch(done);
     });
   });

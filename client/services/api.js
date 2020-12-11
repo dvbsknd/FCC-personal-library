@@ -11,9 +11,6 @@ const dispatch = (endpoint, method, payload) => {
 const validateResponse = (response) => {
   if (response.ok) {
     return response.json()
-      .then(json => {
-        return json
-      });
   }
   else throw new Error(response.status + ' ' + response.statusText);
 };
@@ -57,19 +54,16 @@ const deleteBook = (bookId) => {
 };
 
 const purgeBooks = () => {
-  return dispatch(`books/`, 'delete')
+  return dispatch(`books`, 'delete')
     .then(validateResponse)
     .then(json => json.document)
     .catch(handleError);
 };
 
 const deleteComment = (commentId) => {
-  return dispatch('books', 'delete', { _id: commentId })
+  return dispatch('comments', 'delete', { _id: commentId })
     .then(validateResponse)
-    .then(json => {
-      const { commentId } = json;
-      return commentId;
-    })
+    .then(json => json._id)
     .catch(handleError);
 };
 
@@ -80,7 +74,7 @@ const addComment = (bookId, comment) => {
       const { comment } = json;
       return {
         ...comment,
-        createdAt: new Date(comment.createdAt)
+          createdAt: new Date(comment.createdAt)
       }
     })
     .catch(handleError);

@@ -84,7 +84,7 @@ describe('API', () => {
             .delete(`/api/books/${_id}`)
             .set('Content-Type', 'application/json; charset=utf-8')
             .end((err, res) => {
-              if (err) done(err);
+              if (err) throw err;
               else {
                 expect(res).to.have.status(200);
                 expect(res).to.be.json;
@@ -100,15 +100,16 @@ describe('API', () => {
     it('Returns a success message and the ID of the deleted book', (done) => {
       expect(result.body).to.have.keys(['success', 'message', '_id']);
       expect(result.body.message).to.equal('Book deleted');
-      expect(result.body._id).to.equal(_id);
+      expect(result.body._id).to.equal(book._id);
       done();
     });
   });
   context('Invalid DELETE request for /books', () => {
     let result;
+
     before(done => {
       chai.request(app)
-        .delete('/api/books/5fc567a7dc88055e92d79aae')
+        .delete('/api/books/garbage')
         .set('Content-Type', 'application/json; charset=utf-8')
         .end((err, res) => {
           if (err) done(err);
@@ -121,6 +122,7 @@ describe('API', () => {
           }
         })
     });
+
     it('Returns an error  message if a valid ID is not supplied', (done) => {
       expect(result.body).to.have.keys(['error']);
       expect(result.body.error).to.equal('Valid _id not supplied');
