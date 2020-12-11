@@ -30,7 +30,7 @@ api.route('/books')
   })
   .delete((req, res) => {
     booksController.purge()
-      .then(count => res.json({ success: true, message: 'All books deleted', count }))
+      .then(()  => res.json('complete delete successful'))
       .catch(res.error);
   });
 
@@ -42,16 +42,20 @@ api.route('/books/:_id')
   })
   .delete((req, res) => {
     booksController.delete(req.params._id)
-      .then(_id => res.json({ success: true, message: 'Book deleted', _id }))
+      .then(() => res.json('delete successful'))
       .catch(res.error);
   })
   .post((req, res) => {
-    const { comment } = req.body;
     const { _id } = req.params;
+    const { comment } = req.body;
+    if (!comment) {
+      res.error({ message: 'missing required field comment' })
+    } else {
      return booksController.addComment(_id, comment)
       .then(() => booksController.getOne(_id))
       .then(book => res.json(book))
       .catch(res.error);
+    }
   })
 
 api.route('/comments')
