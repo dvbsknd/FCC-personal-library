@@ -4,7 +4,7 @@ const { Store, ObjectID } = require('../database');
 const books = new Store('books');
 
 function Book (title, author) {
-  if (!title || !author) throw new Error('Missing title or author');
+  if (!title) throw new Error('Missing title');
   else {
     this.title = title;
     this.author = author;

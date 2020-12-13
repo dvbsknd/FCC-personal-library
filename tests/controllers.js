@@ -15,7 +15,7 @@ describe('Controllers', () => {
     const idx = Math.floor(Math.random() * mockBooks.length)
     testBook = mockBooks[idx];
     const { author, title } = testBook;
-    booksController.add(author, title)
+    booksController.add(title, author)
       .then(_id => {
         testBookId = _id;
         done()
@@ -48,6 +48,19 @@ describe('Controllers', () => {
     it('If successful, returns the ID of the newly added book', () => {
       expect(testBookId).to.be.an.instanceOf(ObjectID);
     });
+
+    it('Will allow a book to be added with only a title, no author', done => {
+      const idx = Math.floor(Math.random() * mockBooks.length)
+      const book = mockBooks[idx];
+      const { title } = book;
+      booksController.add(title)
+        .then(_id=> {
+          expect(_id).to.be.an.instanceOf(ObjectID);
+          done()
+        })
+        .catch(done);
+    });
+
   });
 
   context('booksController#getOne', () => {
