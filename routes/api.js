@@ -16,6 +16,15 @@ api.use((req, res, next) => {
 
 api.use(express.json());
 
+// Test mode debugging
+api.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'test') {
+    const { method, url, body } = req;
+    console.log('Request | %s %s %o', method, url, body);
+  }
+  next();
+});
+
 api.route('/books')
   .get((req, res) => {
     booksController.list()
@@ -49,7 +58,7 @@ api.route('/books/:_id')
   })
   .post((req, res) => {
     const { _id } = req.params;
-    const comment = req.body;
+    const { comment } = req.body;
     if (!comment) {
       res.error({ message: 'missing required field comment' })
     } else {

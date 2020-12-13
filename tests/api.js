@@ -230,7 +230,7 @@ describe('API', () => {
 
   context('Adding a comment to a book', () => {
 
-    let book;
+    let bookId;
     before(done => {
       const idx = Math.floor(Math.random() * books.length)
       const testBook = books[idx];
@@ -239,36 +239,30 @@ describe('API', () => {
         .post('/api/books')
         .set('Content-Type', 'application/json; charset=utf-8')
         .send({ author, title })
-        .end((err, res) => {
-          if (err) done(err);
-          else {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.not.be.empty;
-            book = res;
-            done();
-          }
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.not.be.empty;
+          bookId = res.body._id;
+          done();
         })
+        .catch(done);
     });
-
-    it('Returns a confirmation and the Comment data');
-    it('Returns a valid ObjectID for the Comment');
 
     it('Throws an error if no comment data is supplied', (done) => {
       chai.request(app)
-        .post(`/api/books/${book._id}`)
+        .post(`/api/books/${bookId}`)
         .set('content-type', 'application/json; charset=utf-8')
-        .end((err, res) => {
-          if (err) done(err);
-          else {
+        .send({})
+        .then((res) => {
             expect(res).to.have.status(400);
             expect(res).to.be.json;
             expect(res.body).to.not.be.empty;
             expect(res.body).to.equal('missing required field comment');
             done();
-          }
-        })
+        }).catch(console.log);
     });
+    it('Returns a confirmation and the Comment data');
+    it('Returns a valid ObjectID for the Comment');
   });
 
   context('Deleting a comment from a book', () => {
