@@ -54,8 +54,14 @@ describe('Controllers', () => {
       const book = mockBooks[idx];
       const { title } = book;
       booksController.add(title)
-        .then(_id=> {
+        .then(_id => {
           expect(_id).to.be.an.instanceOf(ObjectID);
+          return booksController.getOne(_id);
+        })
+        .then((savedBook) => {
+          expect(savedBook).to.have.keys(['_id', 'title', 'author']);
+          expect(savedBook.author).to.be.null;
+          expect(savedBook._id.toString()).to.equal(book._id.toString());
           done()
         })
         .catch(done);
