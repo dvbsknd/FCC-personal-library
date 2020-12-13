@@ -61,7 +61,7 @@ describe('Controllers', () => {
         .then((savedBook) => {
           expect(savedBook).to.have.keys(['_id', 'title', 'author']);
           expect(savedBook.author).to.be.null;
-          expect(savedBook._id.toString()).to.equal(book._id.toString());
+          expect(testBookId).to.be.an.instanceOf(ObjectID);
           done()
         })
         .catch(done);

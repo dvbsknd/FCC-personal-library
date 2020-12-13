@@ -68,7 +68,7 @@ const deleteComment = (commentId) => {
 };
 
 const addComment = (bookId, comment) => {
-  return dispatch(`books/${bookId}`, 'post', comment)
+  return dispatch(`books/${bookId}`, 'post', { comment })
     .then(validateResponse)
     .then(() => {
       return {
