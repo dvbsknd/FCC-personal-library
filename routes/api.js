@@ -18,7 +18,7 @@ api.use(express.json());
 
 // Test mode debugging
 api.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'heroku') {
     const { method, url, body } = req;
     console.log('Request | %s %s %o', method, url, body);
   }
