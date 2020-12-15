@@ -6,9 +6,11 @@ const port = process.env.NODE_ENV === 'test'
   ? process.env.PORT_TEST
   : process.env.PORT;
 const helmet = require('helmet');
+const cors = require('cors');
 const { api, monitor }  = require('./routes');
 
 // Common middleware
+app.use(cors());
 app.use(helmet.contentSecurityPolicy({
   directives: {
     scriptSrc: ["'self'", "'unsafe-eval'"],
