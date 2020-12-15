@@ -10,9 +10,9 @@ const Comment = ({ comment, deleteComment }) => {
       <KitComment.Content>
         <KitComment.Author as='a'>{comment.author}</KitComment.Author>
         <KitComment.Metadata>
-          <span>{comment.createdAt.toLocaleString()}</span>
+          <span>{comment.createdAt && comment.createdAt.toLocaleString()}</span>
         </KitComment.Metadata>
-        <KitComment.Text>{comment.text}</KitComment.Text>
+        <KitComment.Text>{comment.comment}</KitComment.Text>
         <KitComment.Actions>
           <a onClick={() => deleteComment(comment.id)}>Delete</a>
         </KitComment.Actions>
@@ -30,8 +30,8 @@ Comment.propTypes = {
     },
     createdAt: PropTypes.instanceOf(Date).isRequired,
     author: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired
-  }).isRequired,
+    comment: PropTypes.string.isRequired
+  }),
   deleteComment: PropTypes.func.isRequired
 };
 

@@ -13,6 +13,7 @@ import Comment from './';
 describe('<Comment>', () => {
 
   const comment = books[0].comments[0];
+  comment.createdAt = new Date();
   let args;
   const fn = function () { args = arguments[0] };
 
@@ -27,7 +28,7 @@ describe('<Comment>', () => {
   });
 
   it('Renders the comment text', () => {
-    expect(screen.getByText(comment.text).className).to.equal('text');
+    expect(screen.getByText(comment.comment).className).to.equal('text');
   });
 
   it('Renders the comment date (of creation) in the expected format', () => {

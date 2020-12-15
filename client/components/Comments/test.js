@@ -23,9 +23,9 @@ describe('<Comments>', () => {
   it('Renders all the comments for the book passed to it', () => {
     comments.forEach(comment => {
       const author = screen.getByText(comment.author);
-      const text = screen.getByText(comment.text);
+      const text = screen.getByText(comment.comment);
       expect(author.textContent).to.equal(comment.author);
-      expect(text.textContent).to.equal(comment.text);
+      expect(text.textContent).to.equal(comment.comment);
     });
   });
 
