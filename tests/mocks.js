@@ -5,8 +5,7 @@ const array = ['One', 'Two', 'Three'];
 const comments = array.map((item, index)=> ({
   id: new ObjectID().toString(),
   author: `Author ${item}`,
-  text: `This is a test comment ${index + 1} of ${array.length}`,
-  createdAt: new Date()
+  comment: `This is a test comment ${index + 1} of ${array.length}`,
 }));
 
 const books = array.map(item => ({

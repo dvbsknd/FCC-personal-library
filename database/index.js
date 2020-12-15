@@ -28,7 +28,7 @@ Store.prototype.getAll = function () {
       ]).toArray()
     })
     .then(result => {
-      this.client.close();
+      // this.client.close();
       if (result) return result;
       else throw new Error('#find failed');
     });
@@ -38,7 +38,7 @@ Store.prototype.getOne = function (docId) {
   return this.connect()
     .then(collection => collection.findOne({ _id: ObjectID(docId) }))
     .then(result => {
-      this.client.close();
+      // this.client.close();
       if (result) return result;
       else throw new Error('#findOne failed to retreive book');
     });
@@ -48,7 +48,7 @@ Store.prototype.addOne = function (document) {
   return this.connect()
     .then(collection => collection.insertOne(document))
     .then(result => {
-      this.client.close();
+      // this.client.close();
       if (result.result.ok === 1) return document._id;
       else throw new Error('#addOne failed');
     });
@@ -58,8 +58,8 @@ Store.prototype.deleteOne = function (docId) {
   return this.connect()
     .then(collection => collection.findOneAndDelete({ _id: ObjectID(docId) }))
     .then(result => {
-      this.client.close();
-      if (result.ok === 1) return result.value._id;
+      // this.client.close();
+      if (result.value !== null) return result.value._id;
       else throw new Error('#deleteOne failed');
     });
 };
@@ -68,7 +68,7 @@ Store.prototype.deleteAll = function () {
   return this.connect()
     .then(collection => collection.deleteMany({}))
     .then(result => {
-      this.client.close();
+      // this.client.close();
       if (result.result.ok === 1) return result.deletedCount;
       else throw new Error('#deleteAll failed');
     });
@@ -83,7 +83,7 @@ Store.prototype.addSubDoc = function (docId, key, subDoc) {
       { $push: data }
     ))
     .then(result => {
-      this.client.close();
+      // this.client.close();
       if (result.result.nModified === 1) return data;
       else throw new Error('#addSubDoc failed');
     });
@@ -96,7 +96,7 @@ Store.prototype.deleteSubDoc = function (key, subDocId) {
       { $pull: { [key]: { _id: ObjectID(subDocId) } } }
     ))
     .then(result => {
-      this.client.close();
+      // this.client.close();
       if (result.result.nModified === 1) return subDocId;
       else throw new Error('#deleteSubDoc failed');
     });

@@ -120,11 +120,11 @@ describe('Controllers', () => {
         .then(book => {
           expect(Object.keys(book)).to.include('comments');
           addedComment = book.comments[0];
-          const { author, title, createdAt } = commentToAdd;
+          const { author, comment } = commentToAdd;
           expect(addedComment._id).to.be.an.instanceOf(ObjectID);
           expect(addedComment.author).to.equal(author);
-          expect(addedComment.title).to.equal(title);
-          expect(addedComment.createdAt.getTime()).to.equal(createdAt.getTime());
+          expect(addedComment.comment).to.equal(comment);
+          expect(addedComment.createdAt).to.be.instanceOf(Date);
           done();
         })
         .catch(done);

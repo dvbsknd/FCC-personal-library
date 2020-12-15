@@ -23,9 +23,8 @@ const Comments = ({ bookId, comments }) => {
   const addComment = () => {
 
     const comment = {
-      createdAt: new Date(),
       author: commentValues.name,
-      text: commentValues.comment
+      comment: commentValues.comment
     };
 
     API.addComment(bookId, comment)

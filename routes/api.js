@@ -7,9 +7,10 @@ const {
 } = require('../controllers');
 
 api.use((req, res, next) => {
-  res.error = (error) => {
-    res.status(400);
-    res.json(error.message);
+  res.error = (err) => {
+    console.log('API Error |', err);
+    res.status(200);
+    res.json(err.message);
   };
   next();
 });
@@ -33,11 +34,14 @@ api.route('/books')
   })
   .post((req, res) => {
     const { title, author } = req.body;
-    if (!title) res.error({ message: 'missing required field title' });
-    booksController.add(title, author)
-      .then(_id => booksController.getOne(_id))
-      .then(book => res.json(book))
-      .catch(res.error);
+    if (!title) {
+      res.error({ message: 'missing required field title' });
+    } else {
+      booksController.add(title, author)
+        .then(_id => booksController.getOne(_id))
+        .then(book => res.json(book))
+        .catch(res.error);
+    }
   })
   .delete((req, res) => {
     booksController.purge()
@@ -48,24 +52,28 @@ api.route('/books')
 api.route('/books/:_id')
   .get((req, res) => {
     booksController.getOne(req.params._id)
-      .then(book => res.json(book))
+      .then(book => {
+        if (!book.comments) book.comments = [];
+        res.json(book);
+      })
       .catch(() => res.error({ message: 'no book exists' }));
   })
   .delete((req, res) => {
     booksController.delete(req.params._id)
       .then(() => res.json('delete successful'))
-      .catch(res.error);
+      .catch(() => res.error({ message: 'no book exists' }));
   })
   .post((req, res) => {
     const { _id } = req.params;
-    const { comment } = req.body;
-    if (!comment) {
+    const comment = req.body;
+    if (!comment.comment) {
       res.error({ message: 'missing required field comment' })
     } else {
-     return booksController.addComment(_id, comment)
-      .then(() => booksController.getOne(_id))
-      .then(book => res.json(book))
-      .catch(res.error);
+      if (!comment.author) comment.author = 'anonymous';
+      return booksController.addComment(_id, comment)
+        .then(() => booksController.getOne(_id))
+        .then(book => res.json(book))
+        .catch(res.error);
     }
   })
 

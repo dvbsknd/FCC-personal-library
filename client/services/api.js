@@ -1,10 +1,17 @@
 const dispatch = (endpoint, method, payload) => {
+
+  const formData = payload ?  Object.keys(payload).map((key) => {
+    if (payload[key] !== undefined) {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(payload[key]);
+    }
+  }).join('&') : null;
+
   return fetch(`/api/${endpoint}`, {
     method: method.toUpperCase(),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify(payload)
+    body: formData
   })
 };
 
@@ -68,12 +75,12 @@ const deleteComment = (commentId) => {
 };
 
 const addComment = (bookId, comment) => {
-  return dispatch(`books/${bookId}`, 'post', { comment })
+  return dispatch(`books/${bookId}`, 'post', comment)
     .then(validateResponse)
     .then(() => {
       return {
         ...comment,
-          createdAt: new Date(comment.createdAt)
+        createdAt: new Date()
       }
     })
     .catch(handleError);

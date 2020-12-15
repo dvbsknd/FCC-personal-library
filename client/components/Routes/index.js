@@ -32,7 +32,7 @@ Routes.propTypes = {
   books: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      author: PropTypes.string.isRequired,
+      author: PropTypes.string,
       title: PropTypes.string.isRequired
     }).isRequired)
 };

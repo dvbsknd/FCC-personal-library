@@ -124,7 +124,6 @@ describe('API', () => {
     });
 
     it('Returns an error message noting that no such book was found', (done) => {
-      expect(result).to.have.status(400);
       expect(result).to.be.json;
       expect(result.body).to.not.be.empty;
       expect(result.body).to.equal('no book exists');
@@ -170,12 +169,11 @@ describe('API', () => {
 
     before(done => {
       chai.request(app)
-        .delete('/api/books/garbage')
+        .delete(`/api/books/${ObjectID()}`)
         .set('content-type', 'application/json; charset=utf-8')
         .end((err, res) => {
           if (err) done(err);
           else {
-            expect(res).to.have.status(400);
             expect(res).to.be.json;
             expect(res.body).to.not.be.empty;
             result = res;
@@ -184,8 +182,8 @@ describe('API', () => {
         })
     });
 
-    it('Returns an error  message if a valid ID is not supplied', (done) => {
-      expect(result.body).to.equal('Valid _id not supplied');
+    it('Returns an error message if a valid book is not found', (done) => {
+      expect(result.body).to.equal('no book exists');
       done();
     });
   });
@@ -254,7 +252,6 @@ describe('API', () => {
         .set('content-type', 'application/json; charset=utf-8')
         .send({})
         .then((res) => {
-            expect(res).to.have.status(400);
             expect(res).to.be.json;
             expect(res.body).to.not.be.empty;
             expect(res.body).to.equal('missing required field comment');

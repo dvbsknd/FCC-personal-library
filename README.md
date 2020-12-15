@@ -37,7 +37,7 @@ I've attempted to follow some archictural principles that I've picked up along t
 │   ├── index.js         JS entry point for Webpack
 │   └── index.scss       SASS entry point for Webpack
 ├── public               Static assets served by Node.js
-│   └── build            Webpack builds/bundles
+│   └── bundles          Webpack builds/bundles
 ├── routes               API routes/routers in Express
 ├── controllers          Core application logic, API-agnostic
 ├── database             Utils for database connection

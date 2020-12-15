@@ -33,7 +33,7 @@ Book.propTypes = {
       }
     },
     title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
+    author: PropTypes.string,
     comments: PropTypes.arrayOf(PropTypes.object)
   })
 };

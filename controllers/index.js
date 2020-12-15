@@ -11,17 +11,18 @@ function Book (title, author) {
   }
 }
 
-function Comment (author, text, createdAt) {
-  if (!text || !author) throw new Error('Missing text or author');
+function Comment (author, comment) {
+  if (!comment || !author) throw new Error('Missing text or author');
   else {
     this._id = new ObjectID();
+    this.createdAt = new Date();
     this.author = author;
-    this.text = text;
-    this.createdAt = createdAt ? new Date(createdAt) : new Date();
+    this.comment = comment;
   }
 }
 
 function handleError (err) {
+  console.log('Controller Error |', err);
   throw new Error(`Database error: ${err.message}`);
 }
 
@@ -55,9 +56,10 @@ module.exports.booksController = {
   },
 
   addComment: function (bookId, comment) {
-    const { author, text, createdAt } = comment;
+    const { author, comment: text } = comment;
     try {
-      const comment = new Comment(author, text, createdAt);
+      const comment = new Comment(author, text);
+      console.log('Controller#addComment |', comment);
       return books.addSubDoc(bookId, 'comments', comment)
         .then(() => comment._id)
         .catch(handleError);
