@@ -72,7 +72,9 @@ api.route('/books/:_id')
       if (!comment.author) comment.author = 'anonymous';
       return booksController.addComment(_id, comment)
         .then(() => booksController.getOne(_id))
-        .then(book => res.json(book))
+        .then(book => {
+          res.json({ ...book, comments: book.comments.map((obj) => obj.comment) })
+        })
         .catch(res.error);
     }
   })

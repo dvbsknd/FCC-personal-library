@@ -77,11 +77,18 @@ const deleteComment = (commentId) => {
 const addComment = (bookId, comment) => {
   return dispatch(`books/${bookId}`, 'post', comment)
     .then(validateResponse)
-    .then(() => {
-      return {
+    .then(() => getComments(bookId))
+    .catch(handleError);
+};
+
+const getComments = (bookId) => {
+  return dispatch(`books/${bookId}`, 'get')
+    .then(validateResponse)
+    .then((json) => {
+      return json.comments.map((comment) => ({
         ...comment,
-        createdAt: new Date()
-      }
+        createdAt: new Date(comment.createdAt)
+      }));
     })
     .catch(handleError);
 };
