@@ -59,7 +59,6 @@ module.exports.booksController = {
     const { author, comment: text } = comment;
     try {
       const comment = new Comment(author, text);
-      console.log('Controller#addComment |', comment);
       return books.addSubDoc(bookId, 'comments', comment)
         .then(() => comment._id)
         .catch(handleError);

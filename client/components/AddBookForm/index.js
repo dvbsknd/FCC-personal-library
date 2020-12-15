@@ -24,7 +24,8 @@ const AddBookForm = ({ setBooks }) => {
     API.addBook(values)
       .then(book => {
         setBooks(current => {
-          return [...current, book];
+          if (!current) return [book];
+          else return [...current, book];
         });
         setButtonLoading(false);
         setValues(initialValues);

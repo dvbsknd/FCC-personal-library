@@ -24,13 +24,13 @@ const validateResponse = (response) => {
 
 const handleError = (err) => {
   console.log('[API Error]', err);
-  throw err;
 };
 
 const getBooks = () => {
   return dispatch('books', 'get')
     .then(validateResponse)
     .then(json => {
+      if (json.length < 1) throw new Error('No books!');
       // Convert the JSON string formatted value
       // of createdAt to a real Date for all the
       // comments
