@@ -70,12 +70,22 @@ api.route('/books/:_id')
       res.error({ message: 'missing required field comment' })
     } else {
       if (!comment.author) comment.author = 'anonymous';
-      return booksController.addComment(_id, comment)
-        .then(() => booksController.getOne(_id))
-        .then(book => {
-          res.json({ ...book, comments: book.comments.map((obj) => obj.comment) })
+      booksController.getOne(_id)
+        .then((book) => {
+          return booksController.addComment(book._id, comment)
+            .then(() => booksController.getOne(_id))
+            .then(book => {
+              res.json({
+                ...book,
+                comments: book.comments.map((obj) => obj.comment)
+              })
+            })
         })
-        .catch(res.error);
+        .catch((err) => {
+          if (err.message.includes('failed to retreive book'))
+            res.error({ message: 'no book exists'});
+          else res.error(err);
+        });
     }
   })
 
