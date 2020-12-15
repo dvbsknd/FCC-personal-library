@@ -24,7 +24,7 @@ module.exports = (env, argv) => {
   return {
     devServer: {
       historyApiFallback: true,
-      contentBase: path.resolve(__dirname, './public/build'),
+      contentBase: path.resolve(__dirname, './public/bundles'),
       publicPath: '/',
       open: true,
       compress: true,
@@ -41,8 +41,8 @@ module.exports = (env, argv) => {
       ]
     },
     output: {
-      path: path.resolve(__dirname, './public/build'),
-      filename: '[name].bundle.js'
+      path: path.resolve(__dirname, './public'),
+      filename: 'bundles/[name].bundle.js'
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
@@ -53,8 +53,8 @@ module.exports = (env, argv) => {
       }),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].css',
-        chunkFilename: '[id].css'
+        filename: 'bundles/[name].css',
+        chunkFilename: 'bundles/[id].css'
       }),
     ],
     module: {

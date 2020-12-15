@@ -21,7 +21,9 @@ app.use(helmet.contentSecurityPolicy({
 app.use(express.urlencoded({ extended: true }));
 
 // Static assets
-app.use(express.static('public/build'));
+app.use(express.static('public'));
+app.use('/:id', express.static('public'));
+//app.use('/bundles', express.static('public/bundles'));
 
 // freeCodeCamp test reporting
 app.use('/_api', monitor);
